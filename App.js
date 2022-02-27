@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { LogBox } from "react-native";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import RootStack from "./src/navigations/RootNavigation";
+import UserContextProvider from "./src/components/common/userContextProvider";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const queryClient = new QueryClient();
+const CustomTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#ddf3f5",
   },
-});
+};
+
+const App = () => {
+  const [loaded] = useFonts({
+    DosGothic: require("./src/asset/font/DOSGothic.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer theme={CustomTheme}>
+        <UserContextProvider>
+          <RootStack />
+        </UserContextProvider>
+      </NavigationContainer>
+    </QueryClientProvider>
+  );
+};
+
+LogBox.ignoreLogs(["Setting a timer"]);
+
+export default App;
