@@ -1,15 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 import { useQuery } from "react-query";
-import { Text, View, Button } from "react-native";
+import { Text, Button } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 
-import { UserContext } from "../common/userContextProvider";
-import authApi from "../../utils/api/auth";
-import userAsyncStorage from "../../utils/userAsyncStorage";
-import axios from "../../utils/axiosInstance";
-import LoadingScreen from "../common/LoadingScreen";
-// import ErrorScreen from "../common/ErrorScreen";
-import useInform from "../common/informAlert";
+import authApi from "../../../utils/api/auth";
+import userAsyncStorage from "../../../utils/userAsyncStorage";
+import axios from "../../../utils/axiosInstance";
+import { UserContext } from "../../common/userContextProvider";
+import LoadingScreen from "../../common/LoadingScreen";
+import useInform from "../../common/informAlert";
+import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
+
+import CustomButton from "../../common/Button";
 
 const LoginScreen = () => {
   const [idToken, setIdToken] = useState("");
@@ -23,7 +25,7 @@ const LoginScreen = () => {
   const { isLoading, data, isError, error } = useQuery(
     ["loginIdToken", idToken],
     authApi.getLogin,
-    { 
+    {
       enabled: !!idToken,
     }
   );
@@ -42,7 +44,7 @@ const LoginScreen = () => {
       userAsyncStorage.setUserInfo(data);
       axios.defaults.headers.Authorization = `Bearer ${data.token}`;
     }
-  },[data]);
+  }, [data]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -53,16 +55,17 @@ const LoginScreen = () => {
   }
 
   return (
-    <View>
-      <Text>This is Login</Text>
-      <Button
+    <LoginContainer>
+      <LoginTitle>그거했냥?</LoginTitle>
+      <LoginSubTitle>습관을 만드는데 필요한 시간, 바로 7일!</LoginSubTitle>
+      <CustomButton
         disabled={!request}
-        title="Login"
+        title="구글 로그인"
         onPress={() => {
           promptAsync();
         }}
       />
-    </View>
+    </LoginContainer>
   );
 };
 
