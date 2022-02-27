@@ -1,12 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { useQuery } from "react-query";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { Text, View, Button } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 
 import { UserContext } from "../common/userContextProvider";
 import authApi from "../../utils/api/auth";
 import userAsyncStorage from "../../utils/userAsyncStorage";
 import axios from "../../utils/axiosInstance";
+import LoadingScreen from "../common/LoadingScreen";
+// import ErrorScreen from "../common/ErrorScreen";
+import useInform from "../common/informAlert";
 
 const LoginScreen = () => {
   const [idToken, setIdToken] = useState("");
@@ -21,9 +24,10 @@ const LoginScreen = () => {
     ["loginIdToken", idToken],
     authApi.getLogin,
     { 
-      enabled: !!idToken 
+      enabled: !!idToken,
     }
   );
+  const inform = useInform();
 
   useEffect(() => {
     if (response?.type === "success") {
@@ -39,7 +43,14 @@ const LoginScreen = () => {
       axios.defaults.headers.Authorization = `Bearer ${data.token}`;
     }
   },[data]);
-  //isLoading, isError에 대한 분기처리 해줄것 
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (isError) {
+    inform({ message: error.message });
+  }
 
   return (
     <View>

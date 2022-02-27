@@ -21,11 +21,4 @@ authApi.getLogin = async ({ queryKey }) => {
   // }
 };
 
-authApi.getLogout = async () => {
-  const response = await axios.get("/logout");
-
-  console.log(response);
-  return response.data;
-};
-
 export default authApi;

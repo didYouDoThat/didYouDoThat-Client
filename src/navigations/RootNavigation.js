@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { UserContext } from "../components/common/userContextProvider"; 
+import { UserContext } from "../components/common/userContextProvider";
 import LoginScreen from "../components/screens/LoginScreen";
 import MainScreen from "../components/screens/MainScreen";
 import userAsyncStorage from "../utils/userAsyncStorage";
