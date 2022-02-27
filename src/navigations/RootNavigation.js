@@ -1,8 +1,7 @@
+import { useEffect, useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { useEffect } from "react";
-import { useState } from "react";
-
+import { UserContext } from "../components/common/userContextProvider"; 
 import LoginScreen from "../components/screens/LoginScreen";
 import MainScreen from "../components/screens/MainScreen";
 import userAsyncStorage from "../utils/userAsyncStorage";
@@ -10,26 +9,24 @@ import userAsyncStorage from "../utils/userAsyncStorage";
 const Root = createNativeStackNavigator();
 
 const RootStack = () => {
-  const [loginStatus, setLoginStatus] = useState(false);
+  const { user, setUser } = useContext(UserContext);
 
   const checkUserStatus = async () => {
     const userData = await userAsyncStorage.getUserInfo();
 
     if (userData) {
-      setLoginStatus(true);
+      setUser(userData.user);
       return;
     }
   };
 
   useEffect(() => {
     checkUserStatus();
-  }, [loginStatus]);
-
-  console.log(loginStatus);
+  }, []);
 
   return (
     <Root.Navigator>
-      {!loginStatus ? (
+      {!user.id ? (
         <Root.Group screenOptions={{ headerShown: false }}>
           <Root.Screen name="Login" component={LoginScreen} />
         </Root.Group>

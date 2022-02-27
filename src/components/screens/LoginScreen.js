@@ -1,9 +1,9 @@
+import { useState, useEffect, useContext } from "react";
+import { useQuery } from "react-query";
 import { StyleSheet, Text, View, Button } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
-import { useState } from "react";
 
+import { UserContext } from "../common/userContextProvider";
 import authApi from "../../utils/api/auth";
 import userAsyncStorage from "../../utils/userAsyncStorage";
 import axios from "../../utils/axiosInstance";
@@ -16,11 +16,13 @@ const LoginScreen = () => {
     androidClientId: process.env.GOOGLE_ANDROID_CLIENT_ID,
     responseType: "id_token",
   });
-
+  const { user, setUser } = useContext(UserContext);
   const { isLoading, data, isError, error } = useQuery(
     ["loginIdToken", idToken],
     authApi.getLogin,
-    { enabled: !!idToken }
+    { 
+      enabled: !!idToken 
+    }
   );
 
   useEffect(() => {
@@ -30,11 +32,13 @@ const LoginScreen = () => {
     }
   }, [response]);
 
-  if (data) {
-    userAsyncStorage.setUserInfo(data);
-    axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-  }
-
+  useEffect(() => {
+    if (data) {
+      setUser(data.user);
+      userAsyncStorage.setUserInfo(data);
+      axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+    }
+  },[data]);
   //isLoading, isError에 대한 분기처리 해줄것 
 
   return (
