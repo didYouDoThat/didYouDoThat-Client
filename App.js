@@ -1,8 +1,7 @@
 import { LogBox } from "react-native";
-import { DefaultTheme } from '@react-navigation/native';
-
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from "react-query";
-import { NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 
 import RootStack from "./src/navigations/RootNavigation";
 import UserContextProvider from "./src/components/common/userContextProvider";
@@ -17,6 +16,16 @@ const CustomTheme = {
 }
 
 const App = () => {
+  const [loaded] = useFonts({
+    "DosGothic": require("./src/asset/font/DOSGothic.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
+  console.log(loaded);
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer theme={CustomTheme}>

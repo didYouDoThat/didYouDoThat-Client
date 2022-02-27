@@ -7,10 +7,12 @@ export const LoginContainer = styled.View`
 `;
 
 export const LoginTitle = styled.Text`
-  font-size: 50px;
-  font-weight: bold;
+  padding: 10px;
+  font-family: "DosGothic";
+  font-size: 55px;
 `;
 
 export const LoginSubTitle = styled.Text`
-  font-size: 20px;
+  font-family: "DosGothic";
+  font-size: 18px;
 `;

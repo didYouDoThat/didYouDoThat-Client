@@ -10,13 +10,13 @@ const ButtonContainer = styled.TouchableOpacity`
   margin: 20px;
   padding: 10px;
   border-radius: 10px;
-  /* background-color: #f2aaaa; */
   background-color: ${(props) => props.color || "#f2aaaa"};
 `;
 
 const ButtonText = styled.Text`
   color: #ffffff;
   font-size: 20px;
+  font-family: "DosGothic";
 `;
 
 const CustomButton = ({ color, title, onPress }) => {

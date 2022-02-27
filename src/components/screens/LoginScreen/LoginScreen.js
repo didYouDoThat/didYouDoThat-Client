@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { useQuery } from "react-query";
-import { Text, Button } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 
 import authApi from "../../../utils/api/auth";
@@ -9,9 +8,8 @@ import axios from "../../../utils/axiosInstance";
 import { UserContext } from "../../common/userContextProvider";
 import LoadingScreen from "../../common/LoadingScreen";
 import useInform from "../../common/informAlert";
-import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
-
 import CustomButton from "../../common/Button";
+import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
 
 const LoginScreen = () => {
   const [idToken, setIdToken] = useState("");
