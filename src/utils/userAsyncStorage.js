@@ -12,8 +12,7 @@ userAsyncStorage.getUserInfo = async () => {
   try {
     const userData = JSON.parse(userInfo);
     return userData;
-
-  } catch(err) {
+  } catch (err) {
     return err;
   }
 };

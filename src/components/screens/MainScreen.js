@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React, { useContext } from "react";
+import { Text, View, Button } from "react-native";
 
 import { UserContext } from "../common/userContextProvider";
 import axios from "../../utils/axiosInstance";
@@ -17,12 +17,10 @@ const MainScreen = () => {
     });
   };
 
-  console.log("여기는 main!", user);
-
   return (
     <View>
       <Text>This is Main</Text>
-      <Button title="Logout" onPress={handleLogoutButtonClick}/>
+      <Button title="Logout" onPress={handleLogoutButtonClick} />
     </View>
   );
 };

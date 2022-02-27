@@ -13,9 +13,9 @@ authApi.getLogin = async ({ queryKey }) => {
 
   return response.data;
   // Object {
-  //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMWE3OGE3NzI1YWMwMDI2MzZjZjZjNiIsImlhdCI6MTY0NTkwMjI2MSwiZXhwIjoxNzMyMzAyMjYxfQ.o0Eh2pcZJ7fH_tSL7poCL_8yZAAv0diWKkifANwgMgM",
+  //   "token": "asdfasdf",
   //   "user": Object {
-  //     "id": "621a78a7725ac002636cf6c6",
+  //     "id": "asdfasdf",
   //     "name": "JISOO OK",
   //   },
   // }

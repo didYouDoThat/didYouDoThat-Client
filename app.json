@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "jisoook",
-    "scheme": "com.jisoook.didYouDoThat",
+    "scheme": "com.jisoook.didyoudothat",
     "slug": "didYouDoThat",
     "version": "1.0.0",
     "orientation": "portrait",

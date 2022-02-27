@@ -1,14 +1,16 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useQuery } from "react-query";
 import * as Google from "expo-auth-session/providers/google";
 
 import authApi from "../../../utils/api/auth";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import axios from "../../../utils/axiosInstance";
+import useInform from "../../../utils/informAlert";
+
 import { UserContext } from "../../common/userContextProvider";
 import LoadingScreen from "../../common/LoadingScreen";
-import useInform from "../../common/informAlert";
 import CustomButton from "../../common/Button";
+import MovingCats from "../../common/MovingCats";
 import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
 
 const LoginScreen = () => {
@@ -54,6 +56,7 @@ const LoginScreen = () => {
 
   return (
     <LoginContainer>
+      <MovingCats />
       <LoginTitle>그거했냥?</LoginTitle>
       <LoginSubTitle>습관을 만드는데 필요한 시간, 바로 7일!</LoginSubTitle>
       <CustomButton

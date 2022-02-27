@@ -1,5 +1,8 @@
+import React from "react";
+import { TouchableOpacity } from "react-native";
+
 import styled from "@emotion/native";
-import { TouchableOpacity, Text } from "react-native";
+import PropTypes from "prop-types";
 
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
 
@@ -19,15 +22,20 @@ const ButtonText = styled.Text`
   font-family: "DosGothic";
 `;
 
-const CustomButton = ({ color, title, onPress }) => {
+const noop = () => {};
+
+const CustomButton = ({ color, title = "클릭!", onPress = noop }) => {
   return (
-    <ButtonContainer
-      color={color}
-      onPress={onPress}
-    >
+    <ButtonContainer color={color} onPress={onPress}>
       <ButtonText>{title}</ButtonText>
     </ButtonContainer>
   );
+};
+
+CustomButton.propTypes = {
+  color: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default CustomButton;

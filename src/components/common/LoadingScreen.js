@@ -1,23 +1,56 @@
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+
+import styled from "@emotion/native";
+
+const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LoadingImageContainer = styled.View`
+  flex-direction: row;
+  height: 70px;
+`;
+
+const LoadingImage = styled.Image`
+  width: 70px;
+  height: 70px;
+  padding: 0 20px;
+`;
+
+const LoadingTitle = styled.Text`
+  font-size: 30px;
+  font-family: "DosGothic";
+`;
 
 const LoadingScreen = () => {
+  const [footPrintImages, setFootPrintImages] = useState([]);
+  const footPrintImage = (
+    <LoadingImage source={require("../../asset/image/loading.png")} />
+  );
+
+  useEffect(() => {
+    const loadingImages = setInterval(() => {
+      footPrintImages.length === 3
+        ? setFootPrintImages([])
+        : setFootPrintImages(footPrintImages.concat(footPrintImage));
+    }, 500);
+
+    return () => clearInterval(loadingImages);
+  }, [footPrintImages]);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>준비중입니다...</Text>
-    </View>
+    <LoadingContainer>
+      <LoadingTitle>조금만 기다려주세요!</LoadingTitle>
+      <LoadingImageContainer>
+        {footPrintImages.map((singleImage, index) => (
+          <View key={index}>{singleImage}</View>
+        ))}
+      </LoadingImageContainer>
+    </LoadingContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex:1,         
-    justifyContent: 'center',         
-    alignItems:'center',
-  },
-  title: {
-    fontSize:20,
-    fontWeight:'700'
-  },
-}); 
 
 export default LoadingScreen;
