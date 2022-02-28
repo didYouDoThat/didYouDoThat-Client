@@ -1,7 +1,8 @@
 import axios from "axios";
+import { SERVER_URI } from "@env";
 
 const instance = axios.create({
-  baseURL: process.env.SERVER_URI,
+  baseURL: `${SERVER_URI}`,
   withCredentials: true,
 });
 

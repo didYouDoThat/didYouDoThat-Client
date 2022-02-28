@@ -13,12 +13,18 @@ import CustomButton from "../../common/Button";
 import MovingCats from "../../common/MovingCats";
 import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
 
+import {
+  GOOGLE_EXPO_CLIENT_ID,
+  GOOGLE_IOS_CLIENT_ID,
+  GOOGLE_ANDROID_CLIENT_ID,
+} from "@env";
+
 const LoginScreen = () => {
   const [idToken, setIdToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: process.env.GOOGLE_EXPO_CLIENT_ID,
-    iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
-    androidClientId: process.env.GOOGLE_ANDROID_CLIENT_ID,
+    expoClientId: `${GOOGLE_EXPO_CLIENT_ID}`,
+    iosClientId: `${GOOGLE_IOS_CLIENT_ID}`,
+    androidClientId: `${GOOGLE_ANDROID_CLIENT_ID}`,
     responseType: "id_token",
   });
   const { user, setUser } = useContext(UserContext);
