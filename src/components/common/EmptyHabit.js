@@ -4,7 +4,9 @@ import styled from "@emotion/native";
 
 const EmptyHabitContainer = styled.View`
   align-items: center;
+  justify-content: center;
   width: 90%;
+  height: 500px;
   margin: auto;
 `;
 

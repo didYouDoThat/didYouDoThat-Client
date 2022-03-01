@@ -14,9 +14,9 @@ export const DateContainer = styled.View`
 export const DateText = styled.Text`
   color: white;
   font-size: 20px;
-  font-family: "DosGothic";
+  font-family: "DungGeunMo";
 `;
 
-export const HabitsContainer = styled.View`
+export const HabitsContainer = styled.ScrollView`
   flex: 10;
 `;

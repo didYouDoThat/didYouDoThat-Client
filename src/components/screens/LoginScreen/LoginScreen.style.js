@@ -8,7 +8,7 @@ export const LoginContainer = styled.View`
 
 export const LoginTitle = styled.Text`
   padding: 10px;
-  font-family: "DosGothic";
+  font-family: "DungGeunMo";
   font-size: 55px;
 `;
 

@@ -19,7 +19,7 @@ const ButtonContainer = styled.TouchableOpacity`
 const ButtonText = styled.Text`
   color: #ffffff;
   font-size: 20px;
-  font-family: "DosGothic";
+  font-family: "DungGeunMo";
 `;
 
 const noop = () => {};

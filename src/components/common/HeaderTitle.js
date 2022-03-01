@@ -15,7 +15,7 @@ const HeaderImage = styled.Image`
 
 const HeaderText = styled.Text`
   font-size: 25px;
-  font-family: "DosGothic";
+  font-family: "DungGeunMo";
 `;
 
 const HeaderTitle = () => {
