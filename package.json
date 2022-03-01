@@ -42,7 +42,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-config": "^1.4.5",
+    "react-native-dotenv": "^3.3.1",
+    "react-native-paper": "^4.11.2",
     "react-native-reanimated": "^2.4.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
@@ -51,7 +52,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "babel-plugin-inline-dotenv": "^1.6.0",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",

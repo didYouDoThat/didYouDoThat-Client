@@ -7,7 +7,15 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import RootStack from "./src/navigations/RootNavigation";
 import UserContextProvider from "./src/components/common/userContextProvider";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    },
+  },
+});
+
 const CustomTheme = {
   ...DefaultTheme,
   colors: {

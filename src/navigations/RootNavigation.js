@@ -1,10 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import userAsyncStorage from "../utils/userAsyncStorage";
 
 import { UserContext } from "../components/common/userContextProvider";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
-import MainScreen from "../components/screens/MainScreen";
-import userAsyncStorage from "../utils/userAsyncStorage";
+import ResultScreen from "../components/screens/ResultScreen/ResultScreen";
+import HeaderTitle from "../components/common/HeaderTitle";
+import MainTabNavigation from "./MainStackNavigation";
 
 const Root = createNativeStackNavigator();
 
@@ -25,14 +28,24 @@ const RootStack = () => {
   }, []);
 
   return (
-    <Root.Navigator>
-      {!user.id ? (
+    <Root.Navigator
+      screenOptions={{
+        headerTitle: () => <HeaderTitle />,
+        headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: "#a6dcef",
+          height: 150,
+        },
+      }}
+    >
+      {!user?.id ? (
         <Root.Group screenOptions={{ headerShown: false }}>
           <Root.Screen name="Login" component={LoginScreen} />
         </Root.Group>
       ) : (
         <Root.Group>
-          <Root.Screen name="Main" component={MainScreen} />
+          <Root.Screen name="Main" component={MainTabNavigation} />
+          <Root.Screen name="Result" component={ResultScreen} />
         </Root.Group>
       )}
     </Root.Navigator>

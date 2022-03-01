@@ -3,6 +3,8 @@ import { View } from "react-native";
 
 import styled from "@emotion/native";
 
+import NUMBERS from "../../constants/numbers";
+
 const LoadingContainer = styled.View`
   flex: 1;
   justify-content: center;
@@ -36,7 +38,7 @@ const LoadingScreen = () => {
       footPrintImages.length === 3
         ? setFootPrintImages([])
         : setFootPrintImages(footPrintImages.concat(footPrintImage));
-    }, 500);
+    }, NUMBERS.loadingInterval);
 
     return () => clearInterval(loadingImages);
   }, [footPrintImages]);
