@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { useQueryClient } from "react-query";
+import React, { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import userAsyncStorage from "../utils/userAsyncStorage";
 
 import { UserContext } from "../components/common/userContextProvider";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
@@ -12,6 +13,19 @@ const Root = createNativeStackNavigator();
 
 const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
+
+  const checkUserStatus = async () => {
+    const userData = await userAsyncStorage.getUserInfo();
+
+    if (userData) {
+      setUser(userData.user);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    checkUserStatus();
+  }, []);
 
   return (
     <Root.Navigator

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
-import Habit from "../../common/Habit";
+import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
 import {
   HomeScreenContainer,
@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
   const userInfo = queryClient.getQueryData("userInfo");
 
   const refetchHabitList = async () => {
-    await queryClient.resetQueries(["habitList", userInfo.user.id], {
+    await queryClient.refetchQueries(["habitList", userInfo.user.id], {
       exact: true,
     });
   };
@@ -46,9 +46,9 @@ const HomeScreen = ({ navigation }) => {
     habitApi.getHabitList
   );
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   if (isError) {
     inform({ message: error.message });
@@ -62,12 +62,13 @@ const HomeScreen = ({ navigation }) => {
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        {
-          !data ? <Text>No data!</Text>
-          : data.habitList.map((habit) => 
-            <Habit key={habit.id} habitData={habit} />
-          )
-        }      
+        {!data ? (
+          <Text>No data!</Text>
+        ) : (
+          data.habitList.map((habit) => (
+            <Habit key={habit.id} habitData={habit} currentDate={currentDateInfo}/>
+          ))
+        )}
       </HabitsContainer>
     </HomeScreenContainer>
   );

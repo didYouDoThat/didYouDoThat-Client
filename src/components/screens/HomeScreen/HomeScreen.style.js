@@ -8,7 +8,7 @@ export const DateContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #e36387;
+  background-color: #f2aaaa;
 `;
 
 export const DateText = styled.Text`
