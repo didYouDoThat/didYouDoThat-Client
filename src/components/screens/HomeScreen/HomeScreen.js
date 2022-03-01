@@ -46,15 +46,13 @@ const HomeScreen = ({ navigation }) => {
     habitApi.getHabitList
   );
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
   if (isError) {
     inform({ message: error.message });
   }
-
-  // console.log("home화면에서의 데이터를 봅시다..", data);
 
   return (
     <HomeScreenContainer>

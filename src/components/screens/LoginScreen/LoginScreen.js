@@ -35,12 +35,15 @@ const LoginScreen = () => {
       onSuccess: (data) => {
         queryClient.setQueryData(
           "userInfo",
-          data, 
+          data
+        );
+        queryClient.setQueryDefaults(
+          "userInfo",
           {
             staleTime: Infinity,
             cacheTime: Infinity,
           }
-        )
+        );
         setUser(data.user);
         userAsyncStorage.setUserInfo({ token: data.token });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
