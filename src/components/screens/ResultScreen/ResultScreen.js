@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 const ResultScreen = () => {
   <View>
     <Text>This is ResultScreen</Text>
-  </View>
+  </View>;
 };
 
 export default ResultScreen;

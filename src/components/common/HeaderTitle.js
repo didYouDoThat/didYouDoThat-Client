@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Image, Text } from "react-native";
 
 import styled from "@emotion/native";
 

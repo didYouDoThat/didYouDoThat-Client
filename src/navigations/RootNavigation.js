@@ -1,8 +1,7 @@
-import React, { useEffect, useContext } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext, useState } from "react";
+import { useQueryClient } from "react-query";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import userAsyncStorage from "../utils/userAsyncStorage";
 import { UserContext } from "../components/common/userContextProvider";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import ResultScreen from "../components/screens/ResultScreen/ResultScreen";
@@ -14,19 +13,6 @@ const Root = createNativeStackNavigator();
 const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
 
-  const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getUserInfo();
-
-    if (userData) {
-      setUser(userData.user);
-      return;
-    }
-  };
-
-  useEffect(() => {
-    checkUserStatus();
-  }, []);
-
   return (
     <Root.Navigator
       screenOptions={{
@@ -35,10 +21,10 @@ const RootStack = () => {
         headerStyle: {
           backgroundColor: "#a6dcef",
           height: 150,
-        }
+        },
       }}
     >
-      {!user.id ? (
+      {!user?.id ? (
         <Root.Group screenOptions={{ headerShown: false }}>
           <Root.Screen name="Login" component={LoginScreen} />
         </Root.Group>

@@ -2,15 +2,8 @@ import axios from "../axiosInstance";
 
 const authApi = {};
 
-authApi.getLogin = async ({ queryKey }) => {
-  const idToken = queryKey[1];
-
-  const response = await axios.get("/login", {
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
-  });
-
+authApi.postLogin = async ({ idToken }) => {
+  const response = await axios.post("/login", { idToken });
   return response.data;
   // Object {
   //   "token": "asdfasdf",

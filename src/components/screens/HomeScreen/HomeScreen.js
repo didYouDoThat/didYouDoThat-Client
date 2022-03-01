@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text } from "react-native";
+import { useQuery, useQueryClient } from "react-query";
 
+import habitApi from "../../../utils/api/habit";
+import useInform from "../../../utils/informAlert";
+import LoadingScreen from "../../common/LoadingScreen";
+import { UserContext } from "../../common/userContextProvider";
 import {
   HomeScreenContainer,
   DateContainer,
@@ -16,14 +21,39 @@ const HomeScreen = ({ navigation }) => {
   const fullMonth = currentDateInfo.getMonth() + 1;
   const fullDate = currentDateInfo.getDate();
 
+  const inform = useInform();
+  // const { user } = useContext(UserContext);
+  const queryClient = useQueryClient();
+  const userInfo = queryClient.getQueryData("userInfo");
+
+  const refetchHabitList = async () => {
+    await queryClient.resetQueries(["habitList", userInfo.user.id], { exact: true });
+  }
+
   useEffect(() => {
     const updateCurrentTime = navigation.addListener("focus", () => {
       const updatedDateInfo = new Date();
       setCurrentDateInfo(updatedDateInfo);
+      refetchHabitList();
     });
 
     return updateCurrentTime;
   }, [navigation]);
+
+  const { isLoading, data, isError, error } = useQuery(
+    ["habitList", userInfo.user.id],
+    habitApi.getHabitList
+  );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (isError) {
+    inform({ message: error.message });
+  }
+
+  // console.log("home화면에서의 데이터를 봅시다..", data);
 
   return (
     <HomeScreenContainer>
@@ -34,6 +64,7 @@ const HomeScreen = ({ navigation }) => {
       </DateContainer>
       <HabitsContainer>
         <Text>여기는 렌더링 영역</Text>
+        <Text>{ data ? "hello" : "no data" }</Text>
       </HabitsContainer>
     </HomeScreenContainer>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useQuery } from "react-query";
+import React, { useEffect, useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import * as Google from "expo-auth-session/providers/google";
 
 import authApi from "../../../utils/api/auth";
@@ -20,7 +20,6 @@ import {
 } from "@env";
 
 const LoginScreen = () => {
-  const [idToken, setIdToken] = useState("");
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: `${GOOGLE_EXPO_CLIENT_ID}`,
     iosClientId: `${GOOGLE_IOS_CLIENT_ID}`,
@@ -28,11 +27,27 @@ const LoginScreen = () => {
     responseType: "id_token",
   });
   const { user, setUser } = useContext(UserContext);
-  const { isLoading, data, isError, error } = useQuery(
-    ["loginIdToken", idToken],
-    authApi.getLogin,
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading } = useMutation((idToken) =>
+    authApi.postLogin({ idToken }),
     {
-      enabled: !!idToken,
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          "userInfo",
+          data, 
+          {
+            staleTime: Infinity,
+            cacheTime: Infinity,
+          }
+        )
+        setUser(data.user);
+        userAsyncStorage.setUserInfo({ token: data.token });
+        axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+      },
+      onError: (error) => {
+        inform({ message: error.message });
+      }
     }
   );
   const inform = useInform();
@@ -40,24 +55,12 @@ const LoginScreen = () => {
   useEffect(() => {
     if (response?.type === "success") {
       const { params } = response;
-      setIdToken(params.id_token);
+      mutate(params.id_token);
     }
   }, [response]);
 
-  useEffect(() => {
-    if (data) {
-      setUser(data.user);
-      userAsyncStorage.setUserInfo(data);
-      axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-    }
-  }, [data]);
-
   if (isLoading) {
     return <LoadingScreen />;
-  }
-
-  if (isError) {
-    inform({ message: error.message });
   }
 
   return (
