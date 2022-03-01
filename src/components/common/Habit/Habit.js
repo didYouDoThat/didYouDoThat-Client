@@ -1,6 +1,8 @@
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 
+import PropTypes from "prop-types";
+
 import {
   HabitContentContainer,
   HabitTextContainer,
@@ -47,6 +49,17 @@ const Habit = ({ habitData, currentDate }) => {
       </DeleteButtonContainer>
     </HabitContentContainer>
   );
+};
+
+Habit.propTypes = {
+  habitData: PropTypes.shape({
+    endDate: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    catImage: PropTypes.string.isRequired,
+    status: PropTypes.number.isRequired,
+  }),
+  currentDate: PropTypes.object.isRequired,
 };
 
 export default Habit;

@@ -29,28 +29,22 @@ const LoginScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading } = useMutation((idToken) =>
-    authApi.postLogin({ idToken }),
+  const { mutate, isLoading } = useMutation(
+    (idToken) => authApi.postLogin({ idToken }),
     {
       onSuccess: (data) => {
-        queryClient.setQueryData(
-          "userInfo",
-          data
-        );
-        queryClient.setQueryDefaults(
-          "userInfo",
-          {
-            staleTime: Infinity,
-            cacheTime: Infinity,
-          }
-        );
+        queryClient.setQueryData("userInfo", data);
+        queryClient.setQueryDefaults("userInfo", {
+          staleTime: Infinity,
+          cacheTime: Infinity,
+        });
         setUser(data.user);
         userAsyncStorage.setUserInfo({ token: data.token });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
       },
       onError: (error) => {
         inform({ message: error.message });
-      }
+      },
     }
   );
   const inform = useInform();

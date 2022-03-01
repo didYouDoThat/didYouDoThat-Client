@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 
+import PropTypes from "prop-types";
+
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import Habit from "../../common/Habit/Habit";
@@ -66,12 +68,22 @@ const HomeScreen = ({ navigation }) => {
           <Text>No data!</Text>
         ) : (
           data.habitList.map((habit) => (
-            <Habit key={habit.id} habitData={habit} currentDate={currentDateInfo}/>
+            <Habit
+              key={habit.id}
+              habitData={habit}
+              currentDate={currentDateInfo}
+            />
           ))
         )}
       </HabitsContainer>
     </HomeScreenContainer>
   );
+};
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default HomeScreen;

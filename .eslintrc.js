@@ -19,7 +19,7 @@ module.exports = {
   plugins: ["react", "react-hooks", "prettier"],
   rules: {
     "prettier/prettier": "error",
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["warn", { allow: ["warn", "error"] }],
     "no-var": "error",
     "no-unused-vars": "warn",
     "func-style": ["error", "expression"],

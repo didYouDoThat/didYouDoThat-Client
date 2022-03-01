@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text } from "react-native";
-import { QueryCache, useQueryClient } from 'react-query';
+import { QueryCache, useQueryClient } from "react-query";
 
 import axios from "../../../utils/axiosInstance";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
