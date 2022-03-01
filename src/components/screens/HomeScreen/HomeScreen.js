@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
 import {
@@ -64,8 +64,8 @@ const HomeScreen = ({ navigation }) => {
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        {!data ? (
-          <Text>No data!</Text>
+        {!data.habitList.length ? (
+          <EmptyHabit />
         ) : (
           data.habitList.map((habit) => (
             <Habit
