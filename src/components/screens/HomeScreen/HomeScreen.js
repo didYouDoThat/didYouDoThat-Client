@@ -4,8 +4,8 @@ import { useQuery, useQueryClient } from "react-query";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import Habit from "../../common/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
-import { UserContext } from "../../common/userContextProvider";
 import {
   HomeScreenContainer,
   DateContainer,
@@ -22,13 +22,14 @@ const HomeScreen = ({ navigation }) => {
   const fullDate = currentDateInfo.getDate();
 
   const inform = useInform();
-  // const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
 
   const refetchHabitList = async () => {
-    await queryClient.resetQueries(["habitList", userInfo.user.id], { exact: true });
-  }
+    await queryClient.resetQueries(["habitList", userInfo.user.id], {
+      exact: true,
+    });
+  };
 
   useEffect(() => {
     const updateCurrentTime = navigation.addListener("focus", () => {
@@ -63,8 +64,12 @@ const HomeScreen = ({ navigation }) => {
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        <Text>여기는 렌더링 영역</Text>
-        <Text>{ data ? "hello" : "no data" }</Text>
+        {
+          !data ? <Text>No data!</Text>
+          : data.habitList.map((habit) => 
+            <Habit key={habit.id} habitData={habit} />
+          )
+        }      
       </HabitsContainer>
     </HomeScreenContainer>
   );
