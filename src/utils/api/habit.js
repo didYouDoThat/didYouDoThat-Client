@@ -9,4 +9,12 @@ habitApi.getHabitList = async ({ queryKey }) => {
   return response.data;
 };
 
+habitApi.postNewHabit = async ({ title, userId }) => {
+  const response = await axios.post(`/users/${userId}/habit`, {
+    title,
+  });
+
+  return response.data;
+};
+
 export default habitApi;

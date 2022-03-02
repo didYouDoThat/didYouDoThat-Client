@@ -27,6 +27,7 @@ const CustomTheme = {
 const App = () => {
   const [loaded] = useFonts({
     DosGothic: require("./src/asset/font/DOSGothic.ttf"),
+    DungGeunMo: require("./src/asset/font/DungGeunMo.ttf"),
   });
 
   if (!loaded) {

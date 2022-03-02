@@ -18,8 +18,8 @@ export const HabitTextContainer = styled.View`
 `;
 
 export const HabitCatImage = styled.Image`
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 65px;
   margin-right: 70px;
 `;
 
@@ -44,9 +44,8 @@ export const HabitStatusText = styled.Text`
 
 export const HabitTitle = styled.Text`
   height: 60px;
-  overflow: visible;
-  font-size: 21px;
-  font-family: "DosGothic";
+  font-size: 25px;
+  font-family: "DungGeunMo";
 `;
 
 export const HabitEndDate = styled.Text`

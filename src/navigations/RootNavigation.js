@@ -4,10 +4,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import userAsyncStorage from "../utils/userAsyncStorage";
 
 import { UserContext } from "../components/common/userContextProvider";
-import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
-import ResultScreen from "../components/screens/ResultScreen/ResultScreen";
 import HeaderTitle from "../components/common/HeaderTitle";
-import MainTabNavigation from "./MainStackNavigation";
+import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
+import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
+import MainTabNavigation from "./MainTabNavigation";
+import ResultStackNavigation from "./ResultStackNavigation";
 
 const Root = createNativeStackNavigator();
 
@@ -39,14 +40,25 @@ const RootStack = () => {
       }}
     >
       {!user?.id ? (
-        <Root.Group screenOptions={{ headerShown: false }}>
-          <Root.Screen name="Login" component={LoginScreen} />
-        </Root.Group>
+        <Root.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
       ) : (
-        <Root.Group>
+        <>
           <Root.Screen name="Main" component={MainTabNavigation} />
-          <Root.Screen name="Result" component={ResultScreen} />
-        </Root.Group>
+          <Root.Screen
+            name="NewHabit"
+            component={NewHabitScreen}
+            options={{ presentation: "transparentModal", headerShown: false }}
+          />
+          <Root.Screen
+            name="Result"
+            component={ResultStackNavigation}
+            options={{ presentation: "fullScreenModal", headerShown: false }}
+          />
+        </>
       )}
     </Root.Navigator>
   );
