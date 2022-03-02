@@ -56,7 +56,7 @@ const RootStack = () => {
           <Root.Screen
             name="Result"
             component={ResultStackNavigation}
-            options={{ headerShown: false }}
+            options={{ presentation: "fullScreenModal", headerShown: false }}
           />
         </>
       )}

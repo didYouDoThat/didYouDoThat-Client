@@ -1,9 +1,9 @@
 import React from "react";
+import { useQueryClient } from "react-query";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../components/screens/HomeScreen/HomeScreen";
-// import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
 import MyPageScreen from "../components/screens/MyPageScreen/MyPageScreen";
 
 const MainTab = createBottomTabNavigator();

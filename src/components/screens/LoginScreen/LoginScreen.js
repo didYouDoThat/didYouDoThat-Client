@@ -41,8 +41,11 @@ const LoginScreen = () => {
         setUser(data.user);
         userAsyncStorage.setUserInfo({ token: data.token });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+        
+        return;
       },
       onError: (error) => {
+        // 이전의 것 그대로 원상복구 시키기
         inform({ message: error.message });
       },
     }

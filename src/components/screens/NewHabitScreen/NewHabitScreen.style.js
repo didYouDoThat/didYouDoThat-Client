@@ -31,6 +31,11 @@ export const NewHabitTitle = styled.Text`
   text-align: center;
 `;
 
+export const InputTitleError = styled.Text`
+  font-family: "DosGothic";
+  color: red;
+`;
+
 export const NewHabitInput = styled.TextInput`
   width: 90%;
   height: 40px;
@@ -47,6 +52,25 @@ export const NewHabitNoticeText = styled.Text`
   color: #e36387;
   font-size: 13px;
   text-align: center;
+`;
+
+export const NewHabitDisableTitle = styled.Text`
+  font-family: "DungGeunMo";
+  font-size: 30px;
+  text-align: center;
+`;
+
+export const NewHabitDisableText = styled.Text`
+  margin-top: 20px;
+  font-family: "DosGothic";
+  font-size: 20px;
+  text-align: center;
+`;
+
+export const NewHabitDisableImage = styled.Image`
+  width: 50%;
+  height: 100px;
+  margin-top: 20px;
 `;
 
 export const CancelNewHabitButtonContainer = styled.View`
