@@ -6,7 +6,7 @@ const EmptyHabitContainer = styled.View`
   align-items: center;
   justify-content: center;
   width: 90%;
-  height: 500px;
+  height: 200px;
   margin: auto;
 `;
 
@@ -31,9 +31,7 @@ const EmptyHabit = () => {
   return (
     <EmptyHabitContainer>
       <EmptyHabitImage source={require("../../asset/image/noHabit.png")} />
-      <EmptyHabitTitle>
-        "길지 않아도 좋아요"
-      </EmptyHabitTitle>
+      <EmptyHabitTitle>길지 않아도 좋아요</EmptyHabitTitle>
       <EmptyHabitText>
         일주일동안 만들 수 있는 습관을 길러봅시다!!
       </EmptyHabitText>

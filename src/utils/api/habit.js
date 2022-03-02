@@ -11,7 +11,7 @@ habitApi.getHabitList = async ({ queryKey }) => {
 
 habitApi.postNewHabit = async ({ title, userId }) => {
   const response = await axios.post(`/users/${userId}/habit`, {
-    title
+    title,
   });
 
   return response.data;

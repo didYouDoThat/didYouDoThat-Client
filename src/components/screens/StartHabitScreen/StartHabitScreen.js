@@ -1,5 +1,6 @@
 import React from "react";
-import { Text } from "react-native";
+
+import PropTypes from "prop-types";
 
 import CustomButton from "../../common/Button";
 import {
@@ -21,18 +22,42 @@ const StartHabitScreen = ({ route, navigation }) => {
 
   return (
     <StartHabitContainer>
-      <StartHabitTitle>"{newHabit.title}"{"\n"}습관을 시작하셨군요!</StartHabitTitle>
-      <StartHabitNoticeText>이 고양이가{"\n"}당신의 새로운 습관 지키미가{"\n"}되었습니다</StartHabitNoticeText>
-      <StartHabitHelloImage source={require("../../../asset/image/hello.png")}/>
-      <StartHabitImage source={{ uri: newHabit.catImage }}/>
+      <StartHabitTitle>
+        {newHabit.title}
+        {"\n"}습관을 시작하셨군요!
+      </StartHabitTitle>
+      <StartHabitNoticeText>
+        이 고양이가{"\n"}당신의 새로운 습관 지키미가{"\n"}되었습니다
+      </StartHabitNoticeText>
+      <StartHabitHelloImage
+        source={require("../../../asset/image/hello.png")}
+      />
+      <StartHabitImage source={{ uri: newHabit.catImage }} />
       <CustomButton
         color="#e36387"
         title="메인화면으로"
         onPress={() => navigation.navigate("Main", { screen: "Home" })}
       />
-      <StartHabitEndDate>종료일은 {fullYear}년 {fullMonth}월 {fullDate}일 입니다</StartHabitEndDate>
+      <StartHabitEndDate>
+        종료일은 {fullYear}년 {fullMonth}월 {fullDate}일 입니다
+      </StartHabitEndDate>
     </StartHabitContainer>
   );
+};
+
+StartHabitScreen.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      newHabit: PropTypes.shape({
+        endDate: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        catImage: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default StartHabitScreen;

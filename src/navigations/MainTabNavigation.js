@@ -1,5 +1,4 @@
 import React from "react";
-import { useQueryClient } from "react-query";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -7,7 +6,9 @@ import HomeScreen from "../components/screens/HomeScreen/HomeScreen";
 import MyPageScreen from "../components/screens/MyPageScreen/MyPageScreen";
 
 const MainTab = createBottomTabNavigator();
-const AddNewHabit = () => {return null;};
+const AddNewHabit = () => {
+  return null;
+};
 
 const MainTabNavigation = () => {
   return (
@@ -52,7 +53,7 @@ const MainTabNavigation = () => {
           tabPress: (event) => {
             event.preventDefault();
             navigation.navigate("NewHabit");
-          }
+          },
         })}
       />
       <MainTab.Screen name="MyPage" component={MyPageScreen} />

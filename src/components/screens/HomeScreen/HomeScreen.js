@@ -95,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
 HomeScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
+    addListener: PropTypes.func,
   }).isRequired,
 };
 

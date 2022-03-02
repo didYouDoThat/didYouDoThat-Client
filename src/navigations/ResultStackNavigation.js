@@ -14,18 +14,18 @@ const ResultStackNavigation = () => {
         headerShown: false,
       }}
     >
-        <ResultScreenStack.Screen
-          name="StartHabitResult"
-          component={StartHabitScreen}
-        />
-        <ResultScreenStack.Screen
-          name="SuccessResult"
-          component={SuccessResultScreen}
-        />
-        <ResultScreenStack.Screen
-          name="FailureResult"
-          component={FailureResultScreen}
-        />
+      <ResultScreenStack.Screen
+        name="StartHabitResult"
+        component={StartHabitScreen}
+      />
+      <ResultScreenStack.Screen
+        name="SuccessResult"
+        component={SuccessResultScreen}
+      />
+      <ResultScreenStack.Screen
+        name="FailureResult"
+        component={FailureResultScreen}
+      />
     </ResultScreenStack.Navigator>
   );
 };

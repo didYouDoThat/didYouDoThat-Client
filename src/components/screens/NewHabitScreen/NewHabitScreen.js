@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
 import { useMutation, useQueryClient } from "react-query";
 import { Feather } from "@expo/vector-icons";
+
+import PropTypes from "prop-types";
 
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
@@ -80,10 +81,10 @@ const NewHabitScreen = ({ navigation }) => {
               <InputTitleError>{habitTitleError}</InputTitleError>
             ) : null}
             <NewHabitNoticeText>
-              "기간은 오늘로부터 일주일 뒤까지{"\n"}자동 설정됩니다."{"\n"}
+              기간은 오늘로부터 일주일 뒤까지{"\n"}자동 설정됩니다.{"\n"}
               {"\n"}
-              "처음부터 결심한 습관은 그대로!{"\n"}습관을 한번 만들면 다시
-              수정할 수 없습니다"
+              처음부터 결심한 습관은 그대로!{"\n"}습관을 한번 만들면 다시 수정할
+              수 없습니다
             </NewHabitNoticeText>
             <CustomButton
               color="#e36387"
@@ -115,6 +116,13 @@ const NewHabitScreen = ({ navigation }) => {
       </NewHabitContent>
     </NewHabitContainer>
   );
+};
+
+NewHabitScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default NewHabitScreen;

@@ -25,7 +25,6 @@ export const NewHabitContent = styled.View`
 
 export const NewHabitTitle = styled.Text`
   width: 100%;
-  margin-top: 15px;
   font-family: "DungGeunMo";
   font-size: 33px;
   text-align: center;
@@ -39,15 +38,19 @@ export const InputTitleError = styled.Text`
 export const NewHabitInput = styled.TextInput`
   width: 90%;
   height: 40px;
-  margin: 12px 0;
+  margin: 15px 0;
   padding: 0 10px;
   background-color: #ffffff;
   font-family: "DosGothic";
 `;
 
+export const NewHabitNoticeContainer = styled.View`
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
 export const NewHabitNoticeText = styled.Text`
   width: 90%;
-  margin-top: 10px;
   font-family: "DosGothic";
   color: #e36387;
   font-size: 13px;
@@ -55,13 +58,13 @@ export const NewHabitNoticeText = styled.Text`
 `;
 
 export const NewHabitDisableTitle = styled.Text`
+  margin-bottom: 20px;
   font-family: "DungGeunMo";
   font-size: 30px;
   text-align: center;
 `;
 
 export const NewHabitDisableText = styled.Text`
-  margin-top: 20px;
   font-family: "DosGothic";
   font-size: 20px;
   text-align: center;

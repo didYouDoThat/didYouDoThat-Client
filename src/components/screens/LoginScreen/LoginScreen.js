@@ -41,7 +41,7 @@ const LoginScreen = () => {
         setUser(data.user);
         userAsyncStorage.setUserInfo({ token: data.token });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-        
+
         return;
       },
       onError: (error) => {

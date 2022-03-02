@@ -28,7 +28,7 @@ export const StartHabitHelloImage = styled.Image`
 `;
 
 export const StartHabitNoticeText = styled.Text`
-  margin: 15px 0;
+  margin: 20px 0;
   font-family: "DosGothic";
   font-size: 20px;
   color: #ffffff;
