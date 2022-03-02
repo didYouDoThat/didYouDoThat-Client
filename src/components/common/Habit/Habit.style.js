@@ -18,8 +18,8 @@ export const HabitTextContainer = styled.View`
 `;
 
 export const HabitCatImage = styled.Image`
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 65px;
   margin-right: 70px;
 `;
 
