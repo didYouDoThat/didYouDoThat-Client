@@ -1,6 +1,5 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
@@ -10,7 +9,6 @@ import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import {
   HabitContentContainer,
-  HabitContentCheckedContainer,
   HabitTextContainer,
   HabitCatImage,
   HabitStatusContainer,
@@ -69,12 +67,14 @@ const Habit = ({ habitData, currentDate }) => {
   return (
     <HabitContentContainer onPress={handleHabitContainerClick}>
       <HabitTextContainer>
-        <HabitTitle style={{
-          color: ischeckedToday ? "#e36387" : "#000000",
-          textDecorationLine: ischeckedToday ? "line-through" : "none",
-          textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
-          textShadowRadius: ischeckedToday ? 10 : 0,
-        }}>
+        <HabitTitle
+          style={{
+            color: ischeckedToday ? "#e36387" : "#000000",
+            textDecorationLine: ischeckedToday ? "line-through" : "none",
+            textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
+            textShadowRadius: ischeckedToday ? 10 : 0,
+          }}
+        >
           {habitData.title}
         </HabitTitle>
         {isActive ? (
@@ -110,6 +110,7 @@ Habit.propTypes = {
   habitData: PropTypes.shape({
     endDate: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    dateList: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     catImage: PropTypes.string.isRequired,
     status: PropTypes.number.isRequired,

@@ -54,7 +54,11 @@ const NewHabitScreen = ({ navigation }) => {
       return;
     }
 
-    mutate({ title: habitTitle, userId: userInfo.user.id, currentDate: new Date() });
+    mutate({
+      title: habitTitle,
+      userId: userInfo.user.id,
+      currentDate: new Date(),
+    });
   };
 
   return (

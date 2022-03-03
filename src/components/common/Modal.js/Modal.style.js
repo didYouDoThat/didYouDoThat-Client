@@ -16,7 +16,7 @@ export const ModalContentContainer = styled.View`
   justify-content: center;
   align-items: center;
   width: 75%;
-  height: ${(props) => props.width || "45%" };
+  height: ${(props) => props.width || "45%"};
   margin: auto;
   padding: 20px;
   border-radius: 20px;
