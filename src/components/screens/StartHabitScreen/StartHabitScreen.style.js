@@ -31,7 +31,7 @@ export const StartHabitNoticeText = styled.Text`
   margin: 20px 0;
   font-family: "DosGothic";
   font-size: 20px;
-  color: #ffffff;
+  color: #000000;
   text-align: center;
 `;
 

@@ -49,7 +49,7 @@ export const HabitTitle = styled.Text`
 `;
 
 export const HabitEndDate = styled.Text`
-  font-size: 16px;
+  font-size: 15px;
   font-family: "DosGothic";
 `;
 
