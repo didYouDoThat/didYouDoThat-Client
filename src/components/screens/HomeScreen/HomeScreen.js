@@ -74,18 +74,6 @@ const HomeScreen = ({ navigation }) => {
               currentDate={currentDateInfo}
               navigation={navigation}
             />
-            // <>
-            //   <Habit
-            //     key={habit.id + 1}
-            //     habitData={habit}
-            //     currentDate={currentDateInfo}
-            //   />
-            //   <Habit
-            //     key={habit.id}
-            //     habitData={habit}
-            //     currentDate={currentDateInfo}
-            //   />
-            // </>
           ))
         )}
       </HabitsContainer>

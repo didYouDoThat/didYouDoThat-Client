@@ -6,8 +6,7 @@ const EmptyHabitContainer = styled.View`
   align-items: center;
   justify-content: center;
   width: 90%;
-  height: 200px;
-  margin: auto;
+  margin: 80px auto;
 `;
 
 const EmptyHabitImage = styled.Image`

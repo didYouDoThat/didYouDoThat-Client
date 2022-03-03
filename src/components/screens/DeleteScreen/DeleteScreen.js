@@ -21,33 +21,21 @@ const DeleteScreen = ({ route }) => {
 
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
-  // const currentHabitList = queryClient
-  //   .getQueryData(["habitList", userInfo.user.id])
-  //   .habitList.filter((habit) => {
-  //     const endDate = new Date(habit.endDate);
-  //     return endDate - currentDate >= 0;
-  //   });
-  // 이거 내장함수 있을 것 같은데..
 
-  // const { mutate } = useMutation(habitApi.postNewHabit, {
-  //   onSuccess: (data) => {
-  //     navigation.navigate("Result", {
-  //       screen: "StartHabitResult",
-  //       params: { newHabit: data.newHabit },
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     inform({ message: error.message });
-  //   },
-  //   onSettled: () => {
-  //     queryClient.invalidateQueries(["habitList", userInfo.user.id]);
-  //   },
-  // });
+  const { mutate } = useMutation(habitApi.deleteHabit, {
+    onSuccess: () => {
+      navigation.navigate("Main");
+    },
+    onError: (error) => {
+      inform({ message: error.message });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["habitList", userInfo.user.id]);
+    },
+  });
 
   const handleDeleteHabitButtonClick = () => {
-    console.log("delete");
-    console.log(habitData);
-    //mutate({ title: habitTitle, userId: userInfo.user.id });
+    mutate({ habitId: habitData.id, userId: userInfo.user.id });
   };
 
   return (
