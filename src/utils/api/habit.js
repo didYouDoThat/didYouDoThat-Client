@@ -17,4 +17,10 @@ habitApi.postNewHabit = async ({ title, userId }) => {
   return response.data;
 };
 
+habitApi.deleteHabit = async ({ habitId, userId }) => {
+  const response = await axios.delete(`/users/${userId}/habits/${habitId}`);
+
+  return response.data;
+};
+
 export default habitApi;

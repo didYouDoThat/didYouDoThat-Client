@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native"
 import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
@@ -10,14 +11,16 @@ import {
   CancelButtonContainer,
 } from "./Modal.style";
 
-const Modal = ({ navigation, contentHeight, children }) => {
+const Modal = ({ contentHeight, children }) => {
+  const navigation = useNavigation();
+
   const handleGoBackClick = () => {
     navigation.goBack();
   };
 
   return (
     <ModalContainer>
-      <ModalBackground onPress={handleGoBackClick}/>
+      <ModalBackground onPress={handleGoBackClick} />
       <ModalContentContainer width={contentHeight}>
         {children}
         <CancelButtonContainer>
@@ -26,17 +29,14 @@ const Modal = ({ navigation, contentHeight, children }) => {
             size={24}
             color="black"
             onPress={handleGoBackClick}
-            />
+          />
         </CancelButtonContainer>
       </ModalContentContainer>
     </ModalContainer>
   );
 };
 
-Modal.PropTypes = {
-  navigation: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-  }).isRequired,
+Modal.propTypes = {
   contentHeight: PropTypes.string,
   children: PropTypes.node.isRequired,
 };

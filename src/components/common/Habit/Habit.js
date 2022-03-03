@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native"
 import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
@@ -17,17 +18,21 @@ import {
 } from "./Habit.style";
 
 const Habit = ({ habitData, currentDate }) => {
+  const navigation = useNavigation();
+
   const localEndDate = new Date(habitData.endDate);
   const fullYear = localEndDate.getFullYear();
   const fullMonth = localEndDate.getMonth() + 1;
   const fullDate = localEndDate.getDate();
 
-  const [isActive, ] = useState(localEndDate - currentDate >= 0);
+  const [isActive] = useState(localEndDate - currentDate >= 0);
 
   return (
-    <HabitContentContainer onPress={() => {
-      console.log("container!");
-    }}>
+    <HabitContentContainer
+      onPress={() => {
+        console.log("container!");
+      }}
+    >
       <HabitTextContainer>
         <HabitTitle>{habitData.title}</HabitTitle>
         {isActive ? (
@@ -43,16 +48,19 @@ const Habit = ({ habitData, currentDate }) => {
         <HabitStatusImage source={require("../../../asset/image/status.png")} />
         <HabitStatusText>X {habitData.status}</HabitStatusText>
       </HabitStatusContainer>
-      <DeleteButtonContainer>
-        <Feather
-          name="x"
-          size={24}
-          color="black"
-          onPress={() => {
-            isActive ? console.log("active!!!") : console.log("end!!!!!!");
-          }}
-        />
-      </DeleteButtonContainer>
+      {isActive ? (
+        <DeleteButtonContainer>
+          <Feather
+            name="x"
+            size={24}
+            color="black"
+            onPress={() => {
+              console.log(habitData.id)
+              navigation.navigate("Delete", { habitData });
+            }}
+          />
+        </DeleteButtonContainer>
+      ) : null}
     </HabitContentContainer>
   );
 };
