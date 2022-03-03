@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
@@ -22,11 +22,15 @@ const Habit = ({ habitData, currentDate }) => {
   const fullMonth = localEndDate.getMonth() + 1;
   const fullDate = localEndDate.getDate();
 
+  const [isActive, ] = useState(localEndDate - currentDate >= 0);
+
   return (
-    <HabitContentContainer onPress={() => console.log("container!")}>
+    <HabitContentContainer onPress={() => {
+      console.log("container!");
+    }}>
       <HabitTextContainer>
         <HabitTitle>{habitData.title}</HabitTitle>
-        {localEndDate - currentDate >= 0 ? (
+        {isActive ? (
           <HabitEndDate>
             종료일: {fullYear}년 {fullMonth}월 {fullDate}일
           </HabitEndDate>
@@ -44,7 +48,9 @@ const Habit = ({ habitData, currentDate }) => {
           name="x"
           size={24}
           color="black"
-          onPress={() => console.log("hello")}
+          onPress={() => {
+            isActive ? console.log("active!!!") : console.log("end!!!!!!");
+          }}
         />
       </DeleteButtonContainer>
     </HabitContentContainer>
