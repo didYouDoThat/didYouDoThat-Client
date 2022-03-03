@@ -56,6 +56,8 @@ const HomeScreen = ({ navigation }) => {
     inform({ message: error.message });
   }
 
+  //여기서 habitList와 관련된 내용을 분기처리해주어야 할 것 같음. active인것과 inactive인것..
+
   return (
     <HomeScreenContainer>
       <DateContainer>

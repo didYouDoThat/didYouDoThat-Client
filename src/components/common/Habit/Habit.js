@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
+import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
@@ -9,6 +10,7 @@ import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import {
   HabitContentContainer,
+  HabitContentCheckedContainer,
   HabitTextContainer,
   HabitCatImage,
   HabitStatusContainer,
@@ -19,7 +21,6 @@ import {
   HabitExpiredText,
   DeleteButtonContainer,
 } from "./Habit.style";
-
 
 const Habit = ({ habitData, currentDate }) => {
   const inform = useInform();
@@ -39,11 +40,19 @@ const Habit = ({ habitData, currentDate }) => {
 
   const isActive = localEndDate - currentDate >= 0;
 
+  const ischeckedToday = habitData.dateList.find(({ date }) => {
+    const limitDate = new Date(date);
+    const currentTodayDate = new Date(currentDate);
+
+    return limitDate.getDate() === currentTodayDate.getDate();
+  }).isChecked;
+
   //dateList도 같이 넘겨줬으니까, 배열 안에서 현재 날짜보다 1 더한 일자의 isChecked 상태가 어떤지 확인하고 false, true여부
 
   const { mutate } = useMutation(habitApi.updateHabitStatus, {
-    onSuccess: (data) => {
-
+    onSuccess: () => {
+      //아니면 다른 screen으로 이동해서 랜덤으로 보여주게 해도 좋을 듯!
+      inform({ message: "고양이의 상태가 변화되었습니다..." });
     },
     onError: (error) => {
       inform({ message: error.message });
@@ -51,18 +60,23 @@ const Habit = ({ habitData, currentDate }) => {
     onSettled: () => {
       queryClient.invalidateQueries(["habitList", userInfo.user.id]);
     },
-  })
+  });
 
   const handleHabitContainerClick = () => {
     mutate({ habitId: habitData.id, userId: userInfo.user.id });
   };
 
   return (
-    <HabitContentContainer
-      onPress={handleHabitContainerClick}
-    >
+    <HabitContentContainer onPress={handleHabitContainerClick}>
       <HabitTextContainer>
-        <HabitTitle>{habitData.title}</HabitTitle>
+        <HabitTitle style={{
+          color: ischeckedToday ? "#e36387" : "#000000",
+          textDecorationLine: ischeckedToday ? "line-through" : "none",
+          textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
+          textShadowRadius: ischeckedToday ? 10 : 0,
+        }}>
+          {habitData.title}
+        </HabitTitle>
         {isActive ? (
           <HabitEndDate>
             종료: {fullYear}년 {fullMonth}월 {fullDate}일 00시

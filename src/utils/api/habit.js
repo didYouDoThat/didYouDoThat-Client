@@ -9,9 +9,10 @@ habitApi.getHabitList = async ({ queryKey }) => {
   return response.data;
 };
 
-habitApi.postNewHabit = async ({ title, userId }) => {
+habitApi.postNewHabit = async ({ title, userId, currentDate }) => {
   const response = await axios.post(`/users/${userId}/habit`, {
     title,
+    currentDate,
   });
 
   return response.data;
@@ -19,14 +20,12 @@ habitApi.postNewHabit = async ({ title, userId }) => {
 
 habitApi.updateHabitStatus = async ({ habitId, userId }) => {
   const currentLocalDate = new Date();
-  const localTimezoneOffset = 24 + currentLocalDate.getTimezoneOffset() / 60;
   
   const response = await axios.put(`/users/${userId}/habits/${habitId}`, {
-    localTimezoneOffset,
     currentLocalDate: currentLocalDate.toISOString(),
   });
 
-  // return response.data;
+  return response.data;
 };
 
 habitApi.deleteHabit = async ({ habitId, userId }) => {

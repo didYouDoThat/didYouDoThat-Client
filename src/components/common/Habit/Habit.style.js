@@ -13,6 +13,13 @@ export const HabitContentContainer = styled.TouchableOpacity`
   background-color: #ffffff;
 `;
 
+export const HabitContentCheckedContainer = styled.TouchableOpacity`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+`;
+
 export const HabitTextContainer = styled.View`
   width: 60%;
 `;
@@ -43,9 +50,10 @@ export const HabitStatusText = styled.Text`
 `;
 
 export const HabitTitle = styled.Text`
+  width: 230px;
   height: 60px;
-  font-size: 25px;
   font-family: "DungGeunMo";
+  font-size: 22px;
 `;
 
 export const HabitEndDate = styled.Text`
