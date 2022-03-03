@@ -15,10 +15,18 @@ import {
 const StartHabitScreen = ({ route, navigation }) => {
   const { newHabit } = route.params;
 
-  const newHabitEndLocaleDate = new Date(newHabit.endDate);
-  const fullYear = newHabitEndLocaleDate.getFullYear();
-  const fullMonth = newHabitEndLocaleDate.getMonth() + 1;
-  const fullDate = newHabitEndLocaleDate.getDate();
+  const newHabitServerEndDate = new Date(newHabit.endDate);
+  const localTimezoneOffset =
+    24 + newHabitServerEndDate.getTimezoneOffset() / 60;
+
+  const newHabitEndLocalDate = new Date(
+    newHabitServerEndDate.setHours(
+      newHabitServerEndDate.getHours() + localTimezoneOffset
+    )
+  );
+  const fullYear = newHabitEndLocalDate.getFullYear();
+  const fullMonth = newHabitEndLocalDate.getMonth() + 1;
+  const fullDate = newHabitEndLocalDate.getDate();
 
   return (
     <StartHabitContainer>
@@ -27,7 +35,7 @@ const StartHabitScreen = ({ route, navigation }) => {
         {"\n"}습관을 시작하셨군요!
       </StartHabitTitle>
       <StartHabitNoticeText>
-        이 고양이가{"\n"}당신의 새로운 습관 지키미가{"\n"}되었습니다
+        새로운 습관을 열심히 지켜서{"\n"}이 고양이를 행복하게 만들어주세요!!
       </StartHabitNoticeText>
       <StartHabitHelloImage
         source={require("../../../asset/image/hello.png")}
@@ -39,7 +47,7 @@ const StartHabitScreen = ({ route, navigation }) => {
         onPress={() => navigation.navigate("Main", { screen: "Home" })}
       />
       <StartHabitEndDate>
-        종료일은 {fullYear}년 {fullMonth}월 {fullDate}일 입니다
+        종료일은 {fullYear}년 {fullMonth}월 {fullDate}일 00시입니다
       </StartHabitEndDate>
     </StartHabitContainer>
   );

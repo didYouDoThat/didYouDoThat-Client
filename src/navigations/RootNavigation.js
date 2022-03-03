@@ -7,6 +7,7 @@ import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
+import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
 
@@ -51,6 +52,11 @@ const RootStack = () => {
           <Root.Screen
             name="NewHabit"
             component={NewHabitScreen}
+            options={{ presentation: "transparentModal", headerShown: false }}
+          />
+          <Root.Screen
+            name="Delete"
+            component={DeleteScreen}
             options={{ presentation: "transparentModal", headerShown: false }}
           />
           <Root.Screen
