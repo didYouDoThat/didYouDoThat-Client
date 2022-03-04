@@ -3,12 +3,13 @@ import { View, Text } from "react-native";
 import { QueryCache, useQueryClient } from "react-query";
 import * as Notifications from "expo-notifications";
 
+import { notificationSetting } from "../../../configs/notificationSetting";
 import axios from "../../../utils/axiosInstance";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
+import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import CustomButton from "../../common/Button";
 import { UserContext } from "../../common/userContextProvider";
-import useInform from "../../../utils/informAlert";
 
 const queryCache = new QueryCache();
 
@@ -50,23 +51,7 @@ const MyPageScreen = () => {
     const token = await registerForPushNotificationsAsync();
 
     if (token) {
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: "오늘도 그거했냥🐱",
-          body: "지금 바로 여러분의 습관 만들기를 시작해봅시다👏",
-          categoryId: "default",
-          android: {
-            vibrate: true,
-            channelId: "default",
-            sound: false,
-          },
-        },
-        trigger: {
-          hour: 10,
-          minute: 0,
-          repeats: true,
-        },
-      });
+      Notifications.scheduleNotificationAsync();
       setExpoToken(token);
       userAsyncStorage.setExpoToken(token);
       inform({ message: "알림받기가 성공적으로 처리 되었습니다." });
@@ -77,7 +62,7 @@ const MyPageScreen = () => {
   };
 
   const handleLocalAppPushStopButtonClick = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
+    await Notifications.cancelAllScheduledNotificationsAsync(notificationSetting);
     setExpoToken("");
     userAsyncStorage.removeExpoToken();
     inform({ message: "앞으로 알림은 발송되지 않습니다." });
@@ -88,10 +73,13 @@ const MyPageScreen = () => {
       <Text>This is MyPage</Text>
       <CustomButton title="로그아웃" onPress={handleLogoutButtonClick} />
       {!expoToken ? (
-        <CustomButton
-          title="알림 받기"
-          onPress={handleLocalAppPushButtonClick}
-        />
+        <>
+          <CustomButton
+            title="알림 받기"
+            onPress={handleLocalAppPushButtonClick}
+          />
+          <Text>알림은 매일 오전 10시에 발송됩니다!</Text>
+        </>
       ) : (
         <CustomButton
           title="알림 그만 받기"
