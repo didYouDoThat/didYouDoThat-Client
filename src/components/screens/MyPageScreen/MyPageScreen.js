@@ -19,7 +19,6 @@ const MyPageScreen = () => {
 
   const inform = useInform();
   const queryClient = useQueryClient();
-
   useEffect(async () => {
     const expoTokenData = await userAsyncStorage.getExpoToken();
 
@@ -51,7 +50,7 @@ const MyPageScreen = () => {
     const token = await registerForPushNotificationsAsync();
 
     if (token) {
-      Notifications.scheduleNotificationAsync();
+      Notifications.scheduleNotificationAsync(notificationSetting);
       setExpoToken(token);
       userAsyncStorage.setExpoToken(token);
       inform({ message: "알림받기가 성공적으로 처리 되었습니다." });
@@ -62,7 +61,7 @@ const MyPageScreen = () => {
   };
 
   const handleLocalAppPushStopButtonClick = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync(notificationSetting);
+    await Notifications.cancelAllScheduledNotificationsAsync();
     setExpoToken("");
     userAsyncStorage.removeExpoToken();
     inform({ message: "앞으로 알림은 발송되지 않습니다." });
