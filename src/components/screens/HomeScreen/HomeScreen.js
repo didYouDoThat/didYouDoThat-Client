@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import divideHabitData from "../../../utils/divideHabitData";
 import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
@@ -26,6 +27,7 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
+  const activeHabitList = queryClient.getQueryData(["habitList", "active"]);
 
   const refetchHabitList = async () => {
     await queryClient.refetchQueries(["habitList", userInfo.user.id], {
@@ -43,20 +45,31 @@ const HomeScreen = ({ navigation }) => {
     return updateCurrentTime;
   }, [navigation]);
 
-  const { isLoading, data, isError, error } = useQuery(
+  const { isLoading, data } = useQuery(
     ["habitList", userInfo.user.id],
-    habitApi.getHabitList
+    habitApi.getHabitList, {
+      onSuccess: (data) => {
+        const [activeData, inActiveData] = divideHabitData(data.habitList);
+
+        queryClient.setQueryData(["habitList", "active"], activeData);
+        queryClient.setQueryData(["habitList", "inActive"], inActiveData);
+
+        queryClient.setQueryDefaults(["habitList", "active"], {
+          cacheTime: 60 * 60 * 24 * 1000,
+        });
+        queryClient.setQueryDefaults(["habitList", "inActive"], {
+          cacheTime: 60 * 60 * 24 * 1000,
+        });
+      },
+      onError: (error) => {
+        inform({ message: error.message });
+      },
+    }
   );
 
   if (isLoading) {
     return <LoadingScreen />;
   }
-
-  if (isError) {
-    inform({ message: error.message });
-  }
-
-  //여기서 habitList와 관련된 내용을 분기처리해주어야 할 것 같음. active인것과 inactive인것..
 
   return (
     <HomeScreenContainer>
@@ -66,10 +79,10 @@ const HomeScreen = ({ navigation }) => {
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        {!data.habitList.length ? (
+        {!activeHabitList?.length ? (
           <EmptyHabit />
         ) : (
-          data.habitList.map((habit) => (
+          activeHabitList?.map((habit) => (
             <Habit
               key={habit.id}
               habitData={habit}

@@ -45,8 +45,6 @@ const Habit = ({ habitData, currentDate }) => {
     return limitDate.getDate() === currentTodayDate.getDate();
   }).isChecked;
 
-  //dateList도 같이 넘겨줬으니까, 배열 안에서 현재 날짜보다 1 더한 일자의 isChecked 상태가 어떤지 확인하고 false, true여부
-
   const { mutate } = useMutation(habitApi.updateHabitStatus, {
     onSuccess: () => {
       //아니면 다른 screen으로 이동해서 랜덤으로 보여주게 해도 좋을 듯!
