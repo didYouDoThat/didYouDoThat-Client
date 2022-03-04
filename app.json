@@ -11,6 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#a6dcef"
     },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/app-push-icon.png",
+          "color": "#ddf3f5"
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },

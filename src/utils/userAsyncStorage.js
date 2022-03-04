@@ -30,10 +30,29 @@ userAsyncStorage.getStartModalButtonClickTime = async () => {
   } catch (err) {
     return err;
   }
-}
+};
+
+userAsyncStorage.getExpoToken = async () => {
+  const expoToken = await AsyncStorage.getItem("expoToken");
+
+  if (!expoToken) {
+    return false;
+  }
+
+  try {
+    const expoTokenData = JSON.parse(expoToken);
+    return expoTokenData;
+  } catch (err) {
+    return err;
+  }
+};
 
 userAsyncStorage.setUserInfo = (userData) => {
   return AsyncStorage.setItem("userInfo", JSON.stringify(userData));
+};
+
+userAsyncStorage.setExpoToken = (expoToken) => {
+  return AsyncStorage.setItem("expoToken", JSON.stringify(expoToken));
 };
 
 userAsyncStorage.setStartModalButtonClickTime = (clickTime) => {
@@ -43,6 +62,11 @@ userAsyncStorage.setStartModalButtonClickTime = (clickTime) => {
 userAsyncStorage.removeUserInfo = () => {
   AsyncStorage.removeItem("userInfo");
   AsyncStorage.removeItem("modalClickTime");
+  return;
+};
+
+userAsyncStorage.removeExpoToken = () => {
+  AsyncStorage.removeItem("expoToken");
   return;
 };
 
