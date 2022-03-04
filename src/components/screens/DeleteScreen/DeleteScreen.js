@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import CustomButton from "../../common/Button";
-import Modal from "../../common/Modal.js/Modal";
+import Modal from "../../common/NewHabitModal/NewHabitModal";
 import {
   DeleteHabitTitleContainer,
   DeleteHabitTitle,

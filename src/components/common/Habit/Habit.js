@@ -1,6 +1,5 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
@@ -8,9 +7,10 @@ import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import useGetDateInfo from "../../../utils/useGetDateInfo";
+import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
 import {
   HabitContentContainer,
-  HabitContentCheckedContainer,
   HabitTextContainer,
   HabitCatImage,
   HabitStatusContainer,
@@ -28,26 +28,17 @@ const Habit = ({ habitData, currentDate }) => {
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
 
-  const serverEndDate = new Date(habitData.endDate);
-  const localTimezoneOffset = 24 + serverEndDate.getTimezoneOffset() / 60; // 15
-
-  const localEndDate = new Date(
-    serverEndDate.setHours(serverEndDate.getHours() + localTimezoneOffset)
-  );
-  const fullYear = localEndDate.getFullYear();
-  const fullMonth = localEndDate.getMonth() + 1;
-  const fullDate = localEndDate.getDate();
+  const localEndDate = changeServerEndDateIntoLocalDate(habitData.endDate);
+  const [fullYear, fullMonth, fullDate] = useGetDateInfo(localEndDate);
 
   const isActive = localEndDate - currentDate >= 0;
 
   const ischeckedToday = habitData.dateList.find(({ date }) => {
-    const limitDate = new Date(date);
+    const limitDate = changeServerEndDateIntoLocalDate(date);
     const currentTodayDate = new Date(currentDate);
 
-    return limitDate.getDate() === currentTodayDate.getDate();
-  }).isChecked;
-
-  //dateList도 같이 넘겨줬으니까, 배열 안에서 현재 날짜보다 1 더한 일자의 isChecked 상태가 어떤지 확인하고 false, true여부
+    return limitDate.getDate() - 1 === currentTodayDate.getDate();
+  })?.isChecked;
 
   const { mutate } = useMutation(habitApi.updateHabitStatus, {
     onSuccess: () => {
@@ -67,14 +58,18 @@ const Habit = ({ habitData, currentDate }) => {
   };
 
   return (
-    <HabitContentContainer onPress={handleHabitContainerClick}>
+    <HabitContentContainer
+      onPress={isActive ? handleHabitContainerClick : () => {}}
+    >
       <HabitTextContainer>
-        <HabitTitle style={{
-          color: ischeckedToday ? "#e36387" : "#000000",
-          textDecorationLine: ischeckedToday ? "line-through" : "none",
-          textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
-          textShadowRadius: ischeckedToday ? 10 : 0,
-        }}>
+        <HabitTitle
+          style={{
+            color: ischeckedToday ? "#e36387" : "#000000",
+            textDecorationLine: ischeckedToday ? "line-through" : "none",
+            textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
+            textShadowRadius: ischeckedToday ? 5 : 0,
+          }}
+        >
           {habitData.title}
         </HabitTitle>
         {isActive ? (
@@ -110,6 +105,7 @@ Habit.propTypes = {
   habitData: PropTypes.shape({
     endDate: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    dateList: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     catImage: PropTypes.string.isRequired,
     status: PropTypes.number.isRequired,

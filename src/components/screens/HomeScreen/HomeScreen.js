@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
+import useGetDateInfo from "../../../utils/useGetDateInfo";
+import divideHabitData from "../../../utils/divideHabitData";
+import userAsyncStorage from "../../../utils/userAsyncStorage";
 import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
@@ -14,18 +18,19 @@ import {
   DateText,
   HabitsContainer,
 } from "./HomeScreen.style";
+import StartModal from "../../common/StartModal/StartModal";
 
 const HomeScreen = ({ navigation }) => {
   const initialDateInfo = new Date();
-  const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
 
-  const fullYear = currentDateInfo.getFullYear();
-  const fullMonth = currentDateInfo.getMonth() + 1;
-  const fullDate = currentDateInfo.getDate();
+  const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
+  const [isStartModalOpen, setIsStartModalOpen] = useState(true);
+  const [fullYear, fullMonth, fullDate] = useGetDateInfo(currentDateInfo);
 
   const inform = useInform();
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
+  const activeHabitList = queryClient.getQueryData(["habitList", "active"]);
 
   const refetchHabitList = async () => {
     await queryClient.refetchQueries(["habitList", userInfo.user.id], {
@@ -43,33 +48,70 @@ const HomeScreen = ({ navigation }) => {
     return updateCurrentTime;
   }, [navigation]);
 
-  const { isLoading, data, isError, error } = useQuery(
+  useEffect(async () => {
+    const modalClickTime =
+      await userAsyncStorage.getStartModalButtonClickTime();
+
+    if (
+      modalClickTime &&
+      currentDateInfo - new Date(modalClickTime) <= 60 * 60 * 24 * 1000
+    ) {
+      setIsStartModalOpen(false);
+    }
+  }, []);
+
+  const { isLoading, data } = useQuery(
     ["habitList", userInfo.user.id],
-    habitApi.getHabitList
+    habitApi.getHabitList,
+    {
+      onSuccess: (data) => {
+        const activeData = divideHabitData(data.habitList);
+
+        queryClient.setQueryData(["habitList", "active"], activeData);
+        queryClient.setQueryDefaults(["habitList", "active"], {
+          cacheTime: 60 * 60 * 24 * 1000,
+        });
+      },
+      onError: (error) => {
+        inform({ message: error.message });
+      },
+    }
   );
 
   if (isLoading) {
     return <LoadingScreen />;
   }
 
-  if (isError) {
-    inform({ message: error.message });
-  }
+  const isNotCheckedYesterDayList = activeHabitList?.filter(
+    ({ dateList: [{ date, isChecked }] }) => {
+      const limitDate = changeServerEndDateIntoLocalDate(date);
+      const currentTodayDate = new Date(currentDateInfo);
 
-  //여기서 habitList와 관련된 내용을 분기처리해주어야 할 것 같음. active인것과 inactive인것..
+      if (limitDate.getDate() === currentTodayDate.getDate() && !isChecked) {
+        return true;
+      }
+    }
+  );
 
   return (
     <HomeScreenContainer>
+      {isNotCheckedYesterDayList?.length ? (
+        <StartModal
+          isModalOpen={isStartModalOpen}
+          setIsModalOpen={setIsStartModalOpen}
+          habitList={isNotCheckedYesterDayList}
+        />
+      ) : null}
       <DateContainer>
         <DateText>
           {fullYear}년 {fullMonth}월 {fullDate}일의 습관!
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        {!data.habitList.length ? (
+        {!activeHabitList?.length ? (
           <EmptyHabit />
         ) : (
-          data.habitList.map((habit) => (
+          activeHabitList?.map((habit) => (
             <Habit
               key={habit.id}
               habitData={habit}

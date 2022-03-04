@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
@@ -9,7 +9,7 @@ import {
   ModalBackground,
   ModalContentContainer,
   CancelButtonContainer,
-} from "./Modal.style";
+} from "./NewHabitModal.style";
 
 const Modal = ({ contentHeight, children }) => {
   const navigation = useNavigation();

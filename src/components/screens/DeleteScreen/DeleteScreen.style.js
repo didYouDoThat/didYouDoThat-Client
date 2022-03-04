@@ -1,7 +1,7 @@
 import styled from "@emotion/native";
 
 export const DeleteHabitTitleContainer = styled.Text`
-margin-top: 15px;
+  margin-top: 15px;
   font-family: "DungGeunMo";
   font-size: 28px;
   text-align: center;
