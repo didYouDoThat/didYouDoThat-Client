@@ -9,7 +9,7 @@ import {
   ModalBackground,
   ModalContentContainer,
   CancelButtonContainer,
-} from "./Modal.style";
+} from "./NewHabitModal.style";
 
 const Modal = ({ contentHeight, children }) => {
   const navigation = useNavigation();

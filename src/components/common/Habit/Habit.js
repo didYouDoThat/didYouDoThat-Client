@@ -32,6 +32,7 @@ const Habit = ({ habitData, currentDate }) => {
   const localEndDate = new Date(
     serverEndDate.setHours(serverEndDate.getHours() + localTimezoneOffset)
   );
+
   const fullYear = localEndDate.getFullYear();
   const fullMonth = localEndDate.getMonth() + 1;
   const fullDate = localEndDate.getDate();
@@ -43,7 +44,7 @@ const Habit = ({ habitData, currentDate }) => {
     const currentTodayDate = new Date(currentDate);
 
     return limitDate.getDate() === currentTodayDate.getDate();
-  }).isChecked;
+  })?.isChecked;
 
   const { mutate } = useMutation(habitApi.updateHabitStatus, {
     onSuccess: () => {
@@ -63,14 +64,16 @@ const Habit = ({ habitData, currentDate }) => {
   };
 
   return (
-    <HabitContentContainer onPress={handleHabitContainerClick}>
+    <HabitContentContainer
+      onPress={isActive ? handleHabitContainerClick : () => {}}
+    >
       <HabitTextContainer>
         <HabitTitle
           style={{
             color: ischeckedToday ? "#e36387" : "#000000",
             textDecorationLine: ischeckedToday ? "line-through" : "none",
             textShadowColor: ischeckedToday ? "#f2aaaa" : "#ffffff",
-            textShadowRadius: ischeckedToday ? 10 : 0,
+            textShadowRadius: ischeckedToday ? 5 : 0,
           }}
         >
           {habitData.title}

@@ -16,7 +16,6 @@ const MainTabNavigation = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
-          // backgroundColor: "#a6dcef",
           height: 70,
         },
         tabBarShowLabel: false,

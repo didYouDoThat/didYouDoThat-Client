@@ -15,10 +15,12 @@ import {
   DateText,
   HabitsContainer,
 } from "./HomeScreen.style";
+import StartModal from "../../common/StartModal/StartModal";
 
 const HomeScreen = ({ navigation }) => {
   const initialDateInfo = new Date();
   const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
+  const [isStartModalOpen, setIsStartModalOpen] = useState(true);
 
   const fullYear = currentDateInfo.getFullYear();
   const fullMonth = currentDateInfo.getMonth() + 1;
@@ -47,17 +49,13 @@ const HomeScreen = ({ navigation }) => {
 
   const { isLoading, data } = useQuery(
     ["habitList", userInfo.user.id],
-    habitApi.getHabitList, {
+    habitApi.getHabitList,
+    {
       onSuccess: (data) => {
-        const [activeData, inActiveData] = divideHabitData(data.habitList);
+        const activeData = divideHabitData(data.habitList);
 
         queryClient.setQueryData(["habitList", "active"], activeData);
-        queryClient.setQueryData(["habitList", "inActive"], inActiveData);
-
         queryClient.setQueryDefaults(["habitList", "active"], {
-          cacheTime: 60 * 60 * 24 * 1000,
-        });
-        queryClient.setQueryDefaults(["habitList", "inActive"], {
           cacheTime: 60 * 60 * 24 * 1000,
         });
       },
@@ -73,6 +71,13 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <HomeScreenContainer>
+      {isStartModalOpen && activeHabitList?.length? (
+        <StartModal
+          isModalOpen={isStartModalOpen}
+          setIsModalOpen={setIsStartModalOpen}
+          unDohabitList={activeHabitList}
+        />
+      ) : null}
       <DateContainer>
         <DateText>
           {fullYear}년 {fullMonth}월 {fullDate}일의 습관!

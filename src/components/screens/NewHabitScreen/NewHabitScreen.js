@@ -15,7 +15,7 @@ import {
   NewHabitDisableText,
   NewHabitDisableImage,
 } from "./NewHabitScreen.style";
-import Modal from "../../common/Modal.js/Modal";
+import Modal from "../../common/NewHabitModal/NewHabitModal";
 
 const NewHabitScreen = ({ navigation }) => {
   const [habitTitle, setHabitTitle] = useState("");
