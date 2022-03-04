@@ -17,7 +17,9 @@ import {
 const StartHabitScreen = ({ route, navigation }) => {
   const { newHabit } = route.params;
 
-  const newHabitEndLocalDate = changeServerEndDateIntoLocalDate(newHabit.endDate);
+  const newHabitEndLocalDate = changeServerEndDateIntoLocalDate(
+    newHabit.endDate
+  );
   const [fullYear, fullMonth, fullDate] = useGetDateInfo(newHabitEndLocalDate);
 
   return (

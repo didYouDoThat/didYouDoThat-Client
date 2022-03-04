@@ -19,7 +19,7 @@ export const StartModalTitle = styled.Text`
   margin: 60px 0 10px;
   font-family: "DungGeunMo";
   font-size: 27px;
-  text-align: center; 
+  text-align: center;
 `;
 
 export const StartModalHabitListContainer = styled.View`

@@ -25,7 +25,7 @@ const MyPageScreen = () => {
     if (expoTokenData) {
       setExpoToken(expoTokenData);
     }
-  }, [])
+  }, []);
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -87,7 +87,7 @@ const MyPageScreen = () => {
     <View>
       <Text>This is MyPage</Text>
       <CustomButton title="로그아웃" onPress={handleLogoutButtonClick} />
-      { !expoToken ? (
+      {!expoToken ? (
         <CustomButton
           title="알림 받기"
           onPress={handleLocalAppPushButtonClick}

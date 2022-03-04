@@ -22,7 +22,7 @@ import StartModal from "../../common/StartModal/StartModal";
 
 const HomeScreen = ({ navigation }) => {
   const initialDateInfo = new Date();
-  
+
   const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
   const [isStartModalOpen, setIsStartModalOpen] = useState(true);
   const [fullYear, fullMonth, fullDate] = useGetDateInfo(currentDateInfo);
@@ -82,14 +82,16 @@ const HomeScreen = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
-  const isNotCheckedYesterDayList = activeHabitList?.filter(({ dateList: [{ date, isChecked }] }) => {
-    const limitDate = changeServerEndDateIntoLocalDate(date);
-    const currentTodayDate = new Date(currentDateInfo);
+  const isNotCheckedYesterDayList = activeHabitList?.filter(
+    ({ dateList: [{ date, isChecked }] }) => {
+      const limitDate = changeServerEndDateIntoLocalDate(date);
+      const currentTodayDate = new Date(currentDateInfo);
 
-    if (limitDate.getDate() === currentTodayDate.getDate() && !isChecked) {
-      return true;
+      if (limitDate.getDate() === currentTodayDate.getDate() && !isChecked) {
+        return true;
+      }
     }
-  });
+  );
 
   return (
     <HomeScreenContainer>
