@@ -1,9 +1,11 @@
 import React from "react";
-import { Pressable, Modal, Text, View, Image } from "react-native";
+import { Modal } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
 
+import userAsyncStorage from "../../../utils/userAsyncStorage";
+import CustomButton from "../Button";
 import {
   StartModalContentContainer,
   StartModalContent,
@@ -15,10 +17,19 @@ import {
   CancelButtonContainer,
   NotSeeingButtonContainer,
 } from "./StartModal.style";
-import CustomButton from "../Button";
 
-const StartModal = ({ isModalOpen, setIsModalOpen, unDohabitList }) => {
-  console.log(unDohabitList);
+const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
+  const setModalClickTime = (event) => {
+    event.stopPropagation();
+
+    const currentClickTime = new Date();
+
+    userAsyncStorage.setStartModalButtonClickTime(
+      currentClickTime.toISOString()
+    );
+
+    setIsModalOpen(false);
+  };
 
   return (
     <Modal
@@ -37,12 +48,12 @@ const StartModal = ({ isModalOpen, setIsModalOpen, unDohabitList }) => {
             오늘은 빼먹지 않고{"\n"}꼭 실행해봅시다!
           </StartModalTitle>
           <StartModalHabitListContainer>
-            {unDohabitList.map(({ id, catImage, title }) => (
+            {habitList.map(({ id, catImage, title }) => (
               <StartModalHabitListContent key={id}>
                 <StartModalHabitListImage source={{ uri: `${catImage}` }} />
-                <StartModalHabitListText
-                  numberOfLines={1}
-                >{title}</StartModalHabitListText>
+                <StartModalHabitListText numberOfLines={1}>
+                  {title}
+                </StartModalHabitListText>
               </StartModalHabitListContent>
             ))}
           </StartModalHabitListContainer>
@@ -57,10 +68,7 @@ const StartModal = ({ isModalOpen, setIsModalOpen, unDohabitList }) => {
           <NotSeeingButtonContainer>
             <CustomButton
               title="24시간동안 그만보기"
-              onPress={(event) => {
-                event.stopPropagation();
-                console.log("here~~~~");
-              }}
+              onPress={setModalClickTime}
             />
           </NotSeeingButtonContainer>
         </StartModalContent>
@@ -72,6 +80,7 @@ const StartModal = ({ isModalOpen, setIsModalOpen, unDohabitList }) => {
 StartModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
+  habitList: PropTypes.array.isRequired,
 };
 
 export default StartModal;

@@ -2,6 +2,8 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
+import useGetDateInfo from "../../../utils/useGetDateInfo";
+import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
 import CustomButton from "../../common/Button";
 import {
   StartHabitContainer,
@@ -15,18 +17,8 @@ import {
 const StartHabitScreen = ({ route, navigation }) => {
   const { newHabit } = route.params;
 
-  const newHabitServerEndDate = new Date(newHabit.endDate);
-  const localTimezoneOffset =
-    24 + newHabitServerEndDate.getTimezoneOffset() / 60;
-
-  const newHabitEndLocalDate = new Date(
-    newHabitServerEndDate.setHours(
-      newHabitServerEndDate.getHours() + localTimezoneOffset
-    )
-  );
-  const fullYear = newHabitEndLocalDate.getFullYear();
-  const fullMonth = newHabitEndLocalDate.getMonth() + 1;
-  const fullDate = newHabitEndLocalDate.getDate();
+  const newHabitEndLocalDate = changeServerEndDateIntoLocalDate(newHabit.endDate);
+  const [fullYear, fullMonth, fullDate] = useGetDateInfo(newHabitEndLocalDate);
 
   return (
     <StartHabitContainer>

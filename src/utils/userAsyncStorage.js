@@ -17,12 +17,33 @@ userAsyncStorage.getUserInfo = async () => {
   }
 };
 
+userAsyncStorage.getStartModalButtonClickTime = async () => {
+  const modalClickTime = await AsyncStorage.getItem("modalClickTime");
+
+  if (!modalClickTime) {
+    return false;
+  }
+
+  try {
+    const clickTime = JSON.parse(modalClickTime);
+    return clickTime;
+  } catch (err) {
+    return err;
+  }
+}
+
 userAsyncStorage.setUserInfo = (userData) => {
   return AsyncStorage.setItem("userInfo", JSON.stringify(userData));
 };
 
+userAsyncStorage.setStartModalButtonClickTime = (clickTime) => {
+  return AsyncStorage.setItem("modalClickTime", JSON.stringify(clickTime));
+};
+
 userAsyncStorage.removeUserInfo = () => {
-  return AsyncStorage.removeItem("userInfo");
+  AsyncStorage.removeItem("userInfo");
+  AsyncStorage.removeItem("modalClickTime");
+  return;
 };
 
 export default userAsyncStorage;

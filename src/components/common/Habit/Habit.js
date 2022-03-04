@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import useGetDateInfo from "../../../utils/useGetDateInfo";
+import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
 import {
   HabitContentContainer,
   HabitTextContainer,
@@ -26,24 +28,16 @@ const Habit = ({ habitData, currentDate }) => {
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
 
-  const serverEndDate = new Date(habitData.endDate);
-  const localTimezoneOffset = 24 + serverEndDate.getTimezoneOffset() / 60; // 15
-
-  const localEndDate = new Date(
-    serverEndDate.setHours(serverEndDate.getHours() + localTimezoneOffset)
-  );
-
-  const fullYear = localEndDate.getFullYear();
-  const fullMonth = localEndDate.getMonth() + 1;
-  const fullDate = localEndDate.getDate();
+  const localEndDate = changeServerEndDateIntoLocalDate(habitData.endDate);
+  const [fullYear, fullMonth, fullDate] = useGetDateInfo(localEndDate);
 
   const isActive = localEndDate - currentDate >= 0;
 
   const ischeckedToday = habitData.dateList.find(({ date }) => {
-    const limitDate = new Date(date);
+    const limitDate = changeServerEndDateIntoLocalDate(date);
     const currentTodayDate = new Date(currentDate);
 
-    return limitDate.getDate() === currentTodayDate.getDate();
+    return limitDate.getDate() - 1 === currentTodayDate.getDate();
   })?.isChecked;
 
   const { mutate } = useMutation(habitApi.updateHabitStatus, {

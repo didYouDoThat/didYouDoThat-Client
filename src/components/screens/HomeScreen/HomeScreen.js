@@ -5,7 +5,10 @@ import PropTypes from "prop-types";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
+import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
+import useGetDateInfo from "../../../utils/useGetDateInfo";
 import divideHabitData from "../../../utils/divideHabitData";
+import userAsyncStorage from "../../../utils/userAsyncStorage";
 import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
@@ -19,12 +22,10 @@ import StartModal from "../../common/StartModal/StartModal";
 
 const HomeScreen = ({ navigation }) => {
   const initialDateInfo = new Date();
+  
   const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
   const [isStartModalOpen, setIsStartModalOpen] = useState(true);
-
-  const fullYear = currentDateInfo.getFullYear();
-  const fullMonth = currentDateInfo.getMonth() + 1;
-  const fullDate = currentDateInfo.getDate();
+  const [fullYear, fullMonth, fullDate] = useGetDateInfo(currentDateInfo);
 
   const inform = useInform();
   const queryClient = useQueryClient();
@@ -46,6 +47,18 @@ const HomeScreen = ({ navigation }) => {
 
     return updateCurrentTime;
   }, [navigation]);
+
+  useEffect(async () => {
+    const modalClickTime =
+      await userAsyncStorage.getStartModalButtonClickTime();
+
+    if (
+      modalClickTime &&
+      currentDateInfo - new Date(modalClickTime) <= 60 * 60 * 24 * 1000
+    ) {
+      setIsStartModalOpen(false);
+    }
+  }, []);
 
   const { isLoading, data } = useQuery(
     ["habitList", userInfo.user.id],
@@ -69,13 +82,22 @@ const HomeScreen = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
+  const isNotCheckedYesterDayList = activeHabitList?.filter(({ dateList: [{ date, isChecked }] }) => {
+    const limitDate = changeServerEndDateIntoLocalDate(date);
+    const currentTodayDate = new Date(currentDateInfo);
+
+    if (limitDate.getDate() === currentTodayDate.getDate() && !isChecked) {
+      return true;
+    }
+  });
+
   return (
     <HomeScreenContainer>
-      {isStartModalOpen && activeHabitList?.length? (
+      {isNotCheckedYesterDayList?.length ? (
         <StartModal
           isModalOpen={isStartModalOpen}
           setIsModalOpen={setIsStartModalOpen}
-          unDohabitList={activeHabitList}
+          habitList={isNotCheckedYesterDayList}
         />
       ) : null}
       <DateContainer>

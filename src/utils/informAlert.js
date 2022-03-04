@@ -1,9 +1,13 @@
 import { useCallback } from "react";
-import { ToastAndroid } from "react-native";
+import { Alert, Platform, ToastAndroid } from "react-native";
 
 const useInform = () => {
   const inform = useCallback(({ message }) => {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
+    if (Platform.OS === "ios") {
+      Alert.alert(title ?? 알림, message);
+    } else {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    }
   }, []);
 
   return inform;
