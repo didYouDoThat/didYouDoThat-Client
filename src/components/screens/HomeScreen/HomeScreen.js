@@ -9,16 +9,17 @@ import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateInt
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import divideHabitData from "../../../utils/divideHabitData";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+
 import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingScreen from "../../common/LoadingScreen";
+import StartModal from "../../common/StartModal/StartModal";
 import {
   HomeScreenContainer,
   DateContainer,
   DateText,
   HabitsContainer,
 } from "./HomeScreen.style";
-import StartModal from "../../common/StartModal/StartModal";
 
 const HomeScreen = ({ navigation }) => {
   const initialDateInfo = new Date();
@@ -65,10 +66,14 @@ const HomeScreen = ({ navigation }) => {
     habitApi.getHabitList,
     {
       onSuccess: (data) => {
-        const activeData = divideHabitData(data.habitList);
+        const [activeHabitList, inActiveHabitList] = divideHabitData(data.habitList);
 
-        queryClient.setQueryData(["habitList", "active"], activeData);
+        queryClient.setQueryData(["habitList", "active"], activeHabitList);
+        queryClient.setQueryData(["habitList", "inactive"], inActiveHabitList);
         queryClient.setQueryDefaults(["habitList", "active"], {
+          cacheTime: 60 * 60 * 24 * 1000,
+        });
+        queryClient.setQueryDefaults(["habitList", "inactive"], {
           cacheTime: 60 * 60 * 24 * 1000,
         });
       },
