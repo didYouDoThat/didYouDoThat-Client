@@ -12,13 +12,14 @@ const divideHabitData = (habitList) => {
     );
   });
 
-  const inActiveHabitList = habitList.filter((habit) => {
-    const localEndDate = changeServerEndDateIntoLocalDate(habit.endDate);
+  // const inActiveHabitList = habitList.filter((habit) => {
+  //   const localEndDate = changeServerEndDateIntoLocalDate(habit.endDate);
 
-    return currentDate - localEndDate > 60 * 60 * 24 * 1000;
-  });
+  //   return currentDate - localEndDate > 60 * 60 * 24 * 1000;
+  // });
 
-  return [activeHabitList, inActiveHabitList];
+  // return [activeHabitList, inActiveHabitList];
+  return activeHabitList;
 };
 
 export default divideHabitData;
