@@ -2,7 +2,7 @@ import styled from "@emotion/native";
 
 export const EndHabitScreenContainer = styled.View`
   flex: 1;
-  background-color: ${(props) => props.isCompleted ? "#e36387" : "#ddf3f5"};
+  background-color: ${(props) => (props.isCompleted ? "#e36387" : "#ddf3f5")};
 `;
 
 export const EndHabitCapturedArea = styled.View`
@@ -11,7 +11,7 @@ export const EndHabitCapturedArea = styled.View`
   align-items: center;
   width: 100%;
   margin-bottom: -10px;
-  background-color: ${(props) => props.isCompleted ? "#e36387" : "#ddf3f5"};
+  background-color: ${(props) => (props.isCompleted ? "#e36387" : "#ddf3f5")};
 `;
 
 export const EndHabitContent = styled.View`
@@ -78,5 +78,5 @@ export const EndHabitButtonContainer = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: ${(props) => props.isCompleted ? "#ad2149" : "#52a8c7"};
+  background-color: ${(props) => (props.isCompleted ? "#ad2149" : "#52a8c7")};
 `;

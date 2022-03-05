@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import ViewShot from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
 
+import PropTypes from "prop-types";
+
 import CustomButton from "../../common/Button";
 import {
   EndHabitScreenContainer,
@@ -100,6 +102,22 @@ const EndHabitScreen = ({ route, navigation }) => {
       </EndHabitButtonContainer>
     </EndHabitScreenContainer>
   );
+};
+
+EndHabitScreen.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      habitData: PropTypes.shape({
+        status: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        catImage: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }),
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default EndHabitScreen;
