@@ -31,8 +31,9 @@ export const NewHabitTitle = styled.Text`
 `;
 
 export const InputTitleError = styled.Text`
+  padding-bottom: 10px;
   font-family: "DosGothic";
-  color: red;
+  color: #9b0000;
 `;
 
 export const NewHabitInput = styled.TextInput`
