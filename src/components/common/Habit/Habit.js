@@ -59,7 +59,16 @@ const Habit = ({ habitData, currentDate }) => {
 
   return (
     <HabitContentContainer
-      onPress={isActive ? handleHabitContainerClick : () => {}}
+      onPress={
+        isActive
+          ? handleHabitContainerClick
+          : () => {
+              navigation.navigate("Result", {
+                screen: "EndHabitResult",
+                params: { habitData },
+              });
+            }
+      }
     >
       <HabitTextContainer>
         <HabitTitle

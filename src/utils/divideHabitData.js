@@ -12,7 +12,13 @@ const divideHabitData = (habitList) => {
     );
   });
 
-  return activeHabitList;
+  const inActiveHabitList = habitList.filter((habit) => {
+    const localEndDate = changeServerEndDateIntoLocalDate(habit.endDate);
+
+    return currentDate - localEndDate > 60 * 60 * 24 * 1000;
+  });
+
+  return [activeHabitList, inActiveHabitList];
 };
 
 export default divideHabitData;

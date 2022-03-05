@@ -34,6 +34,7 @@
     "expo-notifications": "^0.14.1",
     "expo-random": "^12.1.2",
     "expo-screen-capture": "^4.1.1",
+    "expo-sharing": "^10.1.1",
     "expo-splash-screen": "^0.14.2",
     "expo-status-bar": "~1.2.0",
     "expo-web-browser": "^10.1.1",
@@ -45,9 +46,9 @@
     "react-native": "0.64.3",
     "react-native-dotenv": "^3.3.1",
     "react-native-paper": "^4.11.2",
-    "react-native-reanimated": "^2.4.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
+    "react-native-view-shot": "^3.1.2",
     "react-native-web": "0.17.1",
     "react-query": "^3.34.16"
   },

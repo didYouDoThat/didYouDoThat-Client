@@ -10,8 +10,8 @@ const EmptyHabitContainer = styled.View`
 `;
 
 const EmptyHabitImage = styled.Image`
-  width: 160px;
-  height: 150px;
+  width: 170px;
+  height: 160px;
   margin: 20px;
 `;
 
@@ -29,7 +29,7 @@ const EmptyHabitText = styled.Text`
 const EmptyHabit = () => {
   return (
     <EmptyHabitContainer>
-      <EmptyHabitImage source={require("../../asset/image/noHabit.png")} />
+      <EmptyHabitImage source={require("../../asset/image/cheese.png")} />
       <EmptyHabitTitle>길지 않아도 좋아요</EmptyHabitTitle>
       <EmptyHabitText>
         일주일동안 만들 수 있는 습관을 길러봅시다!!

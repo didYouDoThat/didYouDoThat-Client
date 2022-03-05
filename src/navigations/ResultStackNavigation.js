@@ -2,8 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import StartHabitScreen from "../components/screens/StartHabitScreen/StartHabitScreen";
-import SuccessResultScreen from "../components/screens/SuccessScreen/SuccessScreen";
-import FailureResultScreen from "../components/screens/FailureScreen/FailureScreen";
+import EndHabitScreen from "../components/screens/EndHabitScreen/EndHabitScreen";
 
 const ResultScreenStack = createNativeStackNavigator();
 
@@ -19,12 +18,8 @@ const ResultStackNavigation = () => {
         component={StartHabitScreen}
       />
       <ResultScreenStack.Screen
-        name="SuccessResult"
-        component={SuccessResultScreen}
-      />
-      <ResultScreenStack.Screen
-        name="FailureResult"
-        component={FailureResultScreen}
+        name="EndHabitResult"
+        component={EndHabitScreen}
       />
     </ResultScreenStack.Navigator>
   );
