@@ -66,8 +66,17 @@ export const EndHabitStampImage = styled.Image`
   height: 70px;
 `;
 
+export const EndhabitBackground = styled.Image`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+`;
+
 export const EndHabitButtonContainer = styled.View`
   flex: 1;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  background-color: ${(props) => props.isCompleted ? "#ad2149" : "#52a8c7"};
 `;

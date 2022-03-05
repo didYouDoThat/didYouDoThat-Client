@@ -17,9 +17,10 @@ import {
 } from "./NewHabitScreen.style";
 import Modal from "../../common/NewHabitModal/NewHabitModal";
 
-const NewHabitScreen = ({ navigation }) => {
+const NewHabitScreen = ({ route, navigation }) => {
   const [habitTitle, setHabitTitle] = useState("");
   const [habitTitleError, setHabitTitleError] = useState("");
+  const previousTitle = route.params ? route.params.title : "";
 
   const inform = useInform();
   const currentDate = new Date();
@@ -68,6 +69,7 @@ const NewHabitScreen = ({ navigation }) => {
           <NewHabitTitle>새로운 습관을{"\n"}시작하세요!</NewHabitTitle>
           <NewHabitInput
             placeholder="최대 20자 이내 (공백포함)"
+            defaultValue={previousTitle}
             maxLength={20}
             onChangeText={(event) => setHabitTitle(event)}
           />

@@ -66,7 +66,9 @@ const HomeScreen = ({ navigation }) => {
     habitApi.getHabitList,
     {
       onSuccess: (data) => {
-        const [activeHabitList, inActiveHabitList] = divideHabitData(data.habitList);
+        const [activeHabitList, inActiveHabitList] = divideHabitData(
+          data.habitList
+        );
 
         queryClient.setQueryData(["habitList", "active"], activeHabitList);
         queryClient.setQueryData(["habitList", "inactive"], inActiveHabitList);
@@ -87,16 +89,18 @@ const HomeScreen = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
-  const isNotCheckedYesterDayList = activeHabitList?.filter(
-    ({ dateList: [{ date, isChecked }] }) => {
+  const isNotCheckedYesterDayList = activeHabitList?.filter(({ dateList }) => {
+    const targetDate = dateList.find(({ date, isChecked }) => {
       const limitDate = changeServerEndDateIntoLocalDate(date);
       const currentTodayDate = new Date(currentDateInfo);
 
       if (limitDate.getDate() === currentTodayDate.getDate() && !isChecked) {
         return true;
       }
-    }
-  );
+    });
+
+    return targetDate ? true : false;
+  });
 
   return (
     <HomeScreenContainer>
