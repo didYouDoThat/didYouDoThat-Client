@@ -2,8 +2,15 @@ import styled from "@emotion/native";
 
 export const EndHabitScreenContainer = styled.View`
   flex: 1;
-  justify-content: center;
+  background-color: ${(props) => props.isCompleted ? "#e36387" : "#ddf3f5"};
+`;
+
+export const EndHabitCapturedArea = styled.View`
+  flex: 1;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
+  margin-bottom: -10px;
   background-color: ${(props) => props.isCompleted ? "#e36387" : "#ddf3f5"};
 `;
 
@@ -11,20 +18,21 @@ export const EndHabitContent = styled.View`
   justify-content: center;
   align-items: center;
   width: 80%;
-  height: 50%;
+  height: 80%;
   margin-bottom: 50px;
   border-radius: 20px;
   background-color: #ffffff;
 `;
 
 export const EndHabitTitle = styled.Text`
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   font-family: "DungGeunMo";
-  font-size: 25px;
+  font-size: 35px;
 `;
 
 export const EndHabitText = styled.Text`
   width: 80%;
+  margin-bottom: 10px;
   font-family: "DosGothic";
   font-size: 18px;
   text-align: center;
@@ -34,18 +42,18 @@ export const EndHabitImageContainer = styled.View`
   position: relative;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 70%;
   margin-top: 10px;
   padding-bottom: 20px;
 `;
 
 export const EndHabitCatImage = styled.Image`
-  width: 160px;
-  height: 130px;
+  width: 170px;
+  height: 140px;
 `;
 
 export const EndHabitResultTextImage = styled.Image`
-  width: 130px;
+  width: 140px;
   height: 100px;
   margin-bottom: -5px;
 `;
@@ -56,4 +64,10 @@ export const EndHabitStampImage = styled.Image`
   bottom: 5px;
   width: 70px;
   height: 70px;
+`;
+
+export const EndHabitButtonContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  width: 100%;
 `;
