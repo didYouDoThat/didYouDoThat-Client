@@ -10,8 +10,7 @@ habitApi.getHabitList = async ({ queryKey }) => {
 };
 
 habitApi.getExpiredSuccessHabitList = async ({ queryKey, pageParam = 1 }) => {
-  const status =
-    queryKey[2] ? "success" : "failure";
+  const status = queryKey[2] ? "success" : "failure";
   const userId = queryKey[1];
   const currentLocalDate = new Date();
 

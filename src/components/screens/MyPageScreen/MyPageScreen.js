@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useMemo, useContext } from "react";
 import { FlatList } from "react-native";
-import {
-  QueryCache,
-  useQueryClient,
-  useInfiniteQuery,
-} from "react-query";
+import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
@@ -47,13 +43,13 @@ const MyPageScreen = () => {
     {
       getNextPageParam: (lastPage) => {
         return lastPage.habitList.length === 5 ? lastPage.nextPage : undefined;
-      }
+      },
     }
   );
 
   const expiredHabitList = useMemo(() => {
     const initialHabitList = [];
-    data?.pages.forEach(({ habitList }) => initialHabitList.push(...habitList))
+    data?.pages.forEach(({ habitList }) => initialHabitList.push(...habitList));
 
     return initialHabitList;
   }, [data]);
@@ -105,7 +101,7 @@ const MyPageScreen = () => {
     userAsyncStorage.removeExpoToken();
     inform({ message: "앞으로 알림은 발송되지 않습니다." });
   };
-  
+
   return (
     <MyPageScreenContainter>
       <MyPageUserInfoContainer>
