@@ -5,7 +5,8 @@ export const HabitContentContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 90%;
+  /* width: 90%; */
+  width: ${(props) => props.width || "90%"};
   height: 100px;
   margin: 20px auto 0;
   padding: 0 10px 0 20px;

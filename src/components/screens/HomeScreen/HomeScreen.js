@@ -71,6 +71,7 @@ const HomeScreen = ({ navigation }) => {
       onError: (error) => {
         inform({ message: error.message });
       },
+      cacheTime: 60 * 60 * 1000 * 24,
     }
   );
 
@@ -114,7 +115,7 @@ const HomeScreen = ({ navigation }) => {
               key={habit.id}
               habitData={habit}
               currentDate={currentDateInfo}
-              navigation={navigation}
+              // navigation={navigation}
             />
           ))
         )}

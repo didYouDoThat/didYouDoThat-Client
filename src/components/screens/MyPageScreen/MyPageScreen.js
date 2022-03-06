@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, Pressable } from "react-native";
+import { FlatList } from "react-native";
 import { QueryCache, useQueryClient } from "react-query";
 import * as Notifications from "expo-notifications";
+import { useNavigation } from "@react-navigation/native";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
 import axios from "../../../utils/axiosInstance";
@@ -10,6 +11,7 @@ import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import CustomButton from "../../common/Button";
 import { UserContext } from "../../common/userContextProvider";
+import Habit from "../../common/Habit/Habit";
 
 import {
   MyPageScreenContainter,
@@ -19,6 +21,8 @@ import {
   MyPageResultContainer,
   MyPageResultTabContainer,
   MyPageResultTabButton,
+  MyPageResultTabImage,
+  MyPageResultTabText,
   MyPageResultHabitListContainer,
 } from "./MyPageScreen.style";
 
@@ -27,11 +31,17 @@ const queryCache = new QueryCache();
 const MyPageScreen = () => {
   const [expoToken, setExpoToken] = useState("");
   const [isSuccessClicked, setIsSuccessClicked] = useState(true);
-  const { user, setUser } = useContext(UserContext);
 
   const inform = useInform();
   const queryClient = useQueryClient();
-  
+  const navigation = useNavigation();
+
+  const { user, setUser } = useContext(UserContext);
+  // const expiredHabitList = queryClient.getQueryData(["habitList", user.id]);
+  const { habitList } = queryClient.getQueryData(["habitList", user.id]);
+
+  console.log(habitList);
+
   useEffect(async () => {
     const expoTokenData = await userAsyncStorage.getExpoToken();
 
@@ -109,21 +119,40 @@ const MyPageScreen = () => {
       </MyPageUserInfoContainer>
       <MyPageResultContainer>
         <MyPageResultTabContainer>
-          <MyPageResultTabButton 
+          <MyPageResultTabButton
             isSuccessClicked={isSuccessClicked}
             onPress={() => setIsSuccessClicked(true)}
           >
-            <Text>성공</Text>
+            <MyPageResultTabImage
+              source={require("../../../asset/image/successListTab.png")}
+            />
+            <MyPageResultTabText>성공</MyPageResultTabText>
           </MyPageResultTabButton>
-          <MyPageResultTabButton 
+          <MyPageResultTabButton
             isSuccessClicked={!isSuccessClicked}
             onPress={() => setIsSuccessClicked(false)}
           >
-            <Text>실패</Text>
+            <MyPageResultTabImage
+              source={require("../../../asset/image/failureListTab.png")}
+            />
+            <MyPageResultTabText>실패</MyPageResultTabText>
           </MyPageResultTabButton>
         </MyPageResultTabContainer>
         <MyPageResultHabitListContainer>
-          <Text>{ isSuccessClicked ? "성공" : "실패" }</Text>
+          {/* <Text>{isSuccessClicked ? "여기는 성공" : "여기는 실패"}</Text> */}
+          <FlatList
+            data={habitList}
+            renderItem={({ item }) => (
+              <Habit
+                habitData={item}
+                currentDate={new Date()}
+                isInMyPage={true}
+                width="95%"
+              />
+            )}
+            keyExtractor={(item, index) => item.id}
+            onEndReached={() => console.log("여기가 스크롤 끝이다!")}
+          />
         </MyPageResultHabitListContainer>
       </MyPageResultContainer>
     </MyPageScreenContainter>

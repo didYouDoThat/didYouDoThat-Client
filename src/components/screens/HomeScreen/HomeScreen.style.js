@@ -12,9 +12,9 @@ export const DateContainer = styled.View`
 `;
 
 export const DateText = styled.Text`
+  font-family: "DungGeunMo";
   color: white;
   font-size: 20px;
-  font-family: "DungGeunMo";
 `;
 
 export const HabitsContainer = styled.ScrollView`
