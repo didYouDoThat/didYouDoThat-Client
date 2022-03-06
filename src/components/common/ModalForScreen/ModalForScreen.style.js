@@ -20,7 +20,7 @@ export const ModalContentContainer = styled.View`
   margin: auto;
   padding: 20px;
   border-radius: 20px;
-  background-color: #ddf3f5;
+  background-color: ${(props) => props.theme.subColor};
 `;
 
 export const CancelButtonContainer = styled.View`

@@ -11,6 +11,8 @@ import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
 
+import THEME from "../constants/theme.style";
+
 const Root = createNativeStackNavigator();
 
 const RootStack = () => {
@@ -35,7 +37,7 @@ const RootStack = () => {
         headerTitle: () => <HeaderTitle />,
         headerTitleAlign: "center",
         headerStyle: {
-          backgroundColor: "#a6dcef",
+          backgroundColor: THEME.mainColor,
           height: 150,
         },
       }}
@@ -49,16 +51,15 @@ const RootStack = () => {
       ) : (
         <>
           <Root.Screen name="Main" component={MainTabNavigation} />
-          <Root.Screen
-            name="NewHabit"
-            component={NewHabitScreen}
-            options={{ presentation: "transparentModal", headerShown: false }}
-          />
-          <Root.Screen
-            name="Delete"
-            component={DeleteScreen}
-            options={{ presentation: "transparentModal", headerShown: false }}
-          />
+          <Root.Group
+            screenOptions={{
+              presentation: "transparentModal",
+              headerShown: false,
+            }}
+          >
+            <Root.Screen name="NewHabit" component={NewHabitScreen} />
+            <Root.Screen name="Delete" component={DeleteScreen} />
+          </Root.Group>
           <Root.Screen
             name="Result"
             component={ResultStackNavigation}

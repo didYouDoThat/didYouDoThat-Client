@@ -115,7 +115,6 @@ const HomeScreen = ({ navigation }) => {
               key={habit.id}
               habitData={habit}
               currentDate={currentDateInfo}
-              // navigation={navigation}
             />
           ))
         )}

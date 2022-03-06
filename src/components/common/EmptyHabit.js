@@ -17,13 +17,13 @@ const EmptyHabitImage = styled.Image`
 
 const EmptyHabitTitle = styled.Text`
   margin-bottom: 10px;
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 25px;
-  font-family: "DosGothic";
 `;
 
 const EmptyHabitText = styled.Text`
+  font-family: ${(props) => props.theme.subFont};
   font-size: 16px;
-  font-family: "DosGothic";
 `;
 
 const EmptyHabit = () => {

@@ -14,7 +14,7 @@ export const MyPageUserInfoContainer = styled.View`
 `;
 
 export const MyPageUserNameText = styled.Text`
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 22px;
 `;
 
@@ -49,7 +49,7 @@ export const MyPageResultTabImage = styled.Image`
 `;
 
 export const MyPageResultTabText = styled.Text`
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   font-size: 18px;
 `;
 

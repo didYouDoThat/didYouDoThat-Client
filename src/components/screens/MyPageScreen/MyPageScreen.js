@@ -26,6 +26,7 @@ import {
   MyPageResultTabText,
   MyPageResultHabitListContainer,
 } from "./MyPageScreen.style";
+import THEME from "../../../constants/theme.style";
 
 const queryCache = new QueryCache();
 
@@ -110,18 +111,21 @@ const MyPageScreen = () => {
         </MyPageUserNameText>
         <MyPageButtonContainer>
           <CustomButton
+            color={THEME.subStrongColor}
             width="140px"
             title="로그아웃"
             onPress={handleLogoutButtonClick}
           />
           {!expoToken ? (
             <CustomButton
+              color={THEME.subStrongColor}
               width="140px"
               title="알림 받기"
               onPress={handleLocalAppPushButtonClick}
             />
           ) : (
             <CustomButton
+              color={THEME.subStrongColor}
               width="200px"
               title="알림 그만 받기"
               onPress={handleLocalAppPushStopButtonClick}
@@ -151,15 +155,14 @@ const MyPageScreen = () => {
           </MyPageResultTabButton>
         </MyPageResultTabContainer>
         <MyPageResultHabitListContainer>
-          {/* <Text>{isSuccessClicked ? "여기는 성공" : "여기는 실패"}</Text> */}
           <FlatList
             data={expiredHabitList}
             renderItem={({ item }) => (
               <Habit
                 habitData={item}
                 currentDate={new Date()}
-                isInMyPage={true}
-                width="95%"
+                isExpired={true}
+                width="100%"
               />
             )}
             keyExtractor={(item, index) => item.id}

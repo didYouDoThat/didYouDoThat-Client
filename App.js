@@ -4,6 +4,9 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+import { ThemeProvider } from "@emotion/react";
+import THEME from "./src/constants/theme.style";
+
 import RootStack from "./src/navigations/RootNavigation";
 import UserContextProvider from "./src/components/common/userContextProvider";
 
@@ -36,11 +39,13 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer theme={CustomTheme}>
-        <UserContextProvider>
-          <RootStack />
-        </UserContextProvider>
-      </NavigationContainer>
+      <ThemeProvider theme={THEME}>
+        <NavigationContainer theme={CustomTheme}>
+          <UserContextProvider>
+            <RootStack />
+          </UserContextProvider>
+        </NavigationContainer>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

@@ -17,7 +17,7 @@ export const StartModalContent = styled.View`
 
 export const StartModalTitle = styled.Text`
   margin: 60px 0 10px;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 27px;
   text-align: center;
 `;
@@ -44,7 +44,7 @@ export const StartModalHabitListImage = styled.Image`
 export const StartModalHabitListText = styled.Text`
   margin-right: 30px;
   margin-left: 5px;
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   font-size: 21px;
 `;
 

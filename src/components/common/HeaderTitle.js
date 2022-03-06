@@ -4,8 +4,8 @@ import styled from "@emotion/native";
 
 const HeaderTitleContainer = styled.View`
   flex-direction: row;
-  padding-left: 10px;
   align-items: center;
+  padding-left: 10px;
 `;
 
 const HeaderImage = styled.Image`
@@ -15,7 +15,7 @@ const HeaderImage = styled.Image`
 
 const HeaderText = styled.Text`
   font-size: 25px;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
 `;
 
 const HeaderTitle = () => {

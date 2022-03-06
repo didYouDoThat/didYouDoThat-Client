@@ -13,6 +13,7 @@ import {
   StartHabitHelloImage,
   StartHabitEndDate,
 } from "./StartHabitScreen.style";
+import THEME from "../../../constants/theme.style";
 
 const StartHabitScreen = ({ route, navigation }) => {
   const { newHabit } = route.params;
@@ -36,7 +37,7 @@ const StartHabitScreen = ({ route, navigation }) => {
       />
       <StartHabitImage source={{ uri: newHabit.catImage }} />
       <CustomButton
-        color="#e36387"
+        color={THEME.mainStrongColor}
         title="메인화면으로"
         onPress={() => navigation.navigate("Main", { screen: "Home" })}
       />

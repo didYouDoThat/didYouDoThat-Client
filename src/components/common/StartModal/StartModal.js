@@ -4,6 +4,7 @@ import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import CustomButton from "../Button";
 import {
@@ -61,7 +62,7 @@ const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
             <Feather
               name="x"
               size={24}
-              color="black"
+              color={THEME.black}
               onPress={() => setIsModalOpen(false)}
             />
           </CancelButtonContainer>

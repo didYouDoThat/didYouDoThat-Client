@@ -13,13 +13,13 @@ const ButtonContainer = styled.TouchableOpacity`
   margin: 20px;
   padding: 10px;
   border-radius: 10px;
-  background-color: ${(props) => props.color || "#f2aaaa"};
+  background-color: ${(props) => props.color || props.theme.subStrongColors};
 `;
 
 const ButtonText = styled.Text`
-  color: #ffffff;
+  color: ${(props) => props.theme.white};
   font-size: 20px;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
 `;
 
 const noop = () => {};

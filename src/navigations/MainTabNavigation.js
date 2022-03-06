@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../components/screens/HomeScreen/HomeScreen";
 import MyPageScreen from "../components/screens/MyPageScreen/MyPageScreen";
+import THEME from "../constants/theme.style";
 
 const MainTab = createBottomTabNavigator();
 const AddNewHabit = () => {
@@ -38,7 +39,7 @@ const MainTabNavigation = () => {
             <MaterialCommunityIcons
               name={iconName}
               size={30}
-              color={focused ? "#e36387" : "#000000"}
+              color={focused ? THEME.mainStrongColor : THEME.black}
             />
           );
         },

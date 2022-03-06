@@ -2,7 +2,8 @@ import styled from "@emotion/native";
 
 export const EndHabitScreenContainer = styled.View`
   flex: 1;
-  background-color: ${(props) => (props.isCompleted ? "#e36387" : "#ddf3f5")};
+  background-color: ${(props) =>
+    props.isCompleted ? props.theme.mainStrongColor : props.theme.subColor};
 `;
 
 export const EndHabitCapturedArea = styled.View`
@@ -11,7 +12,8 @@ export const EndHabitCapturedArea = styled.View`
   align-items: center;
   width: 100%;
   margin-bottom: -10px;
-  background-color: ${(props) => (props.isCompleted ? "#e36387" : "#ddf3f5")};
+  background-color: ${(props) =>
+    props.isCompleted ? props.theme.mainStrongColor : props.theme.subColor};
 `;
 
 export const EndHabitContent = styled.View`
@@ -21,19 +23,19 @@ export const EndHabitContent = styled.View`
   height: 80%;
   margin-bottom: 50px;
   border-radius: 20px;
-  background-color: #ffffff;
+  background-color: ${(props) => props.theme.white};
 `;
 
 export const EndHabitTitle = styled.Text`
   margin-bottom: 40px;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 35px;
 `;
 
 export const EndHabitText = styled.Text`
   width: 80%;
   margin-bottom: 10px;
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   font-size: 18px;
   text-align: center;
 `;

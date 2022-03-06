@@ -4,6 +4,7 @@ import * as Sharing from "expo-sharing";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
 import CustomButton from "../../common/Button";
 import {
   EndHabitScreenContainer,
@@ -84,7 +85,7 @@ const EndHabitScreen = ({ route, navigation }) => {
       </ViewShot>
       <EndHabitButtonContainer isCompleted={isCompleted}>
         <CustomButton
-          color={isCompleted ? "#f2aaaa" : "#a6dcef"}
+          color={isCompleted ? THEME.subStrongColor : THEME.mainColor}
           title={isCompleted ? "캡쳐하기" : "다시 해보기"}
           onPress={() => {
             isCompleted
@@ -93,7 +94,7 @@ const EndHabitScreen = ({ route, navigation }) => {
           }}
         />
         <CustomButton
-          color={isCompleted ? "#f2aaaa" : "#a6dcef"}
+          color={isCompleted ? THEME.subStrongColor : THEME.mainColor}
           title="뒤로 가기"
           onPress={() => {
             navigation.goBack();

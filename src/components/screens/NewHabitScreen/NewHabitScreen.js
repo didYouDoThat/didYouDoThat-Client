@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
+import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
 import CustomButton from "../../common/Button";
 import {
   NewHabitTitle,
@@ -15,7 +16,7 @@ import {
   NewHabitDisableText,
   NewHabitDisableImage,
 } from "./NewHabitScreen.style";
-import Modal from "../../common/NewHabitModal/NewHabitModal";
+import THEME from "../../../constants/theme.style";
 
 const NewHabitScreen = ({ route, navigation }) => {
   const [habitTitle, setHabitTitle] = useState("");
@@ -63,7 +64,7 @@ const NewHabitScreen = ({ route, navigation }) => {
   };
 
   return (
-    <Modal navigation={navigation}>
+    <ModalForScreen>
       {currentHabitList.length < 5 ? (
         <>
           <NewHabitTitle>새로운 습관을{"\n"}시작하세요!</NewHabitTitle>
@@ -83,7 +84,7 @@ const NewHabitScreen = ({ route, navigation }) => {
             수 없습니다
           </NewHabitNoticeText>
           <CustomButton
-            color="#e36387"
+            color={THEME.mainStrongColor}
             title="습관 만들기"
             onPress={handleMakeHabitButtonClick}
           />
@@ -101,7 +102,7 @@ const NewHabitScreen = ({ route, navigation }) => {
           />
         </>
       )}
-    </Modal>
+    </ModalForScreen>
   );
 };
 

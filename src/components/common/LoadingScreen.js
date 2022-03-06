@@ -24,7 +24,7 @@ const LoadingImage = styled.Image`
 
 const LoadingTitle = styled.Text`
   font-size: 30px;
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
 `;
 
 const LoadingScreen = () => {
