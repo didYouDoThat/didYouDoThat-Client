@@ -172,4 +172,4 @@ const MyPageScreen = () => {
   );
 };
 
-export default MyPageScreen;
+export default MyPageScreen
