@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { QueryCache, useQueryClient } from "react-query";
 import * as Notifications from "expo-notifications";
 
@@ -11,14 +11,27 @@ import userAsyncStorage from "../../../utils/userAsyncStorage";
 import CustomButton from "../../common/Button";
 import { UserContext } from "../../common/userContextProvider";
 
+import {
+  MyPageScreenContainter,
+  MyPageUserInfoContainer,
+  MyPageUserNameText,
+  MyPageButtonContainer,
+  MyPageResultContainer,
+  MyPageResultTabContainer,
+  MyPageResultTabButton,
+  MyPageResultHabitListContainer,
+} from "./MyPageScreen.style";
+
 const queryCache = new QueryCache();
 
 const MyPageScreen = () => {
   const [expoToken, setExpoToken] = useState("");
+  const [isSuccessClicked, setIsSuccessClicked] = useState(true);
   const { user, setUser } = useContext(UserContext);
 
   const inform = useInform();
   const queryClient = useQueryClient();
+  
   useEffect(async () => {
     const expoTokenData = await userAsyncStorage.getExpoToken();
 
@@ -68,24 +81,52 @@ const MyPageScreen = () => {
   };
 
   return (
-    <View>
-      <Text>This is MyPage</Text>
-      <CustomButton title="로그아웃" onPress={handleLogoutButtonClick} />
-      {!expoToken ? (
-        <>
+    <MyPageScreenContainter>
+      <MyPageUserInfoContainer>
+        <MyPageUserNameText>
+          오늘도 {user.name} 님의 습관을 위해!
+        </MyPageUserNameText>
+        <MyPageButtonContainer>
           <CustomButton
-            title="알림 받기"
-            onPress={handleLocalAppPushButtonClick}
+            width="140px"
+            title="로그아웃"
+            onPress={handleLogoutButtonClick}
           />
-          <Text>알림은 매일 오전 10시에 발송됩니다!</Text>
-        </>
-      ) : (
-        <CustomButton
-          title="알림 그만 받기"
-          onPress={handleLocalAppPushStopButtonClick}
-        />
-      )}
-    </View>
+          {!expoToken ? (
+            <CustomButton
+              width="140px"
+              title="알림 받기"
+              onPress={handleLocalAppPushButtonClick}
+            />
+          ) : (
+            <CustomButton
+              width="200px"
+              title="알림 그만 받기"
+              onPress={handleLocalAppPushStopButtonClick}
+            />
+          )}
+        </MyPageButtonContainer>
+      </MyPageUserInfoContainer>
+      <MyPageResultContainer>
+        <MyPageResultTabContainer>
+          <MyPageResultTabButton 
+            isSuccessClicked={isSuccessClicked}
+            onPress={() => setIsSuccessClicked(true)}
+          >
+            <Text>성공</Text>
+          </MyPageResultTabButton>
+          <MyPageResultTabButton 
+            isSuccessClicked={!isSuccessClicked}
+            onPress={() => setIsSuccessClicked(false)}
+          >
+            <Text>실패</Text>
+          </MyPageResultTabButton>
+        </MyPageResultTabContainer>
+        <MyPageResultHabitListContainer>
+          <Text>{ isSuccessClicked ? "성공" : "실패" }</Text>
+        </MyPageResultHabitListContainer>
+      </MyPageResultContainer>
+    </MyPageScreenContainter>
   );
 };
 
