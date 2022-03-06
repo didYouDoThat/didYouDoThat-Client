@@ -31,7 +31,6 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData("userInfo");
-  const activeHabitList = queryClient.getQueryData(["habitList", "active"]);
 
   const refetchHabitList = async () => {
     await queryClient.refetchQueries(["habitList", userInfo.user.id], {
@@ -65,23 +64,14 @@ const HomeScreen = ({ navigation }) => {
     ["habitList", userInfo.user.id],
     habitApi.getHabitList,
     {
-      onSuccess: (data) => {
-        const [activeHabitList, inActiveHabitList] = divideHabitData(
-          data.habitList
-        );
-
-        queryClient.setQueryData(["habitList", "active"], activeHabitList);
-        queryClient.setQueryData(["habitList", "inactive"], inActiveHabitList);
-        queryClient.setQueryDefaults(["habitList", "active"], {
-          cacheTime: 60 * 60 * 24 * 1000,
-        });
-        queryClient.setQueryDefaults(["habitList", "inactive"], {
-          cacheTime: 60 * 60 * 24 * 1000,
-        });
+      select: (data) => {
+        const activeHabitList = divideHabitData(data.habitList);
+        return activeHabitList;
       },
       onError: (error) => {
         inform({ message: error.message });
       },
+      cacheTime: 60 * 60 * 1000 * 24,
     }
   );
 
@@ -89,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
-  const isNotCheckedYesterDayList = activeHabitList?.filter(({ dateList }) => {
+  const isNotCheckedYesterDayList = data?.filter(({ dateList }) => {
     const targetDate = dateList.find(({ date, isChecked }) => {
       const limitDate = changeServerEndDateIntoLocalDate(date);
       const currentTodayDate = new Date(currentDateInfo);
@@ -117,15 +107,15 @@ const HomeScreen = ({ navigation }) => {
         </DateText>
       </DateContainer>
       <HabitsContainer>
-        {!activeHabitList?.length ? (
+        {!data?.length ? (
           <EmptyHabit />
         ) : (
-          activeHabitList?.map((habit) => (
+          data?.map((habit) => (
             <Habit
               key={habit.id}
               habitData={habit}
               currentDate={currentDateInfo}
-              navigation={navigation}
+              // navigation={navigation}
             />
           ))
         )}

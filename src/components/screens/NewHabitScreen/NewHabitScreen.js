@@ -109,7 +109,7 @@ NewHabitScreen.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
       title: PropTypes.string,
-    }).isRequired,
+    }),
   }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,

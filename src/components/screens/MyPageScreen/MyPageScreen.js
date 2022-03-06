@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { View, Text } from "react-native";
-import { QueryCache, useQueryClient } from "react-query";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { FlatList } from "react-native";
+import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
@@ -8,17 +8,52 @@ import axios from "../../../utils/axiosInstance";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+import habitApi from "../../../utils/api/habit";
+
 import CustomButton from "../../common/Button";
 import { UserContext } from "../../common/userContextProvider";
+import Habit from "../../common/Habit/Habit";
+
+import {
+  MyPageScreenContainter,
+  MyPageUserInfoContainer,
+  MyPageUserNameText,
+  MyPageButtonContainer,
+  MyPageResultContainer,
+  MyPageResultTabContainer,
+  MyPageResultTabButton,
+  MyPageResultTabImage,
+  MyPageResultTabText,
+  MyPageResultHabitListContainer,
+} from "./MyPageScreen.style";
 
 const queryCache = new QueryCache();
 
 const MyPageScreen = () => {
   const [expoToken, setExpoToken] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const [isSuccessClicked, setIsSuccessClicked] = useState(true);
 
   const inform = useInform();
   const queryClient = useQueryClient();
+  const { user, setUser } = useContext(UserContext);
+
+  const { data, fetchNextPage } = useInfiniteQuery(
+    ["expiredHabitList", user.id, isSuccessClicked],
+    habitApi.getExpiredSuccessHabitList,
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.habitList.length === 5 ? lastPage.nextPage : undefined;
+      },
+    }
+  );
+
+  const expiredHabitList = useMemo(() => {
+    const initialHabitList = [];
+    data?.pages.forEach(({ habitList }) => initialHabitList.push(...habitList));
+
+    return initialHabitList;
+  }, [data]);
+
   useEffect(async () => {
     const expoTokenData = await userAsyncStorage.getExpoToken();
 
@@ -26,14 +61,6 @@ const MyPageScreen = () => {
       setExpoToken(expoTokenData);
     }
   }, []);
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
@@ -45,6 +72,14 @@ const MyPageScreen = () => {
     queryCache.clear();
     queryClient.clear();
   };
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
 
   const handleLocalAppPushButtonClick = async () => {
     const token = await registerForPushNotificationsAsync();
@@ -68,24 +103,72 @@ const MyPageScreen = () => {
   };
 
   return (
-    <View>
-      <Text>This is MyPage</Text>
-      <CustomButton title="로그아웃" onPress={handleLogoutButtonClick} />
-      {!expoToken ? (
-        <>
+    <MyPageScreenContainter>
+      <MyPageUserInfoContainer>
+        <MyPageUserNameText>
+          오늘도 {user.name} 님의 습관을 위해!
+        </MyPageUserNameText>
+        <MyPageButtonContainer>
           <CustomButton
-            title="알림 받기"
-            onPress={handleLocalAppPushButtonClick}
+            width="140px"
+            title="로그아웃"
+            onPress={handleLogoutButtonClick}
           />
-          <Text>알림은 매일 오전 10시에 발송됩니다!</Text>
-        </>
-      ) : (
-        <CustomButton
-          title="알림 그만 받기"
-          onPress={handleLocalAppPushStopButtonClick}
-        />
-      )}
-    </View>
+          {!expoToken ? (
+            <CustomButton
+              width="140px"
+              title="알림 받기"
+              onPress={handleLocalAppPushButtonClick}
+            />
+          ) : (
+            <CustomButton
+              width="200px"
+              title="알림 그만 받기"
+              onPress={handleLocalAppPushStopButtonClick}
+            />
+          )}
+        </MyPageButtonContainer>
+      </MyPageUserInfoContainer>
+      <MyPageResultContainer>
+        <MyPageResultTabContainer>
+          <MyPageResultTabButton
+            isSuccessClicked={isSuccessClicked}
+            onPress={() => setIsSuccessClicked(true)}
+          >
+            <MyPageResultTabImage
+              source={require("../../../asset/image/successListTab.png")}
+            />
+            <MyPageResultTabText>성공</MyPageResultTabText>
+          </MyPageResultTabButton>
+          <MyPageResultTabButton
+            isSuccessClicked={!isSuccessClicked}
+            onPress={() => setIsSuccessClicked(false)}
+          >
+            <MyPageResultTabImage
+              source={require("../../../asset/image/failureListTab.png")}
+            />
+            <MyPageResultTabText>실패</MyPageResultTabText>
+          </MyPageResultTabButton>
+        </MyPageResultTabContainer>
+        <MyPageResultHabitListContainer>
+          {/* <Text>{isSuccessClicked ? "여기는 성공" : "여기는 실패"}</Text> */}
+          <FlatList
+            data={expiredHabitList}
+            renderItem={({ item }) => (
+              <Habit
+                habitData={item}
+                currentDate={new Date()}
+                isInMyPage={true}
+                width="95%"
+              />
+            )}
+            keyExtractor={(item, index) => item.id}
+            onEndReachedThreshold={0.2}
+            onEndReached={fetchNextPage}
+          />
+        </MyPageResultHabitListContainer>
+      </MyPageResultContainer>
+    </MyPageScreenContainter>
   );
 };
 

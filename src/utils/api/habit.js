@@ -9,6 +9,18 @@ habitApi.getHabitList = async ({ queryKey }) => {
   return response.data;
 };
 
+habitApi.getExpiredSuccessHabitList = async ({ queryKey, pageParam = 1 }) => {
+  const status = queryKey[2] ? "success" : "failure";
+  const userId = queryKey[1];
+  const currentLocalDate = new Date();
+
+  const response = await axios.get(
+    `/users/${userId}?limit=5&status=${status}&localTime=${currentLocalDate.toISOString()}&page=${pageParam}`
+  );
+
+  return response.data;
+};
+
 habitApi.postNewHabit = async ({ title, userId, currentDate }) => {
   const response = await axios.post(`/users/${userId}/habit`, {
     title,

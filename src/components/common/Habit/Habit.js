@@ -22,7 +22,7 @@ import {
   DeleteButtonContainer,
 } from "./Habit.style";
 
-const Habit = ({ habitData, currentDate }) => {
+const Habit = ({ habitData, currentDate, isInMyPage, width }) => {
   const inform = useInform();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
@@ -69,6 +69,7 @@ const Habit = ({ habitData, currentDate }) => {
               });
             }
       }
+      width={width}
     >
       <HabitTextContainer>
         <HabitTitle
@@ -85,9 +86,9 @@ const Habit = ({ habitData, currentDate }) => {
           <HabitEndDate>
             종료: {fullYear}년 {fullMonth}월 {fullDate}일 00시
           </HabitEndDate>
-        ) : (
+        ) : !isInMyPage ? (
           <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
-        )}
+        ) : null}
       </HabitTextContainer>
       <HabitCatImage source={{ uri: habitData.catImage }} />
       <HabitStatusContainer>
@@ -120,6 +121,8 @@ Habit.propTypes = {
     status: PropTypes.number.isRequired,
   }),
   currentDate: PropTypes.object.isRequired,
+  isInMyPage: PropTypes.bool,
+  width: PropTypes.string,
 };
 
 export default Habit;
