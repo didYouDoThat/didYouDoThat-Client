@@ -1,3 +1,5 @@
+import NUMBERS from "../constants/numbers";
+
 export const notificationSetting = {
   content: {
     title: "오늘도 그거했냥🐱",
@@ -10,7 +12,7 @@ export const notificationSetting = {
     },
   },
   trigger: {
-    hour: 10,
+    hour: NUMBERS.alarmHour,
     minute: 0,
     repeats: true,
   },

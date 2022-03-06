@@ -35,7 +35,7 @@ const LoadingScreen = () => {
 
   useEffect(() => {
     const loadingImages = setInterval(() => {
-      footPrintImages.length === 3
+      footPrintImages.length === NUMBERS.loadingMaxLength
         ? setFootPrintImages([])
         : setFootPrintImages(footPrintImages.concat(footPrintImage));
     }, NUMBERS.loadingInterval);

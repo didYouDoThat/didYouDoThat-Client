@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import CustomButton from "../../common/Button";
@@ -13,7 +14,6 @@ import {
   DeleteHabitTitle,
   DeleteHabitText,
 } from "./DeleteScreen.style";
-import THEME from "../../../constants/theme.style";
 
 const DeleteScreen = ({ route }) => {
   const { habitData } = route.params;

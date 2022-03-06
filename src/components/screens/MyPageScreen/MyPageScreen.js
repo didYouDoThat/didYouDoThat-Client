@@ -4,6 +4,7 @@ import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
+import THEME from "../../../constants/theme.style";
 import axios from "../../../utils/axiosInstance";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
@@ -26,7 +27,6 @@ import {
   MyPageResultTabText,
   MyPageResultHabitListContainer,
 } from "./MyPageScreen.style";
-import THEME from "../../../constants/theme.style";
 
 const queryCache = new QueryCache();
 

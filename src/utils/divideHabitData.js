@@ -1,3 +1,4 @@
+import NUMBERS from "../constants/numbers";
 import changeServerEndDateIntoLocalDate from "./changeServerDateIntoLocalDate";
 
 const divideHabitData = (habitList) => {
@@ -7,18 +8,11 @@ const divideHabitData = (habitList) => {
     const localEndDate = changeServerEndDateIntoLocalDate(habit.endDate);
 
     return (
-      localEndDate - currentDate >= 60 * 60 * 24 * 1000 ||
-      currentDate - localEndDate <= 60 * 60 * 24 * 1000
+      localEndDate - currentDate >= NUMBERS.timeForOneDay ||
+      currentDate - localEndDate <= NUMBERS.timeForOneDay
     );
   });
 
-  // const inActiveHabitList = habitList.filter((habit) => {
-  //   const localEndDate = changeServerEndDateIntoLocalDate(habit.endDate);
-
-  //   return currentDate - localEndDate > 60 * 60 * 24 * 1000;
-  // });
-
-  // return [activeHabitList, inActiveHabitList];
   return activeHabitList;
 };
 

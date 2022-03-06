@@ -9,6 +9,7 @@ import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateInt
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import divideHabitData from "../../../utils/divideHabitData";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+import NUMBERS from "../../../constants/numbers";
 
 import EmptyHabit from "../../common/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
@@ -54,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
 
     if (
       modalClickTime &&
-      currentDateInfo - new Date(modalClickTime) <= 60 * 60 * 24 * 1000
+      currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
     ) {
       setIsStartModalOpen(false);
     }
@@ -71,7 +72,7 @@ const HomeScreen = ({ navigation }) => {
       onError: (error) => {
         inform({ message: error.message });
       },
-      cacheTime: 60 * 60 * 1000 * 24,
+      cacheTime: NUMBERS.timeForOneDay,
     }
   );
 

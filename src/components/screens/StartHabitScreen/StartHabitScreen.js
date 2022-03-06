@@ -2,6 +2,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
 import CustomButton from "../../common/Button";
@@ -13,7 +14,6 @@ import {
   StartHabitHelloImage,
   StartHabitEndDate,
 } from "./StartHabitScreen.style";
-import THEME from "../../../constants/theme.style";
 
 const StartHabitScreen = ({ route, navigation }) => {
   const { newHabit } = route.params;

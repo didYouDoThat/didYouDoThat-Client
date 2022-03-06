@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
+import NUMBERS from "../../../constants/numbers";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
@@ -16,7 +18,6 @@ import {
   NewHabitDisableText,
   NewHabitDisableImage,
 } from "./NewHabitScreen.style";
-import THEME from "../../../constants/theme.style";
 
 const NewHabitScreen = ({ route, navigation }) => {
   const [habitTitle, setHabitTitle] = useState("");
@@ -32,7 +33,7 @@ const NewHabitScreen = ({ route, navigation }) => {
     .getQueryData(["habitList", userInfo.user.id])
     .habitList.filter((habit) => {
       const endDate = new Date(habit.endDate);
-      return endDate - currentDate >= 0;
+      return endDate >= currentDate;
     });
 
   const { mutate } = useMutation(habitApi.postNewHabit, {
@@ -65,7 +66,7 @@ const NewHabitScreen = ({ route, navigation }) => {
 
   return (
     <ModalForScreen>
-      {currentHabitList.length < 5 ? (
+      {currentHabitList.length < NUMBERS.habitListMaxLength ? (
         <>
           <NewHabitTitle>새로운 습관을{"\n"}시작하세요!</NewHabitTitle>
           <NewHabitInput
