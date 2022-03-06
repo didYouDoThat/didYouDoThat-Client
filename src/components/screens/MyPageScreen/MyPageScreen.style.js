@@ -24,7 +24,6 @@ export const MyPageButtonContainer = styled.View`
 
 export const MyPageResultContainer = styled.View`
   flex: 5;
-  /* align-items: center; */
   width: 100%;
 `;
 

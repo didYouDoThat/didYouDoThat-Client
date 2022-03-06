@@ -86,9 +86,9 @@ const Habit = ({ habitData, currentDate, isInMyPage, width }) => {
           <HabitEndDate>
             종료: {fullYear}년 {fullMonth}월 {fullDate}일 00시
           </HabitEndDate>
-        ) : (
-          !isInMyPage ? <HabitExpiredText>습관 만들기 종료!</HabitExpiredText> : null
-        )}
+        ) : !isInMyPage ? (
+          <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
+        ) : null}
       </HabitTextContainer>
       <HabitCatImage source={{ uri: habitData.catImage }} />
       <HabitStatusContainer>

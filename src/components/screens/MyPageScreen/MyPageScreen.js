@@ -1,14 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { FlatList } from "react-native";
-import { QueryCache, useQueryClient } from "react-query";
+import {
+  QueryCache,
+  useQueryClient,
+  useInfiniteQuery,
+} from "react-query";
 import * as Notifications from "expo-notifications";
-import { useNavigation } from "@react-navigation/native";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
 import axios from "../../../utils/axiosInstance";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+import habitApi from "../../../utils/api/habit";
+
 import CustomButton from "../../common/Button";
 import { UserContext } from "../../common/userContextProvider";
 import Habit from "../../common/Habit/Habit";
@@ -34,13 +39,24 @@ const MyPageScreen = () => {
 
   const inform = useInform();
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
-
   const { user, setUser } = useContext(UserContext);
-  // const expiredHabitList = queryClient.getQueryData(["habitList", user.id]);
-  const { habitList } = queryClient.getQueryData(["habitList", user.id]);
 
-  console.log(habitList);
+  const { data, fetchNextPage } = useInfiniteQuery(
+    ["expiredHabitList", user.id, isSuccessClicked],
+    habitApi.getExpiredSuccessHabitList,
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.habitList.length === 5 ? lastPage.nextPage : undefined;
+      }
+    }
+  );
+
+  const expiredHabitList = useMemo(() => {
+    const initialHabitList = [];
+    data?.pages.forEach(({ habitList }) => initialHabitList.push(...habitList))
+
+    return initialHabitList;
+  }, [data]);
 
   useEffect(async () => {
     const expoTokenData = await userAsyncStorage.getExpoToken();
@@ -49,14 +65,6 @@ const MyPageScreen = () => {
       setExpoToken(expoTokenData);
     }
   }, []);
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
@@ -68,6 +76,14 @@ const MyPageScreen = () => {
     queryCache.clear();
     queryClient.clear();
   };
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
 
   const handleLocalAppPushButtonClick = async () => {
     const token = await registerForPushNotificationsAsync();
@@ -89,7 +105,7 @@ const MyPageScreen = () => {
     userAsyncStorage.removeExpoToken();
     inform({ message: "앞으로 알림은 발송되지 않습니다." });
   };
-
+  
   return (
     <MyPageScreenContainter>
       <MyPageUserInfoContainer>
@@ -141,7 +157,7 @@ const MyPageScreen = () => {
         <MyPageResultHabitListContainer>
           {/* <Text>{isSuccessClicked ? "여기는 성공" : "여기는 실패"}</Text> */}
           <FlatList
-            data={habitList}
+            data={expiredHabitList}
             renderItem={({ item }) => (
               <Habit
                 habitData={item}
@@ -151,7 +167,8 @@ const MyPageScreen = () => {
               />
             )}
             keyExtractor={(item, index) => item.id}
-            onEndReached={() => console.log("여기가 스크롤 끝이다!")}
+            onEndReachedThreshold={0.2}
+            onEndReached={fetchNextPage}
           />
         </MyPageResultHabitListContainer>
       </MyPageResultContainer>
