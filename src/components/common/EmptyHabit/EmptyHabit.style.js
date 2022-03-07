@@ -8,8 +8,8 @@ export const EmptyHabitContainer = styled.View`
 `;
 
 export const EmptyHabitImage = styled.Image`
-  width: 170px;
-  height: 160px;
+  width: 160px;
+  height: 140px;
   margin: 20px;
 `;
 
@@ -20,6 +20,8 @@ export const EmptyHabitTitle = styled.Text`
 `;
 
 export const EmptyHabitText = styled.Text`
+  width: 90%;
   font-family: ${(props) => props.theme.subFont};
   font-size: 16px;
+  text-align: center;
 `;
