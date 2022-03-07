@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useMemo, useContext } from "react";
 import { FlatList } from "react-native";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
-import * as Notifications from "expo-notifications";
 
-import { notificationSetting } from "../../../configs/notificationSetting";
 import THEME from "../../../constants/theme.style";
 import axios from "../../../utils/axiosInstance";
-import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
-import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import habitApi from "../../../utils/api/habit";
 
@@ -30,11 +26,10 @@ import {
 
 const queryCache = new QueryCache();
 
-const MyPageScreen = () => {
+const MyPageScreen = ({ navigation }) => {
   const [expoToken, setExpoToken] = useState("");
   const [isSuccessClicked, setIsSuccessClicked] = useState(true);
 
-  const inform = useInform();
   const queryClient = useQueryClient();
   const { user, setUser } = useContext(UserContext);
 
@@ -55,17 +50,22 @@ const MyPageScreen = () => {
     return initialHabitList;
   }, [data]);
 
-  useEffect(async () => {
-    const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
+  useEffect(() => {
+    const updateAlarmSubscription = navigation.addListener("focus", async () => {
+      const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
 
-    if (expoTokenData) {
-      setExpoToken(expoTokenData);
-    }
-  }, []);
+      if (expoTokenData) {
+        setExpoToken(expoTokenData);
+      } else {
+        setExpoToken("");
+      }
+    });
+
+    return updateAlarmSubscription;
+  }, [navigation]);
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
-    // userAsyncStorage.removeUserInfo();
     userAsyncStorage.removeSavedInfo("userInfo");
     setUser({
       id: "",
@@ -73,35 +73,6 @@ const MyPageScreen = () => {
     });
     queryCache.clear();
     queryClient.clear();
-  };
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-
-  const handleLocalAppPushButtonClick = async () => {
-    const token = await registerForPushNotificationsAsync();
-
-    if (token) {
-      Notifications.scheduleNotificationAsync(notificationSetting);
-      setExpoToken(token);
-      userAsyncStorage.setInfo("expoToken", token);
-      inform({ message: "알림받기가 성공적으로 처리 되었습니다." });
-      return;
-    }
-
-    return inform({ message: "알림받기가 정상적으로 처리되지 않았습니다." });
-  };
-
-  const handleLocalAppPushStopButtonClick = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-    setExpoToken("");
-    userAsyncStorage.removeSavedInfo("expoToken");
-    inform({ message: "앞으로 알림은 발송되지 않습니다." });
   };
 
   return (
@@ -117,19 +88,11 @@ const MyPageScreen = () => {
             title="로그아웃"
             onPress={handleLogoutButtonClick}
           />
-          {!expoToken ? (
-            <CustomButton
-              width="140px"
-              title="알림 받기"
-              onPress={handleLocalAppPushButtonClick}
-            />
-          ) : (
-            <CustomButton
-              width="200px"
-              title="알림 그만 받기"
-              onPress={handleLocalAppPushStopButtonClick}
-            />
-          )}
+          <CustomButton 
+            title={expoToken ? "알림 그만 받기": "알림 받기"}
+            width={expoToken ? "200px": "140px"}
+            onPress={() => navigation.navigate("Alarm")}
+          />
         </MyPageButtonContainer>
       </MyPageUserInfoContainer>
       <MyPageResultContainer>
