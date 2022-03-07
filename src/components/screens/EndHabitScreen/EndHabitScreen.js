@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
+import { Animated } from "react-native";
 import ViewShot from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
 
 import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
+import NUMBERS from "../../../constants/numbers";
 import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   EndHabitScreenContainer,
-  EndHabitCapturedArea,
   EndHabitContent,
   EndHabitTitle,
   EndHabitText,
@@ -21,15 +22,38 @@ import {
 } from "./EndHabitScreen.style";
 
 const EndHabitScreen = ({ route, navigation }) => {
+  const endHabitBackground = new Animated.Value(0);
   const { habitData } = route.params;
 
-  const isCompleted = habitData.status === 7;
+  const isCompleted = habitData.status === NUMBERS.successStatusCount;
   const captureArea = useRef();
 
   const catpureAndShareScreenShot = async () => {
     const imageUri = await captureArea.current.capture();
     Sharing.shareAsync(imageUri);
   };
+
+  Animated.loop(
+    Animated.sequence([
+      Animated.timing(endHabitBackground, {
+        toValue: NUMBERS.endHabitBackgroundEndValue,
+        duration: NUMBERS.endHabitBackgroundDuration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(endHabitBackground, {
+        toValue: 0,
+        duration: NUMBERS.endHabitBackgroundDuration,
+        useNativeDriver: false,
+      }),
+    ])
+  ).start();
+
+  const changingBackground = endHabitBackground.interpolate({
+    inputRange: [0, NUMBERS.endHabitBackgroundEndValue],
+    outputRange: isCompleted
+      ? [THEME.subStrongColor, THEME.mainStrongColor]
+      : [THEME.mainColor, THEME.subColor],
+  });
 
   return (
     <EndHabitScreenContainer isCompleted={isCompleted}>
@@ -38,7 +62,15 @@ const EndHabitScreen = ({ route, navigation }) => {
         ref={captureArea}
         options={{ format: "jpg", quality: 0.9 }}
       >
-        <EndHabitCapturedArea isCompleted={isCompleted}>
+        <Animated.View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            marginBottom: -10,
+            backgroundColor: changingBackground,
+          }}
+        >
           <EndHabitContent>
             <EndHabitTitle>
               {isCompleted ? "축하합니다!!!!" : "조금만 더..!"}
@@ -81,7 +113,7 @@ const EndHabitScreen = ({ route, navigation }) => {
               source={require("../../../asset/image/result/failureBackground.png")}
             />
           )}
-        </EndHabitCapturedArea>
+        </Animated.View>
       </ViewShot>
       <EndHabitButtonContainer isCompleted={isCompleted}>
         <CustomButton

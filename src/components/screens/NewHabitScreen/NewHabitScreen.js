@@ -21,9 +21,10 @@ import {
 } from "./NewHabitScreen.style";
 
 const NewHabitScreen = ({ route, navigation }) => {
-  const [habitTitle, setHabitTitle] = useState("");
-  const [habitTitleError, setHabitTitleError] = useState("");
   const previousTitle = route.params ? route.params.title : "";
+
+  const [habitTitle, setHabitTitle] = useState(previousTitle);
+  const [habitTitleError, setHabitTitleError] = useState("");
 
   const inform = useInform();
   const currentDate = new Date();

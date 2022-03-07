@@ -7,12 +7,18 @@ import userAsyncStorage from "../../../utils/userAsyncStorage";
 import axios from "../../../utils/axiosInstance";
 import useInform from "../../../utils/informAlert";
 import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
+import THEME from "../../../constants/theme.style";
 
 import { UserContext } from "../../common/userContextProvider";
 import LoadingPage from "../../common/Loading/Loading";
 import CustomButton from "../../common/CustomButton/CustomButton";
 import MovingCats from "../../common/MovingCats";
-import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
+import {
+  LoginContainer,
+  LoginTextContainer,
+  LoginTitle,
+  LoginSubTitle,
+} from "./LoginScreen.style";
 
 import {
   GOOGLE_EXPO_CLIENT_ID,
@@ -21,14 +27,15 @@ import {
 } from "@env";
 
 const LoginScreen = () => {
+  const { user, setUser } = useContext(UserContext);
+  const queryClient = useQueryClient();
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: `${GOOGLE_EXPO_CLIENT_ID}`,
     iosClientId: `${GOOGLE_IOS_CLIENT_ID}`,
     androidClientId: `${GOOGLE_ANDROID_CLIENT_ID}`,
     responseType: "id_token",
   });
-  const { user, setUser } = useContext(UserContext);
-  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
     (idToken) => authApi.postLogin({ idToken }),
@@ -69,15 +76,18 @@ const LoginScreen = () => {
   return (
     <LoginContainer>
       <MovingCats />
-      <LoginTitle>그거했냥?</LoginTitle>
-      <LoginSubTitle>습관을 만드는데 필요한 시간, 바로 7일!</LoginSubTitle>
-      <CustomButton
-        disabled={!request}
-        title="구글 로그인"
-        onPress={() => {
-          promptAsync();
-        }}
-      />
+      <LoginTextContainer>
+        <LoginTitle>그거했냥?</LoginTitle>
+        <LoginSubTitle>습관을 만드는데 필요한 시간, 바로 7일!</LoginSubTitle>
+        <CustomButton
+          color={THEME.mainStrongColor}
+          disabled={!request}
+          title="구글 로그인"
+          onPress={() => {
+            promptAsync();
+          }}
+        />
+      </LoginTextContainer>
     </LoginContainer>
   );
 };
