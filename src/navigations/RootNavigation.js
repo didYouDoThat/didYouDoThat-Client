@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import userAsyncStorage from "../utils/userAsyncStorage";
 
 import { UserContext } from "../components/common/userContextProvider";
-import HeaderTitle from "../components/common/HeaderTitle";
+import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";

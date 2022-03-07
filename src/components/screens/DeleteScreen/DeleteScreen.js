@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import THEME from "../../../constants/theme.style";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
 import {
   DeleteHabitTitleContainer,

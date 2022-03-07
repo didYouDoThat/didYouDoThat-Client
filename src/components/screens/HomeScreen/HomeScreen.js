@@ -11,9 +11,9 @@ import divideHabitData from "../../../utils/divideHabitData";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import NUMBERS from "../../../constants/numbers";
 
-import EmptyHabit from "../../common/EmptyHabit";
+import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
-import LoadingScreen from "../../common/LoadingScreen";
+import LoadingPage from "../../common/Loading/Loading";
 import StartModal from "../../common/StartModal/StartModal";
 import {
   HomeScreenContainer,
@@ -77,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
   );
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingPage />;
   }
 
   const isNotCheckedYesterDayList = data?.filter(({ dateList }) => {

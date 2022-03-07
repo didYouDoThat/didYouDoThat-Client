@@ -5,7 +5,7 @@ import * as Sharing from "expo-sharing";
 import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   EndHabitScreenContainer,
   EndHabitCapturedArea,
@@ -55,17 +55,17 @@ const EndHabitScreen = ({ route, navigation }) => {
             <EndHabitImageContainer>
               {isCompleted ? (
                 <EndHabitResultTextImage
-                  source={require("../../../asset/image/successText.png")}
+                  source={require("../../../asset/image/result/successText.png")}
                 />
               ) : (
                 <EndHabitResultTextImage
-                  source={require("../../../asset/image/failureText.png")}
+                  source={require("../../../asset/image/result/failureText.png")}
                 />
               )}
               <EndHabitCatImage source={{ uri: habitData.catImage }} />
               {isCompleted && (
                 <EndHabitStampImage
-                  source={require("../../../asset/image/stamp.png")}
+                  source={require("../../../asset/image/result/stamp.png")}
                 />
               )}
             </EndHabitImageContainer>
@@ -73,12 +73,12 @@ const EndHabitScreen = ({ route, navigation }) => {
           {isCompleted ? (
             <EndhabitBackground
               resizeMode="cover"
-              source={require("../../../asset/image/successBackground.png")}
+              source={require("../../../asset/image/result/successBackground.png")}
             />
           ) : (
             <EndhabitBackground
               resizeMode="cover"
-              source={require("../../../asset/image/failureBackground.png")}
+              source={require("../../../asset/image/result/failureBackground.png")}
             />
           )}
         </EndHabitCapturedArea>

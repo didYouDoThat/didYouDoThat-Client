@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
-import CustomButton from "../Button";
+import CustomButton from "../CustomButton/CustomButton";
 import {
   StartModalContentContainer,
   StartModalContent,

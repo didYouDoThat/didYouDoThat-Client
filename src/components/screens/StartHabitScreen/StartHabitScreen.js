@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import THEME from "../../../constants/theme.style";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   StartHabitContainer,
   StartHabitTitle,

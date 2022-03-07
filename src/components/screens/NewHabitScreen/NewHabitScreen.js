@@ -8,7 +8,7 @@ import NUMBERS from "../../../constants/numbers";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   NewHabitTitle,
   InputTitleError,
@@ -99,7 +99,7 @@ const NewHabitScreen = ({ route, navigation }) => {
             한번에 5개의 습관만{"\n"}실천할 수 있습니다
           </NewHabitDisableText>
           <NewHabitDisableImage
-            source={require("../../../asset/image/fish.png")}
+            source={require("../../../asset/image/fullHabit.png")}
           />
         </>
       )}

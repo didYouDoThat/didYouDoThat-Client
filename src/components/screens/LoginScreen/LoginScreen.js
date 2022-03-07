@@ -8,8 +8,8 @@ import axios from "../../../utils/axiosInstance";
 import useInform from "../../../utils/informAlert";
 
 import { UserContext } from "../../common/userContextProvider";
-import LoadingScreen from "../../common/LoadingScreen";
-import CustomButton from "../../common/Button";
+import LoadingPage from "../../common/Loading/Loading";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import MovingCats from "../../common/MovingCats";
 import { LoginContainer, LoginTitle, LoginSubTitle } from "./LoginScreen.style";
 
@@ -60,7 +60,7 @@ const LoginScreen = () => {
   }, [response]);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingPage />;
   }
 
   return (

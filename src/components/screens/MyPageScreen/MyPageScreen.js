@@ -11,7 +11,7 @@ import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import habitApi from "../../../utils/api/habit";
 
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import { UserContext } from "../../common/userContextProvider";
 import Habit from "../../common/Habit/Habit";
 
@@ -118,14 +118,12 @@ const MyPageScreen = () => {
           />
           {!expoToken ? (
             <CustomButton
-              color={THEME.subStrongColor}
               width="140px"
               title="알림 받기"
               onPress={handleLocalAppPushButtonClick}
             />
           ) : (
             <CustomButton
-              color={THEME.subStrongColor}
               width="200px"
               title="알림 그만 받기"
               onPress={handleLocalAppPushStopButtonClick}
@@ -140,7 +138,7 @@ const MyPageScreen = () => {
             onPress={() => setIsSuccessClicked(true)}
           >
             <MyPageResultTabImage
-              source={require("../../../asset/image/successListTab.png")}
+              source={require("../../../asset/image/myPage/successListTab.png")}
             />
             <MyPageResultTabText>성공</MyPageResultTabText>
           </MyPageResultTabButton>
@@ -149,7 +147,7 @@ const MyPageScreen = () => {
             onPress={() => setIsSuccessClicked(false)}
           >
             <MyPageResultTabImage
-              source={require("../../../asset/image/failureListTab.png")}
+              source={require("../../../asset/image/myPage/failureListTab.png")}
             />
             <MyPageResultTabText>실패</MyPageResultTabText>
           </MyPageResultTabButton>
