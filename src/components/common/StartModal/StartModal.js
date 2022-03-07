@@ -4,8 +4,10 @@ import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
+import { STORAGE_KEY_NAME } from "../../../constants/keyName";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
-import CustomButton from "../Button";
+import CustomButton from "../CustomButton/CustomButton";
 import {
   StartModalContentContainer,
   StartModalContent,
@@ -23,8 +25,8 @@ const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
     event.stopPropagation();
 
     const currentClickTime = new Date();
-
-    userAsyncStorage.setStartModalButtonClickTime(
+    userAsyncStorage.setInfo(
+      STORAGE_KEY_NAME.modalClickTime,
       currentClickTime.toISOString()
     );
 
@@ -61,7 +63,7 @@ const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
             <Feather
               name="x"
               size={24}
-              color="black"
+              color={THEME.black}
               onPress={() => setIsModalOpen(false)}
             />
           </CancelButtonContainer>

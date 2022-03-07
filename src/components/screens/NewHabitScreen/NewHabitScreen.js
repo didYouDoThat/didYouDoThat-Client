@@ -3,9 +3,13 @@ import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
+import NUMBERS from "../../../constants/numbers";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
-import CustomButton from "../../common/Button";
+import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   NewHabitTitle,
   InputTitleError,
@@ -15,23 +19,23 @@ import {
   NewHabitDisableText,
   NewHabitDisableImage,
 } from "./NewHabitScreen.style";
-import Modal from "../../common/NewHabitModal/NewHabitModal";
 
 const NewHabitScreen = ({ route, navigation }) => {
-  const [habitTitle, setHabitTitle] = useState("");
-  const [habitTitleError, setHabitTitleError] = useState("");
   const previousTitle = route.params ? route.params.title : "";
+
+  const [habitTitle, setHabitTitle] = useState(previousTitle);
+  const [habitTitleError, setHabitTitleError] = useState("");
 
   const inform = useInform();
   const currentDate = new Date();
 
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
   const currentHabitList = queryClient
-    .getQueryData(["habitList", userInfo.user.id])
+    .getQueryData([QUERY_KEY_NAME.habitList, userInfo.user.id])
     .habitList.filter((habit) => {
       const endDate = new Date(habit.endDate);
-      return endDate - currentDate >= 0;
+      return endDate >= currentDate;
     });
 
   const { mutate } = useMutation(habitApi.postNewHabit, {
@@ -45,7 +49,10 @@ const NewHabitScreen = ({ route, navigation }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["habitList", userInfo.user.id]);
+      queryClient.invalidateQueries([
+        QUERY_KEY_NAME.habitList,
+        userInfo.user.id,
+      ]);
     },
   });
 
@@ -63,8 +70,8 @@ const NewHabitScreen = ({ route, navigation }) => {
   };
 
   return (
-    <Modal navigation={navigation}>
-      {currentHabitList.length < 5 ? (
+    <ModalForScreen>
+      {currentHabitList.length < NUMBERS.habitListMaxLength ? (
         <>
           <NewHabitTitle>새로운 습관을{"\n"}시작하세요!</NewHabitTitle>
           <NewHabitInput
@@ -83,7 +90,7 @@ const NewHabitScreen = ({ route, navigation }) => {
             수 없습니다
           </NewHabitNoticeText>
           <CustomButton
-            color="#e36387"
+            color={THEME.mainStrongColor}
             title="습관 만들기"
             onPress={handleMakeHabitButtonClick}
           />
@@ -97,11 +104,11 @@ const NewHabitScreen = ({ route, navigation }) => {
             한번에 5개의 습관만{"\n"}실천할 수 있습니다
           </NewHabitDisableText>
           <NewHabitDisableImage
-            source={require("../../../asset/image/fish.png")}
+            source={require("../../../asset/image/fullHabit.png")}
           />
         </>
       )}
-    </Modal>
+    </ModalForScreen>
   );
 };
 

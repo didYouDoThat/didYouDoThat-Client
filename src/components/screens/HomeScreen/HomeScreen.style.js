@@ -8,12 +8,12 @@ export const DateContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #f2aaaa;
+  background-color: ${(props) => props.theme.subStrongColor};
 `;
 
 export const DateText = styled.Text`
-  font-family: "DungGeunMo";
-  color: white;
+  font-family: ${(props) => props.theme.mainFont};
+  color: ${(props) => props.theme.white};
   font-size: 20px;
 `;
 

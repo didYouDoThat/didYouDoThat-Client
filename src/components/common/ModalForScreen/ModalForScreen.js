@@ -4,14 +4,15 @@ import { Feather } from "@expo/vector-icons";
 
 import PropTypes from "prop-types";
 
+import THEME from "../../../constants/theme.style";
 import {
   ModalContainer,
   ModalBackground,
   ModalContentContainer,
   CancelButtonContainer,
-} from "./NewHabitModal.style";
+} from "./ModalForScreen.style";
 
-const Modal = ({ contentHeight, children }) => {
+const ModalForScreen = ({ contentHeight, children }) => {
   const navigation = useNavigation();
 
   const handleGoBackClick = () => {
@@ -27,7 +28,7 @@ const Modal = ({ contentHeight, children }) => {
           <Feather
             name="x"
             size={24}
-            color="black"
+            color={THEME.black}
             onPress={handleGoBackClick}
           />
         </CancelButtonContainer>
@@ -36,9 +37,9 @@ const Modal = ({ contentHeight, children }) => {
   );
 };
 
-Modal.propTypes = {
+ModalForScreen.propTypes = {
   contentHeight: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
-export default Modal;
+export default ModalForScreen;

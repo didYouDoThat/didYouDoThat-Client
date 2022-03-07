@@ -20,19 +20,19 @@ export const NewHabitContent = styled.View`
   margin: auto;
   padding: 20px;
   border-radius: 20px;
-  background-color: #ddf3f5;
+  background-color: ${(props) => props.theme.subColor};
 `;
 
 export const NewHabitTitle = styled.Text`
   width: 100%;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 33px;
   text-align: center;
 `;
 
 export const InputTitleError = styled.Text`
   padding-bottom: 10px;
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   color: #9b0000;
 `;
 
@@ -41,7 +41,7 @@ export const NewHabitInput = styled.TextInput`
   height: 40px;
   margin: 15px 0;
   padding: 0 10px;
-  background-color: #ffffff;
+  background-color: ${(props) => props.theme.white};
   font-family: "DosGothic";
 `;
 
@@ -52,21 +52,21 @@ export const NewHabitNoticeContainer = styled.View`
 
 export const NewHabitNoticeText = styled.Text`
   width: 90%;
-  font-family: "DosGothic";
-  color: #e36387;
+  font-family: ${(props) => props.theme.subFont};
+  color: ${(props) => props.theme.mainStrongColor};
   font-size: 13px;
   text-align: center;
 `;
 
 export const NewHabitDisableTitle = styled.Text`
   margin-bottom: 20px;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 30px;
   text-align: center;
 `;
 
 export const NewHabitDisableText = styled.Text`
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   font-size: 20px;
   text-align: center;
 `;

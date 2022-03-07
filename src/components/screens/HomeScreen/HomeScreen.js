@@ -10,9 +10,12 @@ import useGetDateInfo from "../../../utils/useGetDateInfo";
 import divideHabitData from "../../../utils/divideHabitData";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 
-import EmptyHabit from "../../common/EmptyHabit";
+import NUMBERS from "../../../constants/numbers";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
+
+import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
-import LoadingScreen from "../../common/LoadingScreen";
+import LoadingPage from "../../common/Loading/Loading";
 import StartModal from "../../common/StartModal/StartModal";
 import {
   HomeScreenContainer,
@@ -30,12 +33,15 @@ const HomeScreen = ({ navigation }) => {
 
   const inform = useInform();
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries(["habitList", userInfo.user.id], {
-      exact: true,
-    });
+    await queryClient.refetchQueries(
+      [QUERY_KEY_NAME.habitList, userInfo.user.id],
+      {
+        exact: true,
+      }
+    );
   };
 
   useEffect(() => {
@@ -49,19 +55,20 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(async () => {
-    const modalClickTime =
-      await userAsyncStorage.getStartModalButtonClickTime();
+    const modalClickTime = await userAsyncStorage.getSavedInfo(
+      STORAGE_KEY_NAME.modalClickTime
+    );
 
     if (
       modalClickTime &&
-      currentDateInfo - new Date(modalClickTime) <= 60 * 60 * 24 * 1000
+      currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
     ) {
       setIsStartModalOpen(false);
     }
   }, []);
 
   const { isLoading, data } = useQuery(
-    ["habitList", userInfo.user.id],
+    [QUERY_KEY_NAME.habitList, userInfo.user.id],
     habitApi.getHabitList,
     {
       select: (data) => {
@@ -71,12 +78,12 @@ const HomeScreen = ({ navigation }) => {
       onError: (error) => {
         inform({ message: error.message });
       },
-      cacheTime: 60 * 60 * 1000 * 24,
+      cacheTime: NUMBERS.timeForOneDay,
     }
   );
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingPage />;
   }
 
   const isNotCheckedYesterDayList = data?.filter(({ dateList }) => {
@@ -115,7 +122,6 @@ const HomeScreen = ({ navigation }) => {
               key={habit.id}
               habitData={habit}
               currentDate={currentDateInfo}
-              // navigation={navigation}
             />
           ))
         )}

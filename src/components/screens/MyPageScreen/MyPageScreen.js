@@ -1,18 +1,22 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
-import { FlatList } from "react-native";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
-import * as Notifications from "expo-notifications";
+import { FlatList } from "react-native";
+import { Searchbar } from 'react-native-paper';
 
-import { notificationSetting } from "../../../configs/notificationSetting";
+import PropTypes from "prop-types";
+import { Feather } from "@expo/vector-icons";
+
+import NUMBERS from "../../../constants/numbers";
+import THEME from "../../../constants/theme.style";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 import axios from "../../../utils/axiosInstance";
-import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
-import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import habitApi from "../../../utils/api/habit";
 
-import CustomButton from "../../common/Button";
+import CustomButton from "../../common/CustomButton/CustomButton";
 import { UserContext } from "../../common/userContextProvider";
 import Habit from "../../common/Habit/Habit";
+import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 
 import {
   MyPageScreenContainter,
@@ -25,24 +29,28 @@ import {
   MyPageResultTabImage,
   MyPageResultTabText,
   MyPageResultHabitListContainer,
+  MyPageScrollTopButtonContainer,
 } from "./MyPageScreen.style";
 
 const queryCache = new QueryCache();
 
-const MyPageScreen = () => {
+const MyPageScreen = ({ navigation }) => {
+  const [searchWord, setSearchWord] = useState("");
   const [expoToken, setExpoToken] = useState("");
   const [isSuccessClicked, setIsSuccessClicked] = useState(true);
 
-  const inform = useInform();
   const queryClient = useQueryClient();
   const { user, setUser } = useContext(UserContext);
+  const habitListRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery(
-    ["expiredHabitList", user.id, isSuccessClicked],
+    [QUERY_KEY_NAME.expiredHabitList, user.id, isSuccessClicked],
     habitApi.getExpiredSuccessHabitList,
     {
       getNextPageParam: (lastPage) => {
-        return lastPage.habitList.length === 5 ? lastPage.nextPage : undefined;
+        return lastPage.habitList.length === NUMBERS.habitListMaxLength
+          ? lastPage.nextPage
+          : undefined;
       },
     }
   );
@@ -54,52 +62,34 @@ const MyPageScreen = () => {
     return initialHabitList;
   }, [data]);
 
-  useEffect(async () => {
-    const expoTokenData = await userAsyncStorage.getExpoToken();
+  useEffect(() => {
+    const updateAlarmSubscription = navigation.addListener(
+      "focus",
+      async () => {
+        const expoTokenData = await userAsyncStorage.getSavedInfo(
+          STORAGE_KEY_NAME.alarmToken
+        );
 
-    if (expoTokenData) {
-      setExpoToken(expoTokenData);
-    }
-  }, []);
+        if (expoTokenData) {
+          setExpoToken(expoTokenData);
+        } else {
+          setExpoToken("");
+        }
+      }
+    );
+
+    return updateAlarmSubscription;
+  }, [navigation]);
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
-    userAsyncStorage.removeUserInfo();
+    userAsyncStorage.removeSavedInfo(STORAGE_KEY_NAME.userInfo);
     setUser({
       id: "",
       name: "",
     });
     queryCache.clear();
     queryClient.clear();
-  };
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-
-  const handleLocalAppPushButtonClick = async () => {
-    const token = await registerForPushNotificationsAsync();
-
-    if (token) {
-      Notifications.scheduleNotificationAsync(notificationSetting);
-      setExpoToken(token);
-      userAsyncStorage.setExpoToken(token);
-      inform({ message: "알림받기가 성공적으로 처리 되었습니다." });
-      return;
-    }
-
-    return inform({ message: "알림받기가 정상적으로 처리되지 않았습니다." });
-  };
-
-  const handleLocalAppPushStopButtonClick = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-    setExpoToken("");
-    userAsyncStorage.removeExpoToken();
-    inform({ message: "앞으로 알림은 발송되지 않습니다." });
   };
 
   return (
@@ -110,23 +100,16 @@ const MyPageScreen = () => {
         </MyPageUserNameText>
         <MyPageButtonContainer>
           <CustomButton
+            color={THEME.subStrongColor}
             width="140px"
             title="로그아웃"
             onPress={handleLogoutButtonClick}
           />
-          {!expoToken ? (
-            <CustomButton
-              width="140px"
-              title="알림 받기"
-              onPress={handleLocalAppPushButtonClick}
-            />
-          ) : (
-            <CustomButton
-              width="200px"
-              title="알림 그만 받기"
-              onPress={handleLocalAppPushStopButtonClick}
-            />
-          )}
+          <CustomButton
+            title={expoToken ? "알림 그만 받기" : "알림 받기"}
+            width={expoToken ? "200px" : "140px"}
+            onPress={() => navigation.navigate("Alarm")}
+          />
         </MyPageButtonContainer>
       </MyPageUserInfoContainer>
       <MyPageResultContainer>
@@ -136,7 +119,7 @@ const MyPageScreen = () => {
             onPress={() => setIsSuccessClicked(true)}
           >
             <MyPageResultTabImage
-              source={require("../../../asset/image/successListTab.png")}
+              source={require("../../../asset/image/myPage/successListTab.png")}
             />
             <MyPageResultTabText>성공</MyPageResultTabText>
           </MyPageResultTabButton>
@@ -145,31 +128,57 @@ const MyPageScreen = () => {
             onPress={() => setIsSuccessClicked(false)}
           >
             <MyPageResultTabImage
-              source={require("../../../asset/image/failureListTab.png")}
+              source={require("../../../asset/image/myPage/failureListTab.png")}
             />
             <MyPageResultTabText>실패</MyPageResultTabText>
           </MyPageResultTabButton>
         </MyPageResultTabContainer>
         <MyPageResultHabitListContainer>
-          {/* <Text>{isSuccessClicked ? "여기는 성공" : "여기는 실패"}</Text> */}
+          <Searchbar
+            style={{ width: 300, marginVertical: 10 }}
+            inputStyle={{ fontFamily: THEME.subFont }}
+            placeholder="검색하기"
+            value={searchWord}
+            onChangeText={(event) => setSearchWord(event)}
+          />
+          {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
-            data={expiredHabitList}
-            renderItem={({ item }) => (
-              <Habit
-                habitData={item}
-                currentDate={new Date()}
-                isInMyPage={true}
-                width="95%"
-              />
-            )}
+            ref={habitListRef}
+            data={searchWord ? expiredHabitList.filter(({ title }) => title.includes(searchWord)): expiredHabitList}
+            renderItem={({ item }) => {
+              return (
+                <Habit
+                  habitData={item}
+                  currentDate={new Date()}
+                  isExpired={true}
+                  width="100%"
+                />
+              );
+            }}
             keyExtractor={(item, index) => item.id}
             onEndReachedThreshold={0.2}
             onEndReached={fetchNextPage}
           />
+          {expiredHabitList.length > NUMBERS.habitListMaxLength && (
+            <MyPageScrollTopButtonContainer
+              onPress={() => {
+                habitListRef.current.scrollToOffset({ offset: 0 });
+              }}
+            >
+              <Feather name="arrow-up" size={50} color="white" />
+            </MyPageScrollTopButtonContainer>
+          )}
         </MyPageResultHabitListContainer>
       </MyPageResultContainer>
     </MyPageScreenContainter>
   );
+};
+
+MyPageScreen.propTypes = {
+  navigation: PropTypes.shape({
+    addListener: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default MyPageScreen;

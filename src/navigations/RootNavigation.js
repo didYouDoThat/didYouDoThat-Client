@@ -4,12 +4,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import userAsyncStorage from "../utils/userAsyncStorage";
 
 import { UserContext } from "../components/common/userContextProvider";
-import HeaderTitle from "../components/common/HeaderTitle";
+import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
+import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
 import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
+
+import THEME from "../constants/theme.style";
+import { STORAGE_KEY_NAME } from "../constants/keyName";
 
 const Root = createNativeStackNavigator();
 
@@ -17,7 +21,9 @@ const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
 
   const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getUserInfo();
+    const userData = await userAsyncStorage.getSavedInfo(
+      STORAGE_KEY_NAME.userInfo
+    );
 
     if (userData) {
       setUser(userData.user);
@@ -35,7 +41,7 @@ const RootStack = () => {
         headerTitle: () => <HeaderTitle />,
         headerTitleAlign: "center",
         headerStyle: {
-          backgroundColor: "#a6dcef",
+          backgroundColor: THEME.mainColor,
           height: 150,
         },
       }}
@@ -49,16 +55,16 @@ const RootStack = () => {
       ) : (
         <>
           <Root.Screen name="Main" component={MainTabNavigation} />
-          <Root.Screen
-            name="NewHabit"
-            component={NewHabitScreen}
-            options={{ presentation: "transparentModal", headerShown: false }}
-          />
-          <Root.Screen
-            name="Delete"
-            component={DeleteScreen}
-            options={{ presentation: "transparentModal", headerShown: false }}
-          />
+          <Root.Group
+            screenOptions={{
+              presentation: "transparentModal",
+              headerShown: false,
+            }}
+          >
+            <Root.Screen name="NewHabit" component={NewHabitScreen} />
+            <Root.Screen name="Delete" component={DeleteScreen} />
+            <Root.Screen name="Alarm" component={AlarmScreen} />
+          </Root.Group>
           <Root.Screen
             name="Result"
             component={ResultStackNavigation}

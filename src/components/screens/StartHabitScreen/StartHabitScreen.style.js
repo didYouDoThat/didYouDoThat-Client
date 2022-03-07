@@ -4,14 +4,14 @@ export const StartHabitContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #a6dcef;
+  background-color: ${(props) => props.theme.mainColor};
 `;
 
 export const StartHabitTitle = styled.Text`
   width: 90%;
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
+  color: ${(props) => props.theme.white};
   font-size: 40px;
-  color: #ffffff;
   text-align: center;
 `;
 
@@ -29,13 +29,13 @@ export const StartHabitHelloImage = styled.Image`
 
 export const StartHabitNoticeText = styled.Text`
   margin: 20px 0;
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
+  color: ${(props) => props.theme.black};
   font-size: 20px;
-  color: #000000;
   text-align: center;
 `;
 
 export const StartHabitEndDate = styled.Text`
-  font-family: "DosGothic";
-  color: #e36387;
+  font-family: ${(props) => props.theme.subFont};
+  color: ${(props) => props.theme.mainStrongColor};
 `;

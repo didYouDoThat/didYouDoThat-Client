@@ -14,7 +14,7 @@ export const MyPageUserInfoContainer = styled.View`
 `;
 
 export const MyPageUserNameText = styled.Text`
-  font-family: "DungGeunMo";
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 22px;
 `;
 
@@ -49,14 +49,23 @@ export const MyPageResultTabImage = styled.Image`
 `;
 
 export const MyPageResultTabText = styled.Text`
-  font-family: "DosGothic";
+  font-family: ${(props) => props.theme.subFont};
   font-size: 18px;
 `;
 
 export const MyPageResultHabitListContainer = styled.View`
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
   padding: 5px 0 60px 0;
   background-color: rgba(255, 255, 255, 0.5);
+`;
+
+export const MyPageScrollTopButtonContainer = styled.Pressable`
+  position: absolute;
+  right: 30px;
+  bottom: 80px;
+  background-color: ${(props) => props.theme.mainColor};
 `;

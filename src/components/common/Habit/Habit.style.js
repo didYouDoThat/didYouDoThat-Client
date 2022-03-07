@@ -4,14 +4,14 @@ export const HabitContentContainer = styled.TouchableOpacity`
   position: relative;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  /* width: 90%; */
   width: ${(props) => props.width || "90%"};
   height: 100px;
   margin: 20px auto 0;
-  padding: 0 10px 0 20px;
+  padding: 0 10px;
   border-radius: 10px;
-  background-color: #ffffff;
+  border-width: 2px;
+  border-color: ${(props) => props.theme.mainColor};
+  background-color: ${(props) => props.theme.white};
 `;
 
 export const HabitContentCheckedContainer = styled.TouchableOpacity`
@@ -23,12 +23,13 @@ export const HabitContentCheckedContainer = styled.TouchableOpacity`
 
 export const HabitTextContainer = styled.View`
   width: 60%;
+  padding: 5px 0 15px;
 `;
 
 export const HabitCatImage = styled.Image`
   width: 80px;
   height: 65px;
-  margin-right: 70px;
+  margin-right: 10px;
 `;
 
 export const HabitStatusContainer = styled.View`
@@ -46,30 +47,29 @@ export const HabitStatusImage = styled.Image`
 `;
 
 export const HabitStatusText = styled.Text`
+  font-family: ${(props) => props.theme.subFont};
   font-size: 17px;
-  font-family: "DosGothic";
 `;
 
 export const HabitTitle = styled.Text`
-  width: 230px;
   height: 60px;
-  font-family: "DungGeunMo";
-  font-size: 22px;
+  font-family: ${(props) => props.theme.mainFont};
+  font-size: 20px;
 `;
 
 export const HabitEndDate = styled.Text`
+  font-family: ${(props) => props.theme.subFont};
   font-size: 15px;
-  font-family: "DosGothic";
 `;
 
 export const HabitExpiredText = styled.Text`
+  font-family: ${(props) => props.theme.subFont};
   color: #e36387;
-  font-family: "DosGothic";
 `;
 
 export const DeleteButtonContainer = styled.View`
   position: absolute;
-  right: 10px;
   top: 10px;
+  right: 10px;
   z-index: 1;
 `;
