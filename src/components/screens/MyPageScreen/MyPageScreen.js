@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
-import { FlatList } from "react-native";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import { FlatList, Text } from "react-native";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
+
+import PropTypes from "prop-types";
+import { Feather } from "@expo/vector-icons";
 
 import THEME from "../../../constants/theme.style";
 import axios from "../../../utils/axiosInstance";
@@ -10,6 +13,7 @@ import habitApi from "../../../utils/api/habit";
 import CustomButton from "../../common/CustomButton/CustomButton";
 import { UserContext } from "../../common/userContextProvider";
 import Habit from "../../common/Habit/Habit";
+import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 
 import {
   MyPageScreenContainter,
@@ -22,6 +26,7 @@ import {
   MyPageResultTabImage,
   MyPageResultTabText,
   MyPageResultHabitListContainer,
+  MyPageScrollTopButtonContainer,
 } from "./MyPageScreen.style";
 
 const queryCache = new QueryCache();
@@ -32,6 +37,7 @@ const MyPageScreen = ({ navigation }) => {
 
   const queryClient = useQueryClient();
   const { user, setUser } = useContext(UserContext);
+  const habitListRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery(
     ["expiredHabitList", user.id, isSuccessClicked],
@@ -51,15 +57,18 @@ const MyPageScreen = ({ navigation }) => {
   }, [data]);
 
   useEffect(() => {
-    const updateAlarmSubscription = navigation.addListener("focus", async () => {
-      const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
+    const updateAlarmSubscription = navigation.addListener(
+      "focus",
+      async () => {
+        const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
 
-      if (expoTokenData) {
-        setExpoToken(expoTokenData);
-      } else {
-        setExpoToken("");
+        if (expoTokenData) {
+          setExpoToken(expoTokenData);
+        } else {
+          setExpoToken("");
+        }
       }
-    });
+    );
 
     return updateAlarmSubscription;
   }, [navigation]);
@@ -88,9 +97,9 @@ const MyPageScreen = ({ navigation }) => {
             title="로그아웃"
             onPress={handleLogoutButtonClick}
           />
-          <CustomButton 
-            title={expoToken ? "알림 그만 받기": "알림 받기"}
-            width={expoToken ? "200px": "140px"}
+          <CustomButton
+            title={expoToken ? "알림 그만 받기" : "알림 받기"}
+            width={expoToken ? "200px" : "140px"}
             onPress={() => navigation.navigate("Alarm")}
           />
         </MyPageButtonContainer>
@@ -117,7 +126,9 @@ const MyPageScreen = ({ navigation }) => {
           </MyPageResultTabButton>
         </MyPageResultTabContainer>
         <MyPageResultHabitListContainer>
+          {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
+            ref={habitListRef}
             data={expiredHabitList}
             renderItem={({ item }) => (
               <Habit
@@ -131,10 +142,26 @@ const MyPageScreen = ({ navigation }) => {
             onEndReachedThreshold={0.2}
             onEndReached={fetchNextPage}
           />
+          {expiredHabitList.length > 5 && (
+            <MyPageScrollTopButtonContainer
+              onPress={() => {
+                habitListRef.current.scrollToOffset({ offset: 0 });
+              }}
+            >
+              <Feather name="arrow-up" size={50} color="white" />
+            </MyPageScrollTopButtonContainer>
+          )}
         </MyPageResultHabitListContainer>
       </MyPageResultContainer>
     </MyPageScreenContainter>
   );
+};
+
+MyPageScreen.propTypes = {
+  navigation: PropTypes.shape({
+    addListener: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default MyPageScreen;

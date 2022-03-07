@@ -54,9 +54,18 @@ export const MyPageResultTabText = styled.Text`
 `;
 
 export const MyPageResultHabitListContainer = styled.View`
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
   padding: 5px 0 60px 0;
   background-color: rgba(255, 255, 255, 0.5);
+`;
+
+export const MyPageScrollTopButtonContainer = styled.Pressable`
+  position: absolute;
+  right: 30px;
+  bottom: 80px;
+  background-color: ${(props) => props.theme.mainColor};
 `;
