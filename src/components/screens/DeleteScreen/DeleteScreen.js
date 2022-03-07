@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import CustomButton from "../../common/CustomButton/CustomButton";
@@ -21,7 +22,7 @@ const DeleteScreen = ({ route }) => {
   const inform = useInform();
 
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const { mutate } = useMutation(habitApi.deleteHabit, {
     onSuccess: () => {
@@ -31,7 +32,10 @@ const DeleteScreen = ({ route }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["habitList", userInfo.user.id]);
+      queryClient.invalidateQueries([
+        QUERY_KEY_NAME.habitList,
+        userInfo.user.id,
+      ]);
     },
   });
 

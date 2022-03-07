@@ -6,6 +6,7 @@ import authApi from "../../../utils/api/auth";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import axios from "../../../utils/axiosInstance";
 import useInform from "../../../utils/informAlert";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 
 import { UserContext } from "../../common/userContextProvider";
 import LoadingPage from "../../common/Loading/Loading";
@@ -33,13 +34,15 @@ const LoginScreen = () => {
     (idToken) => authApi.postLogin({ idToken }),
     {
       onSuccess: (data) => {
-        queryClient.setQueryData("userInfo", data);
-        queryClient.setQueryDefaults("userInfo", {
+        queryClient.setQueryData(QUERY_KEY_NAME.userInfo, data);
+        queryClient.setQueryDefaults(QUERY_KEY_NAME.userInfo, {
           staleTime: Infinity,
           cacheTime: Infinity,
         });
         setUser(data.user);
-        userAsyncStorage.setInfo("userInfo", { token: data.token });
+        userAsyncStorage.setInfo(STORAGE_KEY_NAME.userInfo, {
+          token: data.token,
+        });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
 
         return;

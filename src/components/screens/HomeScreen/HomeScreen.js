@@ -9,7 +9,9 @@ import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateInt
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import divideHabitData from "../../../utils/divideHabitData";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+
 import NUMBERS from "../../../constants/numbers";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 
 import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
@@ -31,12 +33,15 @@ const HomeScreen = ({ navigation }) => {
 
   const inform = useInform();
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries(["habitList", userInfo.user.id], {
-      exact: true,
-    });
+    await queryClient.refetchQueries(
+      [QUERY_KEY_NAME.habitList, userInfo.user.id],
+      {
+        exact: true,
+      }
+    );
   };
 
   useEffect(() => {
@@ -51,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(async () => {
     const modalClickTime = await userAsyncStorage.getSavedInfo(
-      "modalClickTime"
+      STORAGE_KEY_NAME.modalClickTime
     );
 
     if (
@@ -63,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   const { isLoading, data } = useQuery(
-    ["habitList", userInfo.user.id],
+    [QUERY_KEY_NAME.habitList, userInfo.user.id],
     habitApi.getHabitList,
     {
       select: (data) => {

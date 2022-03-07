@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
@@ -27,7 +28,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   const inform = useInform();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const localEndDate = changeServerEndDateIntoLocalDate(habitData.endDate);
   const [fullYear, fullMonth, fullDate] = useGetDateInfo(localEndDate);
@@ -46,7 +47,10 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["habitList", userInfo.user.id]);
+      queryClient.invalidateQueries([
+        QUERY_KEY_NAME.habitList,
+        userInfo.user.id,
+      ]);
     },
   });
 

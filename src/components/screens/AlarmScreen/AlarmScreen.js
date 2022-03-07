@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/core";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
+import { STORAGE_KEY_NAME } from "../../../constants/keyName";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
@@ -26,7 +27,9 @@ const AlarmScreen = () => {
     const updateAlarmSubscription = navigation.addListener(
       "focus",
       async () => {
-        const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
+        const expoTokenData = await userAsyncStorage.getSavedInfo(
+          STORAGE_KEY_NAME.alarmToken
+        );
 
         if (expoTokenData) {
           setExpoToken(expoTokenData);
@@ -50,7 +53,7 @@ const AlarmScreen = () => {
 
     if (token) {
       Notifications.scheduleNotificationAsync(notificationSetting);
-      userAsyncStorage.setInfo("expoToken", token);
+      userAsyncStorage.setInfo(STORAGE_KEY_NAME.alarmToken, token);
 
       navigation.goBack();
       return;
@@ -61,7 +64,7 @@ const AlarmScreen = () => {
 
   const handleLocalAppPushStopButtonClick = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync();
-    userAsyncStorage.removeSavedInfo("expoToken");
+    userAsyncStorage.removeSavedInfo(STORAGE_KEY_NAME.alarmToken);
 
     navigation.goBack();
     return;

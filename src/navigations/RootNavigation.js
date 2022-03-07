@@ -13,6 +13,7 @@ import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
 
 import THEME from "../constants/theme.style";
+import { STORAGE_KEY_NAME } from "../constants/keyName";
 
 const Root = createNativeStackNavigator();
 
@@ -20,7 +21,9 @@ const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
 
   const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getSavedInfo("userInfo");
+    const userData = await userAsyncStorage.getSavedInfo(
+      STORAGE_KEY_NAME.userInfo
+    );
 
     if (userData) {
       setUser(userData.user);

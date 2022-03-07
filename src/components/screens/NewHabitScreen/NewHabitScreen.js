@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
 import NUMBERS from "../../../constants/numbers";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
@@ -28,9 +29,9 @@ const NewHabitScreen = ({ route, navigation }) => {
   const currentDate = new Date();
 
   const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData("userInfo");
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
   const currentHabitList = queryClient
-    .getQueryData(["habitList", userInfo.user.id])
+    .getQueryData([QUERY_KEY_NAME.habitList, userInfo.user.id])
     .habitList.filter((habit) => {
       const endDate = new Date(habit.endDate);
       return endDate >= currentDate;
@@ -47,7 +48,10 @@ const NewHabitScreen = ({ route, navigation }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["habitList", userInfo.user.id]);
+      queryClient.invalidateQueries([
+        QUERY_KEY_NAME.habitList,
+        userInfo.user.id,
+      ]);
     },
   });
 

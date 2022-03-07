@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 
 import THEME from "../../../constants/theme.style";
+import { STORAGE_KEY_NAME } from "../../../constants/keyName";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import CustomButton from "../CustomButton/CustomButton";
 import {
@@ -24,7 +25,10 @@ const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
     event.stopPropagation();
 
     const currentClickTime = new Date();
-    userAsyncStorage.setInfo("modalClickTime", currentClickTime.toISOString());
+    userAsyncStorage.setInfo(
+      STORAGE_KEY_NAME.modalClickTime,
+      currentClickTime.toISOString()
+    );
 
     setIsModalOpen(false);
   };

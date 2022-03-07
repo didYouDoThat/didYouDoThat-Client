@@ -1,4 +1,5 @@
 import axios from "../axiosInstance";
+import { QUERY_KEY_NAME } from "../../constants/keyName";
 
 const habitApi = {};
 
@@ -10,7 +11,9 @@ habitApi.getHabitList = async ({ queryKey }) => {
 };
 
 habitApi.getExpiredSuccessHabitList = async ({ queryKey, pageParam = 1 }) => {
-  const status = queryKey[2] ? "success" : "failure";
+  const status = queryKey[2]
+    ? QUERY_KEY_NAME.successQueryString
+    : QUERY_KEY_NAME.failureQueryString;
   const userId = queryKey[1];
   const currentLocalDate = new Date();
 

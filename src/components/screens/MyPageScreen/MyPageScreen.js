@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 
 import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
 
 import THEME from "../../../constants/theme.style";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 import axios from "../../../utils/axiosInstance";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import habitApi from "../../../utils/api/habit";
@@ -40,7 +41,7 @@ const MyPageScreen = ({ navigation }) => {
   const habitListRef = useRef(null);
 
   const { data, fetchNextPage } = useInfiniteQuery(
-    ["expiredHabitList", user.id, isSuccessClicked],
+    [QUERY_KEY_NAME.expiredHabitList, user.id, isSuccessClicked],
     habitApi.getExpiredSuccessHabitList,
     {
       getNextPageParam: (lastPage) => {
@@ -60,7 +61,9 @@ const MyPageScreen = ({ navigation }) => {
     const updateAlarmSubscription = navigation.addListener(
       "focus",
       async () => {
-        const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
+        const expoTokenData = await userAsyncStorage.getSavedInfo(
+          STORAGE_KEY_NAME.alarmToken
+        );
 
         if (expoTokenData) {
           setExpoToken(expoTokenData);
@@ -75,7 +78,7 @@ const MyPageScreen = ({ navigation }) => {
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
-    userAsyncStorage.removeSavedInfo("userInfo");
+    userAsyncStorage.removeSavedInfo(STORAGE_KEY_NAME.userInfo);
     setUser({
       id: "",
       name: "",
