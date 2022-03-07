@@ -50,8 +50,9 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(async () => {
-    const modalClickTime =
-      await userAsyncStorage.getStartModalButtonClickTime();
+    const modalClickTime = await userAsyncStorage.getSavedInfo(
+      "modalClickTime"
+    );
 
     if (
       modalClickTime &&

@@ -19,7 +19,7 @@ const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
 
   const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getUserInfo();
+    const userData = await userAsyncStorage.getSavedInfo("userInfo");
 
     if (userData) {
       setUser(userData.user);

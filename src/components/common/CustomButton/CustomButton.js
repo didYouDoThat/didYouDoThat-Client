@@ -3,10 +3,7 @@ import { TouchableOpacity } from "react-native";
 
 import PropTypes from "prop-types";
 
-import {
-  ButtonContainer,
-  ButtonText,
-} from "./CustomButton.style"
+import { ButtonContainer, ButtonText } from "./CustomButton.style";
 
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
 const noop = () => {};

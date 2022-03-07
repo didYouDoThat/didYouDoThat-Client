@@ -7,7 +7,7 @@ import {
   LoadingTitle,
   LoadingImageContainer,
   LoadingImage,
-} from "./Loading.style"
+} from "./Loading.style";
 
 const LoadingPage = () => {
   const [footPrintImages, setFootPrintImages] = useState([]);

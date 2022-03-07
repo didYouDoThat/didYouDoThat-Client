@@ -4,7 +4,7 @@ import {
   HeaderTitleContainer,
   HeaderText,
   HeaderImage,
-} from "./HeaderTitle.style"
+} from "./HeaderTitle.style";
 
 const HeaderTitle = () => {
   return (

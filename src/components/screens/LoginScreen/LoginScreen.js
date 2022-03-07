@@ -39,7 +39,7 @@ const LoginScreen = () => {
           cacheTime: Infinity,
         });
         setUser(data.user);
-        userAsyncStorage.setUserInfo({ token: data.token });
+        userAsyncStorage.setInfo("userInfo", { token: data.token });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
 
         return;

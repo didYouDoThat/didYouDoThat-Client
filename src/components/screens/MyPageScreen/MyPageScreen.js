@@ -56,7 +56,7 @@ const MyPageScreen = () => {
   }, [data]);
 
   useEffect(async () => {
-    const expoTokenData = await userAsyncStorage.getExpoToken();
+    const expoTokenData = await userAsyncStorage.getSavedInfo("expoToken");
 
     if (expoTokenData) {
       setExpoToken(expoTokenData);
@@ -65,7 +65,8 @@ const MyPageScreen = () => {
 
   const handleLogoutButtonClick = () => {
     axios.defaults.headers.Authorization = undefined;
-    userAsyncStorage.removeUserInfo();
+    // userAsyncStorage.removeUserInfo();
+    userAsyncStorage.removeSavedInfo("userInfo");
     setUser({
       id: "",
       name: "",
@@ -88,7 +89,7 @@ const MyPageScreen = () => {
     if (token) {
       Notifications.scheduleNotificationAsync(notificationSetting);
       setExpoToken(token);
-      userAsyncStorage.setExpoToken(token);
+      userAsyncStorage.setInfo("expoToken", token);
       inform({ message: "알림받기가 성공적으로 처리 되었습니다." });
       return;
     }
@@ -99,7 +100,7 @@ const MyPageScreen = () => {
   const handleLocalAppPushStopButtonClick = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync();
     setExpoToken("");
-    userAsyncStorage.removeExpoToken();
+    userAsyncStorage.removeSavedInfo("expoToken");
     inform({ message: "앞으로 알림은 발송되지 않습니다." });
   };
 

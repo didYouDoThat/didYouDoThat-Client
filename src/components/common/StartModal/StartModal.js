@@ -24,10 +24,7 @@ const StartModal = ({ isModalOpen, setIsModalOpen, habitList }) => {
     event.stopPropagation();
 
     const currentClickTime = new Date();
-
-    userAsyncStorage.setStartModalButtonClickTime(
-      currentClickTime.toISOString()
-    );
+    userAsyncStorage.setInfo("modalClickTime", currentClickTime.toISOString());
 
     setIsModalOpen(false);
   };
