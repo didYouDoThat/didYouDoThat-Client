@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
-import { FlatList } from "react-native";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
+import { FlatList } from "react-native";
+import { Searchbar } from 'react-native-paper';
 
 import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
 
+import NUMBERS from "../../../constants/numbers";
 import THEME from "../../../constants/theme.style";
 import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 import axios from "../../../utils/axiosInstance";
@@ -33,6 +35,7 @@ import {
 const queryCache = new QueryCache();
 
 const MyPageScreen = ({ navigation }) => {
+  const [searchWord, setSearchWord] = useState("");
   const [expoToken, setExpoToken] = useState("");
   const [isSuccessClicked, setIsSuccessClicked] = useState(true);
 
@@ -45,7 +48,9 @@ const MyPageScreen = ({ navigation }) => {
     habitApi.getExpiredSuccessHabitList,
     {
       getNextPageParam: (lastPage) => {
-        return lastPage.habitList.length === 5 ? lastPage.nextPage : undefined;
+        return lastPage.habitList.length === NUMBERS.habitListMaxLength
+          ? lastPage.nextPage
+          : undefined;
       },
     }
   );
@@ -129,23 +134,32 @@ const MyPageScreen = ({ navigation }) => {
           </MyPageResultTabButton>
         </MyPageResultTabContainer>
         <MyPageResultHabitListContainer>
+          <Searchbar
+            style={{ width: 300, marginVertical: 10 }}
+            inputStyle={{ fontFamily: THEME.subFont }}
+            placeholder="검색하기"
+            value={searchWord}
+            onChangeText={(event) => setSearchWord(event)}
+          />
           {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
             ref={habitListRef}
-            data={expiredHabitList}
-            renderItem={({ item }) => (
-              <Habit
-                habitData={item}
-                currentDate={new Date()}
-                isExpired={true}
-                width="100%"
-              />
-            )}
+            data={searchWord ? expiredHabitList.filter(({ title }) => title.includes(searchWord)): expiredHabitList}
+            renderItem={({ item }) => {
+              return (
+                <Habit
+                  habitData={item}
+                  currentDate={new Date()}
+                  isExpired={true}
+                  width="100%"
+                />
+              );
+            }}
             keyExtractor={(item, index) => item.id}
             onEndReachedThreshold={0.2}
             onEndReached={fetchNextPage}
           />
-          {expiredHabitList.length > 5 && (
+          {expiredHabitList.length > NUMBERS.habitListMaxLength && (
             <MyPageScrollTopButtonContainer
               onPress={() => {
                 habitListRef.current.scrollToOffset({ offset: 0 });
