@@ -9,11 +9,11 @@ import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
-import MainTabNavigation from "./MainTabNavigation";
-import ResultStackNavigation from "./ResultStackNavigation";
-
 import THEME from "../constants/theme.style";
 import { STORAGE_KEY_NAME } from "../constants/keyName";
+
+import MainTabNavigation from "./MainTabNavigation";
+import ResultStackNavigation from "./ResultStackNavigation";
 
 const Root = createNativeStackNavigator();
 

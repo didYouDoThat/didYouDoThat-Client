@@ -2,9 +2,9 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import THEME from "../../../constants/theme.style";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
+import THEME from "../../../constants/theme.style";
 import CustomButton from "../../common/CustomButton/CustomButton";
 import {
   StartHabitContainer,

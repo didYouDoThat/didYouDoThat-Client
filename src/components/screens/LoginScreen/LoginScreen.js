@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
-import { useMutation, useQueryClient } from "react-query";
 import * as Google from "expo-auth-session/providers/google";
+import { useMutation, useQueryClient } from "react-query";
 
 import authApi from "../../../utils/api/auth";
 import userAsyncStorage from "../../../utils/userAsyncStorage";

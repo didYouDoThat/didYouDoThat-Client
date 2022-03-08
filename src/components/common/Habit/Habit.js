@@ -1,18 +1,18 @@
 import React from "react";
-import { useMutation, useQueryClient } from "react-query";
 import { useNavigation } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
-
-import THEME from "../../../constants/theme.style";
-import { QUERY_KEY_NAME } from "../../../constants/keyName";
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
+import THEME from "../../../constants/theme.style";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
+
 import DeleteSwipe from "../DeleteSwipe/DeleteSwipe";
 import {
   HabitContentContainer,

@@ -1,5 +1,6 @@
 import React from "react";
 import { Animated } from "react-native";
+
 import styled from "@emotion/native";
 
 import NUMBERS from "../../constants/numbers";
