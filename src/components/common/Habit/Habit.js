@@ -62,9 +62,11 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
 
   return (
     <GestureHandlerRootView>
-      <Swipeable renderRightActions={() => {
-        return isActive ? <DeleteSwipe habitData={habitData} /> : null
-      }}>
+      <Swipeable
+        renderRightActions={() => {
+          return isActive ? <DeleteSwipe habitData={habitData} /> : null;
+        }}
+      >
         <HabitContentContainer
           onPress={
             isActive

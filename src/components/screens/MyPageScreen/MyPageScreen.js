@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 import { FlatList } from "react-native";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
 
 import PropTypes from "prop-types";
 import { Feather } from "@expo/vector-icons";
@@ -144,7 +144,13 @@ const MyPageScreen = ({ navigation }) => {
           {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
             ref={habitListRef}
-            data={searchWord ? expiredHabitList.filter(({ title }) => title.includes(searchWord)): expiredHabitList}
+            data={
+              searchWord
+                ? expiredHabitList.filter(({ title }) =>
+                    title.includes(searchWord)
+                  )
+                : expiredHabitList
+            }
             renderItem={({ item }) => {
               return (
                 <Habit

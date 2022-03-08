@@ -1,5 +1,5 @@
 import React from "react";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import { DeleteSwipeContainer } from "./DeleteSwipe.style";
