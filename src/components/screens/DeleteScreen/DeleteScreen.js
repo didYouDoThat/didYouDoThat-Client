@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
-import THEME from "../../../constants/theme.style";
-import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
+import THEME from "../../../constants/theme.style";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import CustomButton from "../../common/CustomButton/CustomButton";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
 import {

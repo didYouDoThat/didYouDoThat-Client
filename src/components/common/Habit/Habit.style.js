@@ -8,8 +8,7 @@ export const HabitContentContainer = styled.TouchableOpacity`
   height: 100px;
   margin: 20px auto 0;
   padding: 0 10px;
-  border-radius: 10px;
-  border-width: 2px;
+  border-left-width: 10px;
   border-color: ${(props) => props.theme.mainColor};
   background-color: ${(props) => props.theme.white};
 `;
@@ -65,11 +64,4 @@ export const HabitEndDate = styled.Text`
 export const HabitExpiredText = styled.Text`
   font-family: ${(props) => props.theme.subFont};
   color: #e36387;
-`;
-
-export const DeleteButtonContainer = styled.View`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
 `;

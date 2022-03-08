@@ -1,16 +1,19 @@
 import React from "react";
-import { useMutation, useQueryClient } from "react-query";
 import { useNavigation } from "@react-navigation/native";
-import { Feather } from "@expo/vector-icons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
-import THEME from "../../../constants/theme.style";
-import { QUERY_KEY_NAME } from "../../../constants/keyName";
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import useGetDateInfo from "../../../utils/useGetDateInfo";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
+import THEME from "../../../constants/theme.style";
+import { QUERY_KEY_NAME } from "../../../constants/keyName";
+
+import DeleteSwipe from "../DeleteSwipe/DeleteSwipe";
 import {
   HabitContentContainer,
   HabitTextContainer,
@@ -21,7 +24,6 @@ import {
   HabitTitle,
   HabitEndDate,
   HabitExpiredText,
-  DeleteButtonContainer,
 } from "./Habit.style";
 
 const Habit = ({ habitData, currentDate, isExpired, width }) => {
@@ -59,61 +61,61 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   };
 
   return (
-    <HabitContentContainer
-      onPress={
-        isActive
-          ? handleHabitContainerClick
-          : () => {
-              navigation.navigate("Result", {
-                screen: "EndHabitResult",
-                params: { habitData },
-              });
-            }
-      }
-      width={width}
-    >
-      <HabitCatImage source={{ uri: habitData.catImage }} />
-      <HabitTextContainer>
-        <HabitTitle
-          style={{
-            color:
-              !isExpired && isCheckedToday
-                ? THEME.mainStrongColor
-                : THEME.black,
-            textDecorationLine:
-              !isExpired && isCheckedToday ? "line-through" : "none",
-            textShadowColor:
-              !isExpired && isCheckedToday ? THEME.subStrongColor : THEME.white,
-            textShadowRadius: !isExpired && isCheckedToday ? 5 : 0,
-          }}
+    <GestureHandlerRootView>
+      <Swipeable
+        renderRightActions={() => {
+          return isActive ? <DeleteSwipe habitData={habitData} /> : null;
+        }}
+      >
+        <HabitContentContainer
+          onPress={
+            isActive
+              ? handleHabitContainerClick
+              : () => {
+                  navigation.navigate("Result", {
+                    screen: "EndHabitResult",
+                    params: { habitData },
+                  });
+                }
+          }
+          width={width}
         >
-          {habitData.title}
-        </HabitTitle>
-        {isActive ? (
-          <HabitEndDate>
-            종료: {fullYear}. {fullMonth}. {fullDate} 00시
-          </HabitEndDate>
-        ) : !isExpired ? (
-          <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
-        ) : null}
-      </HabitTextContainer>
-      <HabitStatusContainer>
-        <HabitStatusImage source={require("../../../asset/image/status.png")} />
-        <HabitStatusText>X {habitData.status}</HabitStatusText>
-      </HabitStatusContainer>
-      {isActive ? (
-        <DeleteButtonContainer>
-          <Feather
-            name="x"
-            size={24}
-            color={THEME.mainColor}
-            onPress={() => {
-              navigation.navigate("Delete", { habitData });
-            }}
-          />
-        </DeleteButtonContainer>
-      ) : null}
-    </HabitContentContainer>
+          <HabitCatImage source={{ uri: habitData.catImage }} />
+          <HabitTextContainer>
+            <HabitTitle
+              style={{
+                color:
+                  !isExpired && isCheckedToday
+                    ? THEME.mainStrongColor
+                    : THEME.black,
+                textDecorationLine:
+                  !isExpired && isCheckedToday ? "line-through" : "none",
+                textShadowColor:
+                  !isExpired && isCheckedToday
+                    ? THEME.subStrongColor
+                    : THEME.white,
+                textShadowRadius: !isExpired && isCheckedToday ? 5 : 0,
+              }}
+            >
+              {habitData.title}
+            </HabitTitle>
+            {isActive ? (
+              <HabitEndDate>
+                종료: {fullYear}. {fullMonth}. {fullDate} 00시
+              </HabitEndDate>
+            ) : !isExpired ? (
+              <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
+            ) : null}
+          </HabitTextContainer>
+          <HabitStatusContainer>
+            <HabitStatusImage
+              source={require("../../../asset/image/status.png")}
+            />
+            <HabitStatusText>X {habitData.status}</HabitStatusText>
+          </HabitStatusContainer>
+        </HabitContentContainer>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 

@@ -3,11 +3,11 @@ import { useNavigation } from "@react-navigation/core";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
-import { STORAGE_KEY_NAME } from "../../../constants/keyName";
-import ERROR_MESSAGE from "../../../constants/errorMessage";
 import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+import { STORAGE_KEY_NAME } from "../../../constants/keyName";
+import ERROR_MESSAGE from "../../../constants/errorMessage";
 
 import CustomButton from "../../common/CustomButton/CustomButton";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";

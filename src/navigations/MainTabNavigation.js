@@ -1,12 +1,13 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../components/screens/HomeScreen/HomeScreen";
 import MyPageScreen from "../components/screens/MyPageScreen/MyPageScreen";
 import THEME from "../constants/theme.style";
 
-const MainTab = createBottomTabNavigator();
+const MainTab = createMaterialBottomTabNavigator();
 const AddNewHabit = () => {
   return null;
 };
@@ -14,12 +15,13 @@ const AddNewHabit = () => {
 const MainTabNavigation = () => {
   return (
     <MainTab.Navigator
+      shifting={true}
+      barStyle={{
+        justifyContent: "center",
+      }}
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: {
-          height: 70,
-        },
-        tabBarShowLabel: false,
+        tabBarLabel: false,
         tabBarIcon: ({ focused }) => {
           let iconName;
 
@@ -36,19 +38,35 @@ const MainTabNavigation = () => {
           }
 
           return (
-            <MaterialCommunityIcons
-              name={iconName}
-              size={30}
-              color={focused ? THEME.mainStrongColor : THEME.black}
-            />
+            <View
+              style={{
+                width: 30,
+                height: 30,
+              }}
+            >
+              <MaterialCommunityIcons
+                name={iconName}
+                size={30}
+                color={focused ? THEME.gray : THEME.white}
+              />
+            </View>
           );
         },
       })}
     >
-      <MainTab.Screen name="Home" component={HomeScreen} />
+      <MainTab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarColor: THEME.homeFocusedBackground,
+        }}
+      />
       <MainTab.Screen
         name="New"
         component={AddNewHabit}
+        options={{
+          tabBarColor: THEME.subStrongColor,
+        }}
         listeners={({ navigation }) => ({
           tabPress: (event) => {
             event.preventDefault();
@@ -56,7 +74,13 @@ const MainTabNavigation = () => {
           },
         })}
       />
-      <MainTab.Screen name="MyPage" component={MyPageScreen} />
+      <MainTab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          tabBarColor: THEME.myPageFocusedBackground,
+        }}
+      />
     </MainTab.Navigator>
   );
 };

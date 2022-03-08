@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
-import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 import { FlatList } from "react-native";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
+import { Feather } from "@expo/vector-icons";
+import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 
 import PropTypes from "prop-types";
-import { Feather } from "@expo/vector-icons";
 
-import NUMBERS from "../../../constants/numbers";
-import THEME from "../../../constants/theme.style";
-import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 import axios from "../../../utils/axiosInstance";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import habitApi from "../../../utils/api/habit";
+import NUMBERS from "../../../constants/numbers";
+import THEME from "../../../constants/theme.style";
+import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 
 import CustomButton from "../../common/CustomButton/CustomButton";
 import { UserContext } from "../../common/userContextProvider";
@@ -144,7 +144,13 @@ const MyPageScreen = ({ navigation }) => {
           {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
             ref={habitListRef}
-            data={searchWord ? expiredHabitList.filter(({ title }) => title.includes(searchWord)): expiredHabitList}
+            data={
+              searchWord
+                ? expiredHabitList.filter(({ title }) =>
+                    title.includes(searchWord)
+                  )
+                : expiredHabitList
+            }
             renderItem={({ item }) => {
               return (
                 <Habit

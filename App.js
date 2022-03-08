@@ -5,10 +5,10 @@ import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ThemeProvider } from "@emotion/react";
-import THEME from "./src/constants/theme.style";
 
 import RootStack from "./src/navigations/RootNavigation";
 import UserContextProvider from "./src/components/common/userContextProvider";
+import THEME from "./src/constants/theme.style";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,5 +51,8 @@ const App = () => {
 };
 
 LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 
 export default App;
