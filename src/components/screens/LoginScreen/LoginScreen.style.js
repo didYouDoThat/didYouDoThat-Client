@@ -11,10 +11,10 @@ export const LoginTextContainer = styled.View`
   width: 100%;
   padding: 10px 0;
   margin-top: 10px;
-  border-top-width: 5px;
-  border-bottom-width: 5px;
-  border-color: ${(props) => props.theme.subStrongColor};
-  background-color: ${(props) => props.theme.extraStrongColor};
+  border-top-width: 20px;
+  border-bottom-width: 20px;
+  border-color: ${(props) => props.theme.extraStrongColor};
+  background-color: ${(props) => props.theme.subStrongColor};
 `;
 
 export const LoginTitle = styled.Text`

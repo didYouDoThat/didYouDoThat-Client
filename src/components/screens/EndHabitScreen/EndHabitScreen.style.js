@@ -69,5 +69,6 @@ export const EndHabitButtonContainer = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: ${(props) => (props.isCompleted ? "#ad2149" : "#52a8c7")};
+  background-color: ${(props) =>
+    props.isCompleted ? props.theme.deepStrongColor : props.theme.deepColor};
 `;
