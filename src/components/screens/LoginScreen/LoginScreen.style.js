@@ -1,6 +1,6 @@
 import styled from "@emotion/native";
 
-export const LoginContainer = styled.View`
+export const LoginContainer = styled.ImageBackground`
   flex: 1;
   justify-content: center;
   align-items: center;

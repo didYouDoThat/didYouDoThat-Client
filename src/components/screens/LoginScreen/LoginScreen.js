@@ -74,7 +74,10 @@ const LoginScreen = () => {
   }
 
   return (
-    <LoginContainer>
+    <LoginContainer
+      source={require("../../../asset/image/loginCats/loginBackground.png")}
+      resizeMode="repeat"
+    >
       <MovingCats />
       <LoginTextContainer>
         <LoginTitle>그거했냥?</LoginTitle>
