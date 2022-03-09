@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import userAsyncStorage from "../utils/userAsyncStorage";
-
+import useInform from "../utils/informAlert";
 import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
@@ -19,15 +19,20 @@ const Root = createNativeStackNavigator();
 
 const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
+  const inform = useInform();
 
   const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getSavedInfo(
-      STORAGE_KEY_NAME.userInfo
-    );
-
-    if (userData) {
-      setUser(userData.user);
-      return;
+    try {
+      const userData = await userAsyncStorage.getSavedInfo(
+        STORAGE_KEY_NAME.userInfo
+      );
+  
+      if (userData) {
+        setUser(userData.user);
+        return;
+      }
+    } catch(err) {
+      inform({ message: err.message });
     }
   };
 

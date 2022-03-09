@@ -26,7 +26,7 @@ import {
   GOOGLE_ANDROID_CLIENT_ID,
 } from "@env";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const { user, setUser } = useContext(UserContext);
   const queryClient = useQueryClient();
 
@@ -52,10 +52,10 @@ const LoginScreen = () => {
         });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
 
+        navigation.navigate("Main");
         return;
       },
       onError: (error) => {
-        // 이전의 것 그대로 원상복구 시키기
         inform({ message: error.message });
       },
     }
