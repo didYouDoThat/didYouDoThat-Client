@@ -69,6 +69,6 @@ export const MyPageScrollTopButtonContainer = styled.Pressable`
   bottom: 80px;
   border-radius: 10px;
   border-width: 3px;
-  border-color: ${(props) => props.theme.subStrongColor};
-  background-color: ${(props) => props.theme.mainStrongColor};
+  border-color: ${(props) => props.theme.mainColor};
+  background-color: ${(props) => props.theme.deepColor};
 `;
