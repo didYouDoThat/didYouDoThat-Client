@@ -68,6 +68,10 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
         }}
       >
         <HabitContentContainer
+          style={{
+            backgroundColor:
+              !isExpired && isCheckedToday ? "#F8EDED" : THEME.white,
+          }}
           onPress={
             isActive
               ? handleHabitContainerClick

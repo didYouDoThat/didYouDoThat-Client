@@ -65,7 +65,7 @@ const NewHabitScreen = ({ route, navigation }) => {
     mutate({
       title: habitTitle,
       userId: userInfo.user.id,
-      currentDate: new Date(),
+      localTimeOffset: -currentDate.getTimezoneOffset() / 60,
     });
   };
 

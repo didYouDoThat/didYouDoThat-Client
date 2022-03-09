@@ -24,10 +24,10 @@ habitApi.getExpiredSuccessHabitList = async ({ queryKey, pageParam = 1 }) => {
   return response.data;
 };
 
-habitApi.postNewHabit = async ({ title, userId, currentDate }) => {
+habitApi.postNewHabit = async ({ title, userId, localTimeOffset }) => {
   const response = await axios.post(`/users/${userId}/habit`, {
     title,
-    currentDate,
+    localTimeOffset,
   });
 
   return response.data;

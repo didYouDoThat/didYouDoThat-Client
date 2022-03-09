@@ -9,8 +9,7 @@ export const HabitContentContainer = styled.TouchableOpacity`
   margin: 20px auto 0;
   padding: 0 10px;
   border-left-width: 10px;
-  border-color: ${(props) => props.theme.mainColor};
-  background-color: ${(props) => props.theme.white};
+  border-color: ${(props) => props.theme.subStrongColor};
 `;
 
 export const HabitContentCheckedContainer = styled.TouchableOpacity`

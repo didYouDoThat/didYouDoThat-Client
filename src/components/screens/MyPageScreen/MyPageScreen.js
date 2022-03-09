@@ -100,12 +100,13 @@ const MyPageScreen = ({ navigation }) => {
         </MyPageUserNameText>
         <MyPageButtonContainer>
           <CustomButton
-            color={THEME.subStrongColor}
+            color={THEME.mainStrongColor}
             width="140px"
             title="로그아웃"
             onPress={handleLogoutButtonClick}
           />
           <CustomButton
+            color={THEME.mainStrongColor}
             title={expoToken ? "알림 그만 받기" : "알림 받기"}
             width={expoToken ? "200px" : "140px"}
             onPress={() => navigation.navigate("Alarm")}
