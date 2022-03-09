@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useQueryClient } from "react-query";
 
 import userAsyncStorage from "../utils/userAsyncStorage";
 import useInform from "../utils/informAlert";
+
 import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
@@ -10,7 +12,7 @@ import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen"
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
 import THEME from "../constants/theme.style";
-import { STORAGE_KEY_NAME } from "../constants/keyName";
+import { QUERY_KEY_NAME, STORAGE_KEY_NAME } from "../constants/keyName";
 
 import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
@@ -19,7 +21,10 @@ const Root = createNativeStackNavigator();
 
 const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
+  const queryClient = useQueryClient();
   const inform = useInform();
+
+  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const checkUserStatus = async () => {
     try {
@@ -29,7 +34,10 @@ const RootStack = () => {
   
       if (userData) {
         setUser(userData.user);
+        inform({ message: "성공적으로 로그인하였습니다!" })
         return;
+      } else {
+        inform({ message: "로그인이 제대로 되지 않은듯,,,," })
       }
     } catch(err) {
       inform({ message: err.message });
@@ -37,8 +45,14 @@ const RootStack = () => {
   };
 
   useEffect(() => {
+    if (userInfo) {
+      setUser(userInfo.user);
+      return;
+    }
+
     checkUserStatus();
-  }, [setUser]);
+    inform({message: "이쪽을 보시라구요오~ !"})
+  }, [userInfo]);
 
   return (
     <Root.Navigator

@@ -51,8 +51,6 @@ const LoginScreen = ({ navigation }) => {
           token: data.token,
         });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
-
-        navigation.navigate("Main");
         return;
       },
       onError: (error) => {
