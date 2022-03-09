@@ -33,7 +33,7 @@ const RootStack = () => {
 
   useEffect(() => {
     checkUserStatus();
-  }, []);
+  }, [setUser]);
 
   return (
     <Root.Navigator
