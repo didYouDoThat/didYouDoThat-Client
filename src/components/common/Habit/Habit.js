@@ -70,7 +70,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
         <HabitContentContainer
           style={{
             backgroundColor:
-              !isExpired && isCheckedToday ? "#F8EDED" : THEME.white,
+              !isExpired && isCheckedToday ? "#FFF1E9" : THEME.white,
           }}
           onPress={
             isActive

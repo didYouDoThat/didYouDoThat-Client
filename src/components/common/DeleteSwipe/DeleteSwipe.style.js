@@ -6,5 +6,5 @@ export const DeleteSwipeContainer = styled.TouchableOpacity`
   width: 100px;
   height: 100px;
   margin-top: 20px;
-  background-color: ${(props) => props.theme.deepStrongColor};
+  background-color: #F3BDA1;
 `;
