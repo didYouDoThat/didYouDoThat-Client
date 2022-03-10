@@ -31,15 +31,12 @@ const RootStack = () => {
       const userData = await userAsyncStorage.getSavedInfo(
         STORAGE_KEY_NAME.userInfo
       );
-  
+
       if (userData) {
         setUser(userData.user);
-        inform({ message: "성공적으로 로그인하였습니다!" })
         return;
-      } else {
-        inform({ message: "로그인이 제대로 되지 않은듯,,,," })
       }
-    } catch(err) {
+    } catch (err) {
       inform({ message: err.message });
     }
   };
@@ -51,7 +48,6 @@ const RootStack = () => {
     }
 
     checkUserStatus();
-    inform({message: "이쪽을 보시라구요오~ !"})
   }, [userInfo]);
 
   return (

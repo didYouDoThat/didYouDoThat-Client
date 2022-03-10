@@ -2,6 +2,7 @@
   "expo": {
     "name": "didyoudothat",
     "slug": "didyoudothat",
+    "scheme": "com.didyoudothat.app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon-cat.png",
@@ -27,7 +28,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jisoook.didyoudothat"
+      "bundleIdentifier": "com.didyoudothat.app"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -35,7 +36,7 @@
         "foregroundImage": "./assets/adaptive-icon-cat.png",
         "backgroundColor": "#a6dcef"
       },
-      "package": "com.jisoook.didyoudothat"
+      "package": "com.didyoudothat.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

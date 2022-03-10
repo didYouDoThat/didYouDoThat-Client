@@ -29,7 +29,6 @@ import {
 const LoginScreen = ({ navigation }) => {
   const { user, setUser } = useContext(UserContext);
   const queryClient = useQueryClient();
-
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: `${GOOGLE_EXPO_CLIENT_ID}`,
     iosClientId: `${GOOGLE_IOS_CLIENT_ID}`,

@@ -5,6 +5,7 @@ import * as Sharing from "expo-sharing";
 
 import PropTypes from "prop-types";
 
+import useInform from "../../../utils/informAlert";
 import THEME from "../../../constants/theme.style";
 import NUMBERS from "../../../constants/numbers";
 import CustomButton from "../../common/CustomButton/CustomButton";
@@ -26,11 +27,16 @@ const EndHabitScreen = ({ route, navigation }) => {
   const { habitData } = route.params;
 
   const isCompleted = habitData.status === NUMBERS.successStatusCount;
+  const inform = useInform();
   const captureArea = useRef();
 
   const catpureAndShareScreenShot = async () => {
-    const imageUri = await captureArea.current.capture();
-    Sharing.shareAsync(imageUri);
+    try {
+      const imageUri = await captureArea.current.capture();
+      Sharing.shareAsync(imageUri);
+    } catch (err) {
+      inform({ message: err.message });
+    }
   };
 
   Animated.loop(

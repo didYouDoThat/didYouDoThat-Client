@@ -55,15 +55,19 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(async () => {
-    const modalClickTime = await userAsyncStorage.getSavedInfo(
-      STORAGE_KEY_NAME.modalClickTime
-    );
-
-    if (
-      modalClickTime &&
-      currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
-    ) {
-      setIsStartModalOpen(false);
+    try {
+      const modalClickTime = await userAsyncStorage.getSavedInfo(
+        STORAGE_KEY_NAME.modalClickTime
+      );
+  
+      if (
+        modalClickTime &&
+        currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
+      ) {
+        setIsStartModalOpen(false);
+      }
+    } catch (err) {
+      inform({ message: err.message });
     }
   }, []);
 
