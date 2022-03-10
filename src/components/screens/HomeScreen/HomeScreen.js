@@ -37,12 +37,9 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries(
-      [QUERY_KEY_NAME.habitList, user.id],
-      {
-        exact: true,
-      }
-    );
+    await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
+      exact: true,
+    });
   };
 
   useEffect(() => {
@@ -60,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
       const modalClickTime = await userAsyncStorage.getSavedInfo(
         STORAGE_KEY_NAME.modalClickTime
       );
-  
+
       if (
         modalClickTime &&
         currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay

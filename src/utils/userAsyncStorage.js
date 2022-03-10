@@ -4,11 +4,11 @@ const userAsyncStorage = {};
 
 userAsyncStorage.getSavedInfo = async (storageKeyName) => {
   try {
-  const storageSavedData = await AsyncStorage.getItem(storageKeyName);
+    const storageSavedData = await AsyncStorage.getItem(storageKeyName);
 
-  if (!storageSavedData) {
-    return false;
-  }
+    if (!storageSavedData) {
+      return false;
+    }
 
     const savedData = JSON.parse(storageSavedData);
     return savedData;

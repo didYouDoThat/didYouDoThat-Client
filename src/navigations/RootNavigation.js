@@ -49,7 +49,6 @@ const RootStack = () => {
 
   useEffect(() => {
     checkUserStatus();
-
   }, [setUser]);
 
   return (

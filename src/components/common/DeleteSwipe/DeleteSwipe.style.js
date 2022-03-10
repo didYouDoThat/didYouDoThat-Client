@@ -6,5 +6,5 @@ export const DeleteSwipeContainer = styled.TouchableOpacity`
   width: 100px;
   height: 100px;
   margin-top: 20px;
-  background-color: #F3BDA1;
+  background-color: #f3bda1;
 `;

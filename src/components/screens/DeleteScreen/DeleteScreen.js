@@ -32,10 +32,7 @@ const DeleteScreen = ({ route }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
-        QUERY_KEY_NAME.habitList,
-        userInfo.id,
-      ]);
+      queryClient.invalidateQueries([QUERY_KEY_NAME.habitList, userInfo.id]);
     },
   });
 
