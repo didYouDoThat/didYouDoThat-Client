@@ -3,11 +3,9 @@ import { useNavigation } from "@react-navigation/core";
 import * as Notifications from "expo-notifications";
 
 import { notificationSetting } from "../../../configs/notificationSetting";
-import registerForPushNotificationsAsync from "../../../utils/registerForPushNotificationsAsync";
 import useInform from "../../../utils/informAlert";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
 import { STORAGE_KEY_NAME } from "../../../constants/keyName";
-import ERROR_MESSAGE from "../../../constants/errorMessage";
 
 import CustomButton from "../../common/CustomButton/CustomButton";
 import ModalForScreen from "../../common/ModalForScreen/ModalForScreen";
@@ -19,7 +17,7 @@ import {
 } from "./AlarmScreen.style";
 
 const AlarmScreen = () => {
-  const [expoToken, setExpoToken] = useState("");
+  const [hasAlarmSchedule, setHasAlarmSchedule] = useState(false);
 
   const navigation = useNavigation();
   const inform = useInform();
@@ -33,7 +31,7 @@ const AlarmScreen = () => {
         );
 
         if (expoTokenData) {
-          setExpoToken(expoTokenData);
+          setHasAlarmSchedule(true);
         }
       }
     );
@@ -49,26 +47,25 @@ const AlarmScreen = () => {
     }),
   });
 
-  const handleLocalAppPushButtonClick = async () => {
-    const token = await registerForPushNotificationsAsync();
-
-    if (token) {
-      Notifications.scheduleNotificationAsync(notificationSetting);
-      userAsyncStorage.setInfo(STORAGE_KEY_NAME.alarmToken, token);
-
-      navigation.goBack();
-      return;
-    }
-
-    return inform({ message: ERROR_MESSAGE.alarmStartError });
-  };
-
-  const handleLocalAppPushStopButtonClick = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-    userAsyncStorage.removeSavedInfo(STORAGE_KEY_NAME.alarmToken);
+  const handleLocalAppPushButtonClick = () => {
+    Notifications.scheduleNotificationAsync(notificationSetting);
+    userAsyncStorage.setInfo(STORAGE_KEY_NAME.alarmToken, true);
+    setHasAlarmSchedule(true);
 
     navigation.goBack();
     return;
+  };
+
+  const handleLocalAppPushStopButtonClick = async () => {
+    try {
+      await Notifications.cancelAllScheduledNotificationsAsync();
+      userAsyncStorage.removeSavedInfo(STORAGE_KEY_NAME.alarmToken);
+      setHasAlarmSchedule(false);
+
+      navigation.goBack();
+    } catch (err) {
+      inform({ message: err.message });
+    }
   };
 
   return (
@@ -76,19 +73,19 @@ const AlarmScreen = () => {
       <AlarmScreenContainer>
         <AlarmTitle>알림 설정</AlarmTitle>
         <AlarmNoticeText>
-          {expoToken
+          {hasAlarmSchedule
             ? "지금까지 받아온 알림을 그만 받아보실래요?"
             : "앞으로 매일 오전 10시에 알람이 발송됩니다:)"}
         </AlarmNoticeText>
         <AlarmWarningText>
-          {expoToken
+          {hasAlarmSchedule
             ? `지금 해제해도,${"\n"}언제든 다시 알림을 받을 수 있어요!`
             : `지금 알람을 받아도,${"\n"}언제든 알림을 취소할 수 있어요!`}
         </AlarmWarningText>
         <CustomButton
-          title={expoToken ? "알림 그만 받기" : "알림 받기"}
+          title={hasAlarmSchedule ? "알림 그만 받기" : "알림 받기"}
           onPress={
-            expoToken
+            hasAlarmSchedule
               ? handleLocalAppPushStopButtonClick
               : handleLocalAppPushButtonClick
           }

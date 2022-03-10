@@ -34,13 +34,13 @@ const DeleteScreen = ({ route }) => {
     onSettled: () => {
       queryClient.invalidateQueries([
         QUERY_KEY_NAME.habitList,
-        userInfo.user.id,
+        userInfo.id,
       ]);
     },
   });
 
   const handleDeleteHabitButtonClick = () => {
-    mutate({ habitId: habitData.id, userId: userInfo.user.id });
+    mutate({ habitId: habitData.id, userId: userInfo.id });
   };
 
   return (

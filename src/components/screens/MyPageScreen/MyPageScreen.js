@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 
 import axios from "../../../utils/axiosInstance";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
+import useInform from "../../../utils/informAlert";
 import habitApi from "../../../utils/api/habit";
 import NUMBERS from "../../../constants/numbers";
 import THEME from "../../../constants/theme.style";
@@ -42,6 +43,7 @@ const MyPageScreen = ({ navigation }) => {
   const queryClient = useQueryClient();
   const { user, setUser } = useContext(UserContext);
   const habitListRef = useRef(null);
+  const inform = useInform();
 
   const { data, fetchNextPage } = useInfiniteQuery(
     [QUERY_KEY_NAME.expiredHabitList, user.id, isSuccessClicked],
@@ -66,14 +68,18 @@ const MyPageScreen = ({ navigation }) => {
     const updateAlarmSubscription = navigation.addListener(
       "focus",
       async () => {
-        const expoTokenData = await userAsyncStorage.getSavedInfo(
-          STORAGE_KEY_NAME.alarmToken
-        );
-
-        if (expoTokenData) {
-          setExpoToken(expoTokenData);
-        } else {
-          setExpoToken("");
+        try {
+          const expoTokenData = await userAsyncStorage.getSavedInfo(
+            STORAGE_KEY_NAME.alarmToken
+          );
+  
+          if (expoTokenData) {
+            setExpoToken(expoTokenData);
+          } else {
+            setExpoToken("");
+          }
+        } catch (err) {
+          inform({ message: err.message });
         }
       }
     );

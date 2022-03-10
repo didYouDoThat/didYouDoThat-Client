@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
+import { UserContext } from "../../common/userContextProvider";
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
@@ -25,6 +26,8 @@ import {
 } from "./HomeScreen.style";
 
 const HomeScreen = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
+  const queryClient = useQueryClient();
   const initialDateInfo = new Date();
 
   const [currentDateInfo, setCurrentDateInfo] = useState(initialDateInfo);
@@ -32,12 +35,10 @@ const HomeScreen = ({ navigation }) => {
   const [fullYear, fullMonth, fullDate] = useGetDateInfo(currentDateInfo);
 
   const inform = useInform();
-  const queryClient = useQueryClient();
-  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
 
   const refetchHabitList = async () => {
     await queryClient.refetchQueries(
-      [QUERY_KEY_NAME.habitList, userInfo.user.id],
+      [QUERY_KEY_NAME.habitList, user.id],
       {
         exact: true,
       }
@@ -55,20 +56,24 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(async () => {
-    const modalClickTime = await userAsyncStorage.getSavedInfo(
-      STORAGE_KEY_NAME.modalClickTime
-    );
-
-    if (
-      modalClickTime &&
-      currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
-    ) {
-      setIsStartModalOpen(false);
+    try {
+      const modalClickTime = await userAsyncStorage.getSavedInfo(
+        STORAGE_KEY_NAME.modalClickTime
+      );
+  
+      if (
+        modalClickTime &&
+        currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay
+      ) {
+        setIsStartModalOpen(false);
+      }
+    } catch (err) {
+      inform({ message: err.message });
     }
   }, []);
 
   const { isLoading, data } = useQuery(
-    [QUERY_KEY_NAME.habitList, userInfo.user.id],
+    [QUERY_KEY_NAME.habitList, user.id],
     habitApi.getHabitList,
     {
       select: (data) => {

@@ -1,7 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useQueryClient } from "react-query";
 
 import userAsyncStorage from "../utils/userAsyncStorage";
+import useInform from "../utils/informAlert";
+import axios from "../utils/axiosInstance";
 
 import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
@@ -10,7 +13,7 @@ import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen"
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
 import THEME from "../constants/theme.style";
-import { STORAGE_KEY_NAME } from "../constants/keyName";
+import { QUERY_KEY_NAME, STORAGE_KEY_NAME } from "../constants/keyName";
 
 import MainTabNavigation from "./MainTabNavigation";
 import ResultStackNavigation from "./ResultStackNavigation";
@@ -19,21 +22,35 @@ const Root = createNativeStackNavigator();
 
 const RootStack = () => {
   const { user, setUser } = useContext(UserContext);
+  const queryClient = useQueryClient();
+  const inform = useInform();
 
   const checkUserStatus = async () => {
-    const userData = await userAsyncStorage.getSavedInfo(
-      STORAGE_KEY_NAME.userInfo
-    );
+    try {
+      const userData = await userAsyncStorage.getSavedInfo(
+        STORAGE_KEY_NAME.userInfo
+      );
 
-    if (userData) {
-      setUser(userData.user);
-      return;
+      if (userData) {
+        setUser(userData.user);
+
+        queryClient.setQueryData(QUERY_KEY_NAME.userInfo, userData.user);
+        queryClient.setQueryDefaults(QUERY_KEY_NAME.userInfo, {
+          staleTime: Infinity,
+          cacheTime: Infinity,
+        });
+
+        axios.defaults.headers.Authorization = `Bearer ${userData.token}`;
+      }
+    } catch (err) {
+      inform({ message: err.message });
     }
   };
 
   useEffect(() => {
     checkUserStatus();
-  }, []);
+
+  }, [setUser]);
 
   return (
     <Root.Navigator
@@ -46,7 +63,7 @@ const RootStack = () => {
         },
       }}
     >
-      {!user?.id ? (
+      {!user.id ? (
         <Root.Screen
           name="Login"
           component={LoginScreen}
