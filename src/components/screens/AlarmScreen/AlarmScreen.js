@@ -68,8 +68,6 @@ const AlarmScreen = () => {
     }
   };
 
-  console.log(hasAlarmSchedule);
-
   return (
     <ModalForScreen contentHeight="330px">
       <AlarmScreenContainer>

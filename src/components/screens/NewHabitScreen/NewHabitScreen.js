@@ -32,7 +32,7 @@ const NewHabitScreen = ({ route, navigation }) => {
   const queryClient = useQueryClient();
   const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
   const currentHabitList = queryClient
-    .getQueryData([QUERY_KEY_NAME.habitList, userInfo.user.id])
+    .getQueryData([QUERY_KEY_NAME.habitList, userInfo.id])
     .habitList.filter((habit) => {
       const endDate = new Date(habit.endDate);
       return endDate >= currentDate;
@@ -51,7 +51,7 @@ const NewHabitScreen = ({ route, navigation }) => {
     onSettled: () => {
       queryClient.invalidateQueries([
         QUERY_KEY_NAME.habitList,
-        userInfo.user.id,
+        userInfo.id,
       ]);
     },
   });
@@ -64,7 +64,7 @@ const NewHabitScreen = ({ route, navigation }) => {
 
     mutate({
       title: habitTitle,
-      userId: userInfo.user.id,
+      userId: userInfo.id,
       localTimeOffset: -currentDate.getTimezoneOffset() / 60,
     });
   };

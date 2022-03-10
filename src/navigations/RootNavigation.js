@@ -4,6 +4,7 @@ import { useQueryClient } from "react-query";
 
 import userAsyncStorage from "../utils/userAsyncStorage";
 import useInform from "../utils/informAlert";
+import axios from "../utils/axiosInstance";
 
 import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
@@ -24,8 +25,6 @@ const RootStack = () => {
   const queryClient = useQueryClient();
   const inform = useInform();
 
-  const userInfo = queryClient.getQueryData(QUERY_KEY_NAME.userInfo);
-
   const checkUserStatus = async () => {
     try {
       const userData = await userAsyncStorage.getSavedInfo(
@@ -34,7 +33,14 @@ const RootStack = () => {
 
       if (userData) {
         setUser(userData.user);
-        return;
+
+        queryClient.setQueryData(QUERY_KEY_NAME.userInfo, userData.user);
+        queryClient.setQueryDefaults(QUERY_KEY_NAME.userInfo, {
+          staleTime: Infinity,
+          cacheTime: Infinity,
+        });
+
+        axios.defaults.headers.Authorization = `Bearer ${userData.token}`;
       }
     } catch (err) {
       inform({ message: err.message });
@@ -42,13 +48,9 @@ const RootStack = () => {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      setUser(userInfo.user);
-      return;
-    }
-
     checkUserStatus();
-  }, [userInfo]);
+
+  }, [setUser]);
 
   return (
     <Root.Navigator
@@ -61,7 +63,7 @@ const RootStack = () => {
         },
       }}
     >
-      {!user?.id ? (
+      {!user.id ? (
         <Root.Screen
           name="Login"
           component={LoginScreen}

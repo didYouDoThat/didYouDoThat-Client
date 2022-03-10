@@ -26,7 +26,7 @@ import {
   GOOGLE_ANDROID_CLIENT_ID,
 } from "@env";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const queryClient = useQueryClient();
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -40,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
     (idToken) => authApi.postLogin({ idToken }),
     {
       onSuccess: (data) => {
-        queryClient.setQueryData(QUERY_KEY_NAME.userInfo, data);
+        queryClient.setQueryData(QUERY_KEY_NAME.userInfo, data.user);
         queryClient.setQueryDefaults(QUERY_KEY_NAME.userInfo, {
           staleTime: Infinity,
           cacheTime: Infinity,
@@ -48,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
         setUser(data.user);
         userAsyncStorage.setInfo(STORAGE_KEY_NAME.userInfo, {
           token: data.token,
+          user: data.user,
         });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
         return;
