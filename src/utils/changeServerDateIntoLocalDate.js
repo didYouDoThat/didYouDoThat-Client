@@ -1,9 +1,8 @@
 const changeServerEndDateIntoLocalDate = (serverEndDate) => {
   const serverDate = new Date(serverEndDate);
-  const localTimezoneOffset = 24 + serverDate.getTimezoneOffset() / 60;
 
   const localEndDate = new Date(
-    serverDate.setHours(serverDate.getHours() + localTimezoneOffset)
+    serverDate.setHours(serverDate.getHours() + 24)
   );
 
   return localEndDate;
