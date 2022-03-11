@@ -40,7 +40,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   const isCheckedToday = habitData.dateList.find(({ date }) => {
     const limitDate = changeServerEndDateIntoLocalDate(date);
     const currentTodayDate = new Date(currentDate);
-
+    
     return limitDate.getDate() - 1 === currentTodayDate.getDate();
   })?.isChecked;
 
@@ -54,7 +54,11 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   });
 
   const handleHabitContainerClick = () => {
-    mutate({ habitId: habitData.id, userId: userInfo.id });
+    mutate({ 
+      habitId: habitData.id,
+      userId: userInfo.id,
+      localTimeOffset: -currentDate.getTimezoneOffset() / 60,
+    });
   };
 
   return (
