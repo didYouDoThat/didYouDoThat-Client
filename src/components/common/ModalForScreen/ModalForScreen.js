@@ -22,7 +22,7 @@ const ModalForScreen = ({ contentHeight, children }) => {
   return (
     <ModalContainer>
       <ModalBackground onPress={handleGoBackClick} />
-      <ModalContentContainer width={contentHeight}>
+      <ModalContentContainer height={contentHeight}>
         {children}
         <CancelButtonContainer>
           <Feather
