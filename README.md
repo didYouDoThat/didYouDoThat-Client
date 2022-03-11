@@ -1,6 +1,8 @@
 # **🐱 그거했냥**
 
-<img src="./readme.asset/thumb.png" width="500px" alt="thumb" />
+<p align="center">
+<img src="./readme.asset/thumb.png" width="600px" alt="thumb" />
+</p>
 
 마음속으로만 생각한 습관을 1주일만이라도 지켜낸다면 이미 이 습관은 당신의 것!<br>
 "그거했냥?"으로 습관 만들기를 시작해보세요!
@@ -26,8 +28,10 @@
 [apk 파일 다운로드](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40jisoook/didyoudothat-f223a85abd5d4e269f3a7fb4ec6fa0e3-signed.apk)
 <br>
 
+<p>
 <img src="./readme.asset/play1.gif" width="200px" alt="play1" />
 <img src="./readme.asset/play2.gif" width="200px" alt="play2" />
+</p>
 
 <br>
 <br>
@@ -191,8 +195,10 @@ SECRET_KEY=<YOUR_JWT_TOKEN_SECRET_KEY>
 <br>
 
 ## **결과 페이지**
+<p>
 <img src="./readme.asset/successPage.jpg" width="200px" alt="success" />
 <img src="./readme.asset/failure.jpg" width="200px" alt="failure" />
+</p>
 
 - 결과 페이지는 각 습관들의 이행정도를 나타내주는 페이지 입니다.
 - 성공 결과페이지는 결과내용과 함께 캡쳐하기 버튼, 돌아가기 버튼이 나타납니다.
