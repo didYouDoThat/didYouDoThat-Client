@@ -33,11 +33,12 @@ habitApi.postNewHabit = async ({ title, userId, localTimeOffset }) => {
   return response.data;
 };
 
-habitApi.updateHabitStatus = async ({ habitId, userId }) => {
+habitApi.updateHabitStatus = async ({ habitId, userId, localTimeOffset }) => {
   const currentLocalDate = new Date();
 
   const response = await axios.put(`/users/${userId}/habits/${habitId}`, {
     currentLocalDate: currentLocalDate.toISOString(),
+    localTimeOffset,
   });
 
   return response.data;
