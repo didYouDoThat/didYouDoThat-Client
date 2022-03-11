@@ -124,7 +124,7 @@ const EndHabitScreen = ({ route, navigation }) => {
       <EndHabitButtonContainer isCompleted={isCompleted}>
         <CustomButton
           color={isCompleted ? THEME.subStrongColor : THEME.mainColor}
-          title={isCompleted ? "캡쳐하기" : "다시 해보기"}
+          title={isCompleted ? "공유하기" : "다시 해보기"}
           onPress={() => {
             isCompleted
               ? catpureAndShareScreenShot()
