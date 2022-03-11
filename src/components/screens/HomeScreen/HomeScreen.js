@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
-import { UserContext } from "../../common/userContextProvider";
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
@@ -14,6 +13,7 @@ import userAsyncStorage from "../../../utils/userAsyncStorage";
 import NUMBERS from "../../../constants/numbers";
 import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 
+import { UserContext } from "../../common/userContextProvider";
 import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingPage from "../../common/Loading/Loading";
