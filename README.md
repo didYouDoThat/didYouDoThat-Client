@@ -25,7 +25,7 @@
 
 # **📽 사용 영상**
 
-[apk 파일 다운로드](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40jisoook/didyoudothat-f223a85abd5d4e269f3a7fb4ec6fa0e3-signed.apk)
+[apk 파일 다운로드](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40jisoook/didyoudothat-619bae42e9144aafac01b13f926755f5-signed.apk)
 <br>
 
 <p>
