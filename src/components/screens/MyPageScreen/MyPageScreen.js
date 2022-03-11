@@ -72,7 +72,7 @@ const MyPageScreen = ({ navigation }) => {
           const expoTokenData = await userAsyncStorage.getSavedInfo(
             STORAGE_KEY_NAME.alarmToken
           );
-  
+
           if (expoTokenData) {
             setExpoToken(expoTokenData);
           } else {

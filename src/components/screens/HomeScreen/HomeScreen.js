@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
 
-import { UserContext } from "../../common/userContextProvider";
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
 import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateIntoLocalDate";
@@ -14,6 +13,7 @@ import userAsyncStorage from "../../../utils/userAsyncStorage";
 import NUMBERS from "../../../constants/numbers";
 import { STORAGE_KEY_NAME, QUERY_KEY_NAME } from "../../../constants/keyName";
 
+import { UserContext } from "../../common/userContextProvider";
 import EmptyHabit from "../../common/EmptyHabit/EmptyHabit";
 import Habit from "../../common/Habit/Habit";
 import LoadingPage from "../../common/Loading/Loading";
@@ -37,12 +37,9 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries(
-      [QUERY_KEY_NAME.habitList, user.id],
-      {
-        exact: true,
-      }
-    );
+    await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
+      exact: true,
+    });
   };
 
   useEffect(() => {
@@ -60,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
       const modalClickTime = await userAsyncStorage.getSavedInfo(
         STORAGE_KEY_NAME.modalClickTime
       );
-  
+
       if (
         modalClickTime &&
         currentDateInfo - new Date(modalClickTime) <= NUMBERS.timeForOneDay

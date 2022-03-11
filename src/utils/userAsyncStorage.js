@@ -4,11 +4,11 @@ const userAsyncStorage = {};
 
 userAsyncStorage.getSavedInfo = async (storageKeyName) => {
   try {
-  const storageSavedData = await AsyncStorage.getItem(storageKeyName);
+    const storageSavedData = await AsyncStorage.getItem(storageKeyName);
 
-  if (!storageSavedData) {
-    return false;
-  }
+    if (!storageSavedData) {
+      return false;
+    }
 
     const savedData = JSON.parse(storageSavedData);
     return savedData;
@@ -18,11 +18,13 @@ userAsyncStorage.getSavedInfo = async (storageKeyName) => {
 };
 
 userAsyncStorage.setInfo = (storageKeyName, data) => {
-  return AsyncStorage.setItem(storageKeyName, JSON.stringify(data));
+  AsyncStorage.setItem(storageKeyName, JSON.stringify(data));
+  return;
 };
 
 userAsyncStorage.removeSavedInfo = (storageKeyName) => {
-  return AsyncStorage.removeItem(storageKeyName);
+  AsyncStorage.removeItem(storageKeyName);
+  return;
 };
 
 export default userAsyncStorage;

@@ -40,7 +40,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   const isCheckedToday = habitData.dateList.find(({ date }) => {
     const limitDate = changeServerEndDateIntoLocalDate(date);
     const currentTodayDate = new Date(currentDate);
-    
+
     return limitDate.getDate() - 1 === currentTodayDate.getDate();
   })?.isChecked;
 
@@ -49,10 +49,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
       inform({ message: error.message });
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
-        QUERY_KEY_NAME.habitList,
-        userInfo.id,
-      ]);
+      queryClient.invalidateQueries([QUERY_KEY_NAME.habitList, userInfo.id]);
     },
   });
 
