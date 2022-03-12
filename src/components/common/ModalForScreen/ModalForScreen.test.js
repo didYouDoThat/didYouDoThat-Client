@@ -22,7 +22,7 @@ describe("ModalForScreen Component test", () => {
       </ModalForScreen>
     );
     const modalContentContainer = wrapper.find(ModalContentContainer);
-    
+
     expect(
       modalContentContainer.children().at(0).contains("This is Test")
     ).toBe(true);
