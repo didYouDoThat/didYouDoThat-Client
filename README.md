@@ -99,8 +99,8 @@
 - Elastic Beanstalk(배포)
 
 ## **테스트**
-- jest
-- enzyme
+- 프론트엔드 : jest, enzyme
+- 백엔드 : mocha, chai, supertest
 <br>
 <br>
 
