@@ -12,7 +12,9 @@ import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
 import AboutScreen from "../components/screens/AboutScreen/AboutScreen";
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
+import CheckStatusScreen from "../components/screens/CheckStatusScreen/CheckStatusScreen";
 import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
+
 import THEME from "../constants/theme.style";
 import { QUERY_KEY_NAME, STORAGE_KEY_NAME } from "../constants/keyName";
 
@@ -80,6 +82,7 @@ const RootStack = () => {
           >
             <Root.Screen name="NewHabit" component={NewHabitScreen} />
             <Root.Screen name="About" component={AboutScreen} />
+            <Root.Screen name="CheckStatus" component={CheckStatusScreen} />
             <Root.Screen name="Delete" component={DeleteScreen} />
             <Root.Screen name="Alarm" component={AlarmScreen} />
           </Root.Group>
