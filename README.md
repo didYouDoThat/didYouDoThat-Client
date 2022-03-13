@@ -156,7 +156,7 @@ SECRET_KEY=<YOUR_JWT_TOKEN_SECRET_KEY>
 <br>
 
 ## **메인 화면**
-<img src="./readme.asset/home.jpg" width="200px" alt="home" />
+<img src="./readme.asset/main.jpg" width="200px" alt="main" />
 
 - 하단 탭 메뉴에서는 메인 화면으로 올 수 있는 메인버튼, 새로운 습관을 만들 수 있는 버튼, 그리고 마이페이지로 갈 수 있는 버튼 총 3가지로 구성되어있습니다. (맨 처음 나타나는 화면은 메인 버튼 클릭시 나오는 메인 화면입니다)
 - 현재 일자를 표시해주는 날짜 영역이 있습니다.
@@ -198,7 +198,7 @@ SECRET_KEY=<YOUR_JWT_TOKEN_SECRET_KEY>
 
 ## **결과 페이지**
 <p>
-<img src="./readme.asset/successPage.jpg" width="200px" alt="success" />
+<img src="./readme.asset/success.jpg" width="200px" alt="success" />
 <img src="./readme.asset/failure.jpg" width="200px" alt="failure" />
 </p>
 
