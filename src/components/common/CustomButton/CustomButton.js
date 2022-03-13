@@ -2,11 +2,11 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 
 import PropTypes from "prop-types";
+import { noop } from "lodash";
 
 import { ButtonContainer, ButtonText } from "./CustomButton.style";
 
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
-const noop = () => {};
 
 const CustomButton = ({ width, color, title = "클릭!", onPress = noop }) => {
   return (

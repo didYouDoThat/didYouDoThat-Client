@@ -1,10 +1,17 @@
-import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useContext,
+  useCallback,
+} from "react";
 import { FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { Feather } from "@expo/vector-icons";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 
 import PropTypes from "prop-types";
+import { debounce } from "lodash";
 
 import axios from "../../../utils/axiosInstance";
 import userAsyncStorage from "../../../utils/userAsyncStorage";
@@ -31,12 +38,14 @@ import {
   MyPageResultTabText,
   MyPageResultHabitListContainer,
   MyPageScrollTopButtonContainer,
+  MyPageScrollTopImage,
 } from "./MyPageScreen.style";
 
 const queryCache = new QueryCache();
 
 const MyPageScreen = ({ navigation }) => {
   const [searchWord, setSearchWord] = useState("");
+  const [debounceSearchWord, setDebounceSearchWord] = useState("");
   const [expoToken, setExpoToken] = useState("");
   const [isSuccessClicked, setIsSuccessClicked] = useState(true);
 
@@ -98,6 +107,18 @@ const MyPageScreen = ({ navigation }) => {
     queryClient.clear();
   };
 
+  const handleSearchTextInputChange = (event) => {
+    setSearchWord(event);
+    printSearchWord(event);
+  };
+
+  const printSearchWord = useCallback(
+    debounce((text) => {
+      setDebounceSearchWord(text);
+    }, 600),
+    []
+  );
+
   return (
     <MyPageScreenContainter>
       <MyPageUserInfoContainer>
@@ -146,15 +167,15 @@ const MyPageScreen = ({ navigation }) => {
             inputStyle={{ fontFamily: THEME.subFont }}
             placeholder="검색하기"
             value={searchWord}
-            onChangeText={(event) => setSearchWord(event)}
+            onChangeText={handleSearchTextInputChange}
           />
           {!expiredHabitList.length && <EmptyHabit />}
           <FlatList
             ref={habitListRef}
             data={
-              searchWord
+              debounceSearchWord
                 ? expiredHabitList.filter(({ title }) =>
-                    title.includes(searchWord)
+                    title.includes(debounceSearchWord)
                   )
                 : expiredHabitList
             }
@@ -178,7 +199,7 @@ const MyPageScreen = ({ navigation }) => {
                 habitListRef.current.scrollToOffset({ offset: 0 });
               }}
             >
-              <Feather name="arrow-up" size={50} color="white" />
+              <MyPageScrollTopImage source={require("../../../asset/image/myPage/scrollToTop.png")}/>
             </MyPageScrollTopButtonContainer>
           )}
         </MyPageResultHabitListContainer>

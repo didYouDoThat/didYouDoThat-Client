@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Image } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
@@ -23,6 +24,8 @@ import {
   DateContainer,
   DateText,
   HabitsContainer,
+  AboutButtonContainer,
+  AboutButtonImage,
 } from "./HomeScreen.style";
 
 const HomeScreen = ({ navigation }) => {
@@ -37,9 +40,13 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
-      exact: true,
-    });
+    try {
+      await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
+        exact: true,
+      });
+    } catch (err) {
+      inform({ message: err.message });
+    }
   };
 
   useEffect(() => {
@@ -79,6 +86,9 @@ const HomeScreen = ({ navigation }) => {
       },
       onError: (error) => {
         inform({ message: error.message });
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([QUERY_KEY_NAME.habitList, user.id]);
       },
       cacheTime: NUMBERS.timeForOneDay,
     }
@@ -128,6 +138,9 @@ const HomeScreen = ({ navigation }) => {
           ))
         )}
       </HabitsContainer>
+      <AboutButtonContainer onPress={() => navigation.navigate("About")}>
+        <AboutButtonImage source={require("../../../asset/image/about.png")} />
+      </AboutButtonContainer>
     </HomeScreenContainer>
   );
 };

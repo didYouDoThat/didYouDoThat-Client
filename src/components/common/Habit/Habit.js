@@ -5,6 +5,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useMutation, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
+import { Feather } from '@expo/vector-icons';
 
 import habitApi from "../../../utils/api/habit";
 import useInform from "../../../utils/informAlert";
@@ -13,7 +14,7 @@ import changeServerEndDateIntoLocalDate from "../../../utils/changeServerDateInt
 import THEME from "../../../constants/theme.style";
 import { QUERY_KEY_NAME } from "../../../constants/keyName";
 
-import DeleteSwipe from "../DeleteSwipe/DeleteSwipe";
+import SwipeBox from "../SwipeBox/SwipeBox";
 import {
   HabitContentContainer,
   HabitTextContainer,
@@ -40,7 +41,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   const isCheckedToday = habitData.dateList.find(({ date }) => {
     const limitDate = changeServerEndDateIntoLocalDate(date);
     const currentTodayDate = new Date(currentDate);
-    
+
     return limitDate.getDate() - 1 === currentTodayDate.getDate();
   })?.isChecked;
 
@@ -54,7 +55,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
   });
 
   const handleHabitContainerClick = () => {
-    mutate({ 
+    mutate({
       habitId: habitData.id,
       userId: userInfo.id,
       localTimeOffset: -currentDate.getTimezoneOffset() / 60,
@@ -65,13 +66,22 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
     <GestureHandlerRootView>
       <Swipeable
         renderRightActions={() => {
-          return isActive ? <DeleteSwipe habitData={habitData} /> : null;
+          return isActive ? (
+            <>
+              <SwipeBox habitData={habitData} color="#f3bda1" screenName="Delete">
+                <Feather name="trash" size={35} color={THEME.white} />
+              </SwipeBox>
+              <SwipeBox habitData={habitData} color="#c3e6dc" screenName="CheckStatus">
+                <Feather name="calendar" size={35} color={THEME.white} />
+              </SwipeBox>
+            </>
+          ) : null;
         }}
       >
         <HabitContentContainer
           style={{
             backgroundColor:
-              !isExpired && isCheckedToday ? "#FFF1E9" : THEME.white,
+              !isExpired && isCheckedToday ? "#fff1e9" : THEME.white,
           }}
           onPress={
             isActive
