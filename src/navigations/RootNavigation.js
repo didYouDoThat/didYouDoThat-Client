@@ -10,6 +10,7 @@ import { UserContext } from "../components/common/userContextProvider";
 import HeaderTitle from "../components/common/HeaderTitle/HeaderTitle";
 import LoginScreen from "../components/screens/LoginScreen/LoginScreen";
 import NewHabitScreen from "../components/screens/NewHabitScreen/NewHabitScreen";
+import AboutScreen from "../components/screens/AboutScreen/AboutScreen";
 import DeleteScreen from "../components/screens/DeleteScreen/DeleteScreen";
 import AlarmScreen from "../components/screens/AlarmScreen/AlarmScreen";
 import THEME from "../constants/theme.style";
@@ -78,6 +79,7 @@ const RootStack = () => {
             }}
           >
             <Root.Screen name="NewHabit" component={NewHabitScreen} />
+            <Root.Screen name="About" component={AboutScreen} />
             <Root.Screen name="Delete" component={DeleteScreen} />
             <Root.Screen name="Alarm" component={AlarmScreen} />
           </Root.Group>

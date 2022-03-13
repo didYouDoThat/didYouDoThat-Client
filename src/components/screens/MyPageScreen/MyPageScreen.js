@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { Feather } from "@expo/vector-icons";
 import { QueryCache, useQueryClient, useInfiniteQuery } from "react-query";
 
 import PropTypes from "prop-types";
@@ -39,6 +38,7 @@ import {
   MyPageResultTabText,
   MyPageResultHabitListContainer,
   MyPageScrollTopButtonContainer,
+  MyPageScrollTopImage,
 } from "./MyPageScreen.style";
 
 const queryCache = new QueryCache();
@@ -199,7 +199,7 @@ const MyPageScreen = ({ navigation }) => {
                 habitListRef.current.scrollToOffset({ offset: 0 });
               }}
             >
-              <Feather name="arrow-up" size={50} color="white" />
+              <MyPageScrollTopImage source={require("../../../asset/image/myPage/scrollToTop.png")}/>
             </MyPageScrollTopButtonContainer>
           )}
         </MyPageResultHabitListContainer>

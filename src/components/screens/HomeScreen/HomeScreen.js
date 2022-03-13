@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Image } from "react-native";
 import { useQuery, useQueryClient } from "react-query";
 
 import PropTypes from "prop-types";
@@ -23,6 +24,8 @@ import {
   DateContainer,
   DateText,
   HabitsContainer,
+  AboutButtonContainer,
+  AboutButtonImage,
 } from "./HomeScreen.style";
 
 const HomeScreen = ({ navigation }) => {
@@ -135,6 +138,9 @@ const HomeScreen = ({ navigation }) => {
           ))
         )}
       </HabitsContainer>
+      <AboutButtonContainer onPress={() => navigation.navigate("About")}>
+        <AboutButtonImage source={require("../../../asset/image/about.png")} />
+      </AboutButtonContainer>
     </HomeScreenContainer>
   );
 };
