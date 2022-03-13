@@ -25,7 +25,8 @@
 
 # **📽 사용 영상**
 
-[apk 파일 다운로드](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40jisoook/didyoudothat-619bae42e9144aafac01b13f926755f5-signed.apk)
+[apk 파일 다운로드](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40jisoook/didyoudothat-5a151e98f3b04022bd12d638c0ff5fda-signed.apk)
+
 <br>
 
 <p>
@@ -165,6 +166,8 @@ SECRET_KEY=<YOUR_JWT_TOKEN_SECRET_KEY>
 - 아직 종료되지 않은 습관들을 클릭하면(진행했다는 표시) 해당 습관의 제목영역에 빨간 줄이 그어지며, 하단의 하트 개수가 1 증가하고, 이에 따라 해당 습관의 고양이이미지가 변합니다.
 - 반대로 이미 진행했다고 표시한, 종료되지 않은 습관들을 클릭하면 해당 습관이 시행되지 않은 상태로 다시 돌아오게 됩니다.
 - 종료된 습관을 클릭하게 되면, 습관에 대한 결과페이지로 이동하게 됩니다.
+- 습관 컴포넌트를 왼쪽으로 스와이프하게 되면, 현재까지 해당 습관을 언제 이행했는지 체크하거나, 습관을 삭제할 수 있는 버튼이 나타납니다.
+- 화면 오른쪽 밑에 자주 물을 법한 질문을 한번에 모아서 볼 수 있는 화면을 뜨게 하는 버튼이 있습니다.
 
 <br>
 
