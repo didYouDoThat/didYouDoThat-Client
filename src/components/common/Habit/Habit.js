@@ -1,4 +1,5 @@
 import React from "react";
+import { ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
@@ -44,7 +45,7 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
     return limitDate.getDate() - 1 === currentTodayDate.getDate();
   })?.isChecked;
 
-  const { mutate } = useMutation(habitApi.updateHabitStatus, {
+  const { mutate, isLoading } = useMutation(habitApi.updateHabitStatus, {
     onError: (error) => {
       inform({ message: error.message });
     },
@@ -85,33 +86,39 @@ const Habit = ({ habitData, currentDate, isExpired, width }) => {
           }
           width={width}
         >
-          <HabitCatImage source={{ uri: habitData.catImage }} />
-          <HabitTextContainer>
-            <HabitTitle
-              style={{
-                color:
-                  !isExpired && isCheckedToday
-                    ? THEME.mainStrongColor
-                    : THEME.black,
-                textDecorationLine:
-                  !isExpired && isCheckedToday ? "line-through" : "none",
-                textShadowColor:
-                  !isExpired && isCheckedToday
-                    ? THEME.subStrongColor
-                    : THEME.white,
-                textShadowRadius: !isExpired && isCheckedToday ? 5 : 0,
-              }}
-            >
-              {habitData.title}
-            </HabitTitle>
-            {isActive ? (
-              <HabitEndDate>
-                종료: {fullYear}. {fullMonth}. {fullDate} 00시
-              </HabitEndDate>
-            ) : !isExpired ? (
-              <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
-            ) : null}
-          </HabitTextContainer>
+          {isLoading ? (
+            <ActivityIndicator color={THEME.gray} />
+          ) : (
+            <>
+              <HabitCatImage source={{ uri: habitData.catImage }} />
+              <HabitTextContainer>
+                <HabitTitle
+                  style={{
+                    color:
+                      !isExpired && isCheckedToday
+                        ? THEME.mainStrongColor
+                        : THEME.black,
+                    textDecorationLine:
+                      !isExpired && isCheckedToday ? "line-through" : "none",
+                    textShadowColor:
+                      !isExpired && isCheckedToday
+                        ? THEME.subStrongColor
+                        : THEME.white,
+                    textShadowRadius: !isExpired && isCheckedToday ? 5 : 0,
+                  }}
+                >
+                  {habitData.title}
+                </HabitTitle>
+                {isActive ? (
+                  <HabitEndDate>
+                    종료: {fullYear}. {fullMonth}. {fullDate} 00시
+                  </HabitEndDate>
+                ) : !isExpired ? (
+                  <HabitExpiredText>습관 만들기 종료!</HabitExpiredText>
+                ) : null}
+              </HabitTextContainer>
+            </>
+          )}
           <HabitStatusContainer>
             <HabitStatusImage
               source={require("../../../asset/image/status.png")}

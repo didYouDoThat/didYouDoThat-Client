@@ -37,9 +37,13 @@ const HomeScreen = ({ navigation }) => {
   const inform = useInform();
 
   const refetchHabitList = async () => {
-    await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
-      exact: true,
-    });
+    try {
+      await queryClient.refetchQueries([QUERY_KEY_NAME.habitList, user.id], {
+        exact: true,
+      });
+    } catch (err) {
+      inform({ message: err.message });
+    }
   };
 
   useEffect(() => {
@@ -79,6 +83,9 @@ const HomeScreen = ({ navigation }) => {
       },
       onError: (error) => {
         inform({ message: error.message });
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries([QUERY_KEY_NAME.habitList, user.id]);
       },
       cacheTime: NUMBERS.timeForOneDay,
     }

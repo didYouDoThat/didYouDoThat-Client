@@ -29,6 +29,8 @@ import {
 const LoginScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const queryClient = useQueryClient();
+  const inform = useInform();
+  
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: `${GOOGLE_EXPO_CLIENT_ID}`,
     iosClientId: `${GOOGLE_IOS_CLIENT_ID}`,
@@ -45,12 +47,15 @@ const LoginScreen = () => {
           staleTime: Infinity,
           cacheTime: Infinity,
         });
+
         setUser(data.user);
+
         userAsyncStorage.setInfo(STORAGE_KEY_NAME.userInfo, {
           token: data.token,
           user: data.user,
         });
         axios.defaults.headers.Authorization = `Bearer ${data.token}`;
+        
         return;
       },
       onError: (error) => {
@@ -58,7 +63,6 @@ const LoginScreen = () => {
       },
     }
   );
-  const inform = useInform();
 
   useEffect(() => {
     if (response?.type === "success") {
